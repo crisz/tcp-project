@@ -1,0 +1,8 @@
+.background {
+  -fx-background-color: #ffffff;
+}
+.button-style {
+  -fx-background-color: #ffffff;
+  -fx-border-color: #00000;
+  -fx-border-width: 5px;
+}

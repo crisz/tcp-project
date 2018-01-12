@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.employeeArea.PersonalInfoCtrl">
+   <children>
+      <Pane prefHeight="500.0347991954903" prefWidth="700.3826319282409" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <SplitPane dividerPositions="0.38968481375358166" layoutX="-1.0" layoutY="-2.0" prefHeight="500.0" prefWidth="700.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="392.0" prefWidth="215.0">
+                     <children>
+                        <Label layoutX="57.0" layoutY="28.0" text="Matricola" />
+                        <Label id="matricola" fx:id="matricola" layoutX="198.0" layoutY="28.0" text="Label" />
+                        <Label layoutX="34.0" layoutY="67.0" text="Cognome e Nome" />
+                        <Label id="cognomenome" fx:id="nomecognome" layoutX="198.0" layoutY="67.0" text="Label" />
+                        <Label layoutX="68.0" layoutY="108.0" text="Email" />
+                        <Label layoutX="43.0" layoutY="153.0" text="Data di nascita" />
+                        <Label layoutX="68.0" layoutY="197.0" text="Ruolo" />
+                        <Label layoutX="40.0" layoutY="240.0" text="Stipendio lordo" />
+                        <Label id="email" fx:id="email" layoutX="198.0" layoutY="108.0" text="Label" />
+                        <Label id="datanascita" fx:id="datanascita" layoutX="198.0" layoutY="153.0" text="Label" />
+                        <Label id="ruolo" fx:id="ruolo" layoutX="198.0" layoutY="197.0" text="Label" />
+                        <Label id="stipendiolordo" fx:id="stipendiolordo" layoutX="198.0" layoutY="240.0" text="Label" />
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
