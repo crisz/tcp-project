@@ -13,13 +13,10 @@ public class Session {
   public Session() {
       this(null, null);
   }
-
   public Session(String matricola, String password) {
       this.matricola = new SimpleStringProperty(matricola);
       this.password = new SimpleStringProperty(password);
   }
-
-  
   /**
    * 
    * @return matricola 
@@ -27,7 +24,6 @@ public class Session {
   public String getMatricola() {
       return matricola.get();
   }
-  
   
   /**
    * 

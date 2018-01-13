@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.administrativeArea.CheckCtrl">
+   <children>
+      <Pane layoutX="2.0" prefHeight="647.6956718343874" prefWidth="702.3826319282409" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button layoutX="68.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" prefHeight="26.0" prefWidth="121.0" text="Indietro" />
+            <Button layoutX="691.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" prefHeight="26.0" prefWidth="121.0" text="Home" />
+            <Label layoutX="48.0" layoutY="14.0" text="Check di inizio giornata" />
+            <TableView fx:id="lines" layoutX="562.0" layoutY="63.0" prefHeight="187.0" prefWidth="294.0">
+               <columns>
+                  <TableColumn fx:id="nameColumn" prefWidth="67.61740112304688" text="Numero" />
+                  <TableColumn fx:id="startTerminalColumn" minWidth="0.0" prefWidth="116.0347900390625" text="Capolinea partenza" />
+                  <TableColumn fx:id="endTerminalColumn" prefWidth="104.34783935546875" text="Capolinea arrivo" />
+               </columns>
+            </TableView>
+            <Button fx:id="nextButton" layoutX="691.0" layoutY="402.0" mnemonicParsing="false" onAction="#nextWorkshift" prefHeight="26.0" prefWidth="121.0" text="Turno successivo" />
+            <TableView fx:id="vehicles" layoutX="308.0" layoutY="63.0" prefHeight="187.0" prefWidth="206.0">
+               <columns>
+                  <TableColumn fx:id="vehicleId" prefWidth="108.521728515625" text="Matricola" />
+                  <TableColumn fx:id="seats" prefWidth="90.156494140625" text="Posti" />
+               </columns>
+            </TableView>
+            <Label layoutX="390.0" layoutY="32.0" text="Mezzi" />
+            <Label layoutX="695.0" layoutY="32.0" text="Linee" />
+            <Label layoutX="111.0" layoutY="32.0" text="Impiegati" />
+            <TableView fx:id="employees" layoutX="19.0" layoutY="63.0" prefHeight="187.0" prefWidth="232.0">
+               <columns>
+                  <TableColumn fx:id="nomeECognome" prefWidth="224.5565185546875" text="Nome" />
+               </columns>
+            </TableView>
+            <TableView fx:id="check" layoutX="19.0" layoutY="262.0" prefHeight="187.0" prefWidth="622.0">
+               <columns>
+                  <TableColumn fx:id="checkEmployee" prefWidth="168.6260986328125" text="Impiegato" />
+                  <TableColumn fx:id="checkVehicle" prefWidth="136.9043731689453" text="Mezzo" />
+                  <TableColumn fx:id="checkLine" prefWidth="293.0086975097656" text="Linea" />
+               </columns>
+            </TableView>
+            <Button layoutX="691.0" layoutY="287.0" mnemonicParsing="false" onAction="#addBind" prefHeight="26.0" prefWidth="121.0" text="Aggiungi" />
+            <Button layoutX="691.0" layoutY="343.0" mnemonicParsing="false" onAction="#removeBind" prefHeight="26.0" prefWidth="121.0" text="Rimuovi" />
+            <Label fx:id="workshiftLabel" layoutX="251.0" layoutY="14.0" text="Mattina" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.administrativeArea.ListSearchLineCtrl">
+   <children>
+      <Pane layoutX="2.0" prefHeight="647.6956718343874" prefWidth="702.3826319282409" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button layoutX="68.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" text="Indietro" />
+            <Button layoutX="776.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" text="Home" />
+            <TextField fx:id="filter" layoutX="214.0" layoutY="39.0" prefHeight="26.0" prefWidth="273.0" />
+            <Label layoutX="163.0" layoutY="43.0" text="Filtra" />
+            <Label layoutX="44.0" layoutY="14.0" text="Impiegato amministrativo" />
+            <TableView fx:id="lines" layoutX="10.0" layoutY="75.0" prefHeight="372.0" prefWidth="850.0">
+               <columns>
+                  <TableColumn fx:id="nameColumn" prefWidth="119.37390279769897" text="Numero" />
+                  <TableColumn fx:id="startTerminalColumn" minWidth="0.0" prefWidth="248.7652130126953" text="Capolinea di partenza" />
+                  <TableColumn fx:id="endTerminalColumn" prefWidth="231.23477172851562" text="Capolinea di arrivo" />
+                  <TableColumn fx:id="editColumn" prefWidth="126.0521240234375" text="Visualizza / Modifica" />
+                  <TableColumn fx:id="removeColumn" prefWidth="122.7130126953125" text="Rimuovi" />
+               </columns>
+            </TableView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
