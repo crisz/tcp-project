@@ -3,6 +3,8 @@ package it.metallicdonkey.tcp.vehicleArea;
 import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.administrativeArea.AdministrativeAreaCtrl;
+import it.metallicdonkey.tcp.administrativeArea.ListSearchLineCtrl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -45,6 +47,25 @@ public class VehicleAreaCtrl {
 		System.out.println(mainApp);
     Stage stage = mainApp.getPrimaryStage();
     stage.setScene(scene);
+    ListSearchLineCtrl lslCtrl = loader.getController();
+    lslCtrl.setMainApp(mainApp);
+  }
+  
+  @FXML
+  private void showSearchVehicle() throws IOException {
+  	System.out.println("Showing search info vehicle...");
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(App.class.getResource("vehicleArea/ListSearchVehicleScreen.fxml"));
+    AnchorPane lsv = (AnchorPane) loader.load();
+    System.out.println("Resource done!");
+    
+		Scene scene = new Scene(lsv);
+		System.out.println(scene);
+		System.out.println(mainApp);
+    Stage stage = mainApp.getPrimaryStage();
+    stage.setScene(scene);
+    ListSearchVehicleCtrl lsvCtrl = loader.getController();
+    lsvCtrl.setMainApp(mainApp);
   }
   
   public void setMainApp(App mainApp) {
