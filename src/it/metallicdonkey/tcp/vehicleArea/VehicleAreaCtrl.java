@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.administrativeArea.AdministrativeAreaCtrl;
+import it.metallicdonkey.tcp.administrativeArea.CheckCtrl;
 import it.metallicdonkey.tcp.administrativeArea.ListSearchLineCtrl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,6 +66,23 @@ public class VehicleAreaCtrl {
     Stage stage = mainApp.getPrimaryStage();
     stage.setScene(scene);
     ListSearchVehicleCtrl lsvCtrl = loader.getController();
+    lsvCtrl.setMainApp(mainApp);
+  }
+  
+  @FXML
+  private void showCheck() throws IOException {
+  	System.out.println("Showing check...");
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(App.class.getResource("administrativeArea/CheckScreen.fxml"));
+    AnchorPane check = (AnchorPane) loader.load();
+    System.out.println("Resource done!");
+    
+		Scene scene = new Scene(check);
+		System.out.println(scene);
+		System.out.println(mainApp);
+    Stage stage = mainApp.getPrimaryStage();
+    stage.setScene(scene);
+    CheckCtrl lsvCtrl = loader.getController();
     lsvCtrl.setMainApp(mainApp);
   }
   
