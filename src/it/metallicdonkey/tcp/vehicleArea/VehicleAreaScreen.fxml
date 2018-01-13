@@ -48,7 +48,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="TOP" layoutX="656.0" layoutY="60.0" mnemonicParsing="false" onAction="#showPersonalInfo" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Ingresso mezzo" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="656.0" layoutY="60.0" mnemonicParsing="false" onAction="#showEntryVehicle" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Ingresso mezzo" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <graphic>
                   <ImageView fitHeight="70.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -96,7 +96,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="TOP" layoutX="656.0" layoutY="250.0" mnemonicParsing="false" onAction="#showPersonalInfo" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Uscita mezzo" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="656.0" layoutY="250.0" mnemonicParsing="false" onAction="#showExitVehicle" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Uscita mezzo" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <graphic>
                   <ImageView fitHeight="68.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
                      <image>

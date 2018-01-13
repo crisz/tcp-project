@@ -86,6 +86,38 @@ public class VehicleAreaCtrl {
     lsvCtrl.setMainApp(mainApp);
   }
   
+  @FXML
+  private void showEntryVehicle() throws IOException {
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(App.class.getResource("vehicleArea/EntryVehicleScreen.fxml"));
+    AnchorPane check = (AnchorPane) loader.load();
+    System.out.println("Resource done!");
+    
+		Scene scene = new Scene(check);
+		System.out.println(scene);
+		System.out.println(mainApp);
+    Stage stage = mainApp.getPrimaryStage();
+    stage.setScene(scene);
+    EntryVehicleCtrl lsvCtrl = loader.getController();
+    lsvCtrl.setMainApp(mainApp);
+  }
+  
+  @FXML
+  private void showExitVehicle() throws IOException {
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(App.class.getResource("vehicleArea/ExitVehicleScreen.fxml"));
+    AnchorPane check = (AnchorPane) loader.load();
+    System.out.println("Resource done!");
+    
+		Scene scene = new Scene(check);
+		System.out.println(scene);
+		System.out.println(mainApp);
+    Stage stage = mainApp.getPrimaryStage();
+    stage.setScene(scene);
+    ExitVehicleCtrl lsvCtrl = loader.getController();
+    lsvCtrl.setMainApp(mainApp);
+  }
+  
   public void setMainApp(App mainApp) {
     this.mainApp = mainApp;
   }
