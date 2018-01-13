@@ -3,19 +3,30 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.login.LoginCtrl">
+<AnchorPane prefHeight="340.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.login.LoginCtrl">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="380.0">
+      <AnchorPane prefHeight="340.59131564567616" prefWidth="540.1043657420404" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button layoutX="190.0" layoutY="147.0" mnemonicParsing="false" onAction="#submitLogin" prefHeight="27.0" prefWidth="134.0" text="Login" />
-            <TextField fx:id="matricola" layoutX="185.0" layoutY="28.0" />
-            <Text layoutX="56.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matricola" />
-            <Text layoutX="56.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
-            <PasswordField fx:id="password" layoutX="185.0" layoutY="86.0" />
-            <Text layoutX="171.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" />
+            <Button layoutX="185.0" layoutY="257.0" mnemonicParsing="false" onAction="#submitLogin" prefHeight="28.0" prefWidth="311.0" text="Login" />
+            <TextField fx:id="matricola" layoutX="185.0" layoutY="157.0" prefHeight="27.0" prefWidth="311.0" />
+            <Text layoutX="56.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matricola" />
+            <Text layoutX="56.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
+            <PasswordField fx:id="password" layoutX="185.0" layoutY="209.0" prefHeight="27.0" prefWidth="311.0" />
+            <Text layoutX="114.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login">
+               <font>
+                  <Font size="24.0" />
+               </font></Text>
+            <ImageView fitHeight="128.0" fitWidth="340.0" layoutX="368.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/logo.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>
