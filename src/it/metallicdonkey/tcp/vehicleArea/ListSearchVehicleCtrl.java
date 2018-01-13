@@ -1,6 +1,7 @@
 package it.metallicdonkey.tcp.vehicleArea;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.login.Home;
@@ -10,13 +11,20 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class ListSearchVehicleCtrl {
@@ -42,6 +50,7 @@ public class ListSearchVehicleCtrl {
 	@FXML
 	private TableColumn<VehicleDataModel, String> removeColumn;
 	
+	public static VehicleDataModel selectedVehicle;
 	
 	final ObservableList<VehicleDataModel> data = FXCollections.observableArrayList(
 	    new VehicleDataModel("A320", 30, 140, 1, "214"),
@@ -107,8 +116,24 @@ public class ListSearchVehicleCtrl {
                         setText(null);
                     } else {
                         btn.setOnAction(event -> {
-                            VehicleDataModel line = getTableView().getItems().get(getIndex());
-                            System.out.println(line.getId());
+                            VehicleDataModel vehicle = getTableView().getItems().get(getIndex());
+                            ListSearchVehicleCtrl.selectedVehicle = vehicle;
+                          	FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(App.class.getResource("vehicleArea/ChangeVehicleScreen.fxml"));                           
+                            AnchorPane personalInfo;
+														try {
+															personalInfo = (AnchorPane) loader.load();
+															
+	                        		Scene scene = new Scene(personalInfo);
+	                            Stage stage = mainApp.getPrimaryStage();
+	                            stage.setScene(scene);
+	                            ChangeVehicleCtrl lsvCtrl = loader.getController();
+	                            lsvCtrl.setMainApp(mainApp);
+
+
+														} catch (IOException e) {
+															e.printStackTrace();
+														}
                         });
                         setGraphic(btn);
                         setText(null);
@@ -120,6 +145,50 @@ public class ListSearchVehicleCtrl {
     };
 
     editColumn.setCellFactory(cellFactory);
+    // Action: broken
+    brokenColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+    Callback<TableColumn<VehicleDataModel, String>, TableCell<VehicleDataModel, String>> cellFactory3
+            = //
+            new Callback<TableColumn<VehicleDataModel, String>, TableCell<VehicleDataModel, String>>() {
+        @Override
+        public TableCell<VehicleDataModel, String> call(final TableColumn<VehicleDataModel, String> param) {
+            final TableCell<VehicleDataModel, String> cell = new TableCell<VehicleDataModel, String>() {
+
+                final Button btn = new Button("Modifica");
+
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        btn.setOnAction(event -> {
+														VehicleDataModel line = getTableView().getItems().get(getIndex());
+														Alert alert = new Alert(AlertType.CONFIRMATION);
+														alert.setTitle("Confirmation Dialog");
+														alert.setHeaderText("Sei sicuro di voler segnalare il veicolo come guasto?");
+														alert.setContentText("Il veicolo con matricola " + line.getId() + " verrà segnalato come guasto e non sarà utilizzabile fino a nuova comunicazione.");
+
+														Optional<ButtonType> result = alert.showAndWait();
+														if (result.get() == ButtonType.OK){
+														    // TODO: implementare segnalazione guasto su db
+																line.setVLocation("Guasto");
+																 vehicles.getColumns().get(0).setVisible(false);
+																 vehicles.getColumns().get(0).setVisible(true);
+														}
+                        });
+                        setGraphic(btn);
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+        }
+    };
+
+    brokenColumn.setCellFactory(cellFactory3);
     
     // Action: remove 
     
@@ -143,7 +212,16 @@ public class ListSearchVehicleCtrl {
                     } else {
                         btn.setOnAction(event -> {
                             VehicleDataModel line = getTableView().getItems().get(getIndex());
-                            System.out.println(line.getId());
+                            Alert alert = new Alert(AlertType.CONFIRMATION);
+                            alert.setTitle("Confirmation Dialog");
+                            alert.setHeaderText("Sei sicuro di voler eliminare il veicolo?");
+                            alert.setContentText("Il veicolo con matricola " + line.getId() + " verrà eliminato. Questa operazione è irreversibile.");
+
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK){
+                                // TODO: implementare cancellazione su db
+                            		data.remove(line);
+                            } 
                         });
                         setGraphic(btn);
                         setText(null);

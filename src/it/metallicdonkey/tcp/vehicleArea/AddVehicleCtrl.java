@@ -40,9 +40,10 @@ public class AddVehicleCtrl {
 	@FXML
 	private Button inviaButton;
 
+	private VehicleDataModel vehicle;
+
 	@FXML
 	private void initialize() {
-		
 	}
 
 	@FXML
@@ -58,5 +59,9 @@ public class AddVehicleCtrl {
 
 	public void setMainApp(App mainApp) {
 		this.mainApp = mainApp;
+	}
+
+	public void setModel(VehicleDataModel line) {
+		this.vehicle = line;
 	}
 }
