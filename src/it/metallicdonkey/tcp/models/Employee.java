@@ -4,6 +4,12 @@
 package it.metallicdonkey.tcp.models;
 
 import java.time.LocalDate;
+import it.metallicdonkey.tcp.login.Role;
+
+/**
+ * @author crist
+ *
+ */
 
 public class Employee {
 	private String id;
@@ -14,7 +20,8 @@ public class Employee {
 	private String address;
 	private double Salary;
 	private StatusEmployee status;
-	private String role;
+	private boolean isAvailable;
+	private Role role;
 	public String getId() {
 		return id;
 	}
@@ -63,10 +70,10 @@ public class Employee {
 	public void setStatus(StatusEmployee status) {
 		this.status = status;
 	}
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 }

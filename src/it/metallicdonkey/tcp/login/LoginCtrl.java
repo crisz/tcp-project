@@ -50,9 +50,7 @@ public class LoginCtrl {
 		e.setLastName("Vattelappesca");
 		e.setSalary(2501.24);
 		e.setStatus(StatusEmployee.AVAILABLE);
-		e.setRole("Autista");
-
-
+		e.setRole(Role.Autista);
 		Home home = Home.getHome(Role.Addetto_ai_mezzi);
 		home.goHome(mainApp);
 

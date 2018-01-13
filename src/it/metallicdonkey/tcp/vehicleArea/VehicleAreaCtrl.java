@@ -28,13 +28,27 @@ public class VehicleAreaCtrl {
     AnchorPane personalInfo = (AnchorPane) loader.load();
     System.out.println("Resource done!");
     
-		Scene scene = new Scene(personalInfo);
-		System.out.println(scene);
-		System.out.println(personalInfo);
+	Scene scene = new Scene(personalInfo);
+	System.out.println(scene);
+	System.out.println(personalInfo);
     Stage stage = mainApp.getPrimaryStage();
     stage.setScene(scene);
   }
   
+  @FXML
+  private void showAddVehicle() throws IOException {
+	  	System.out.println("Showing personal info...");
+	    FXMLLoader loader = new FXMLLoader();
+	    loader.setLocation(App.class.getResource("vehicleArea/AddVehicleScreen.fxml"));
+	    AnchorPane personalInfo = (AnchorPane) loader.load();
+	    System.out.println("Resource done!");
+	    
+		Scene scene = new Scene(personalInfo);
+		System.out.println(scene);
+		System.out.println(personalInfo);
+	    Stage stage = mainApp.getPrimaryStage();
+	    stage.setScene(scene);
+	  }
   @FXML 
   private void showSearchLine() throws IOException {
   	System.out.println("Showing search info line...");
