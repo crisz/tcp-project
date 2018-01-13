@@ -36,6 +36,9 @@ public class EntryVehicleCtrl {
 	private void submitVehicle() {
 		String result = "L'ingresso del veicolo " + vehicleField.getText() + " è avvenuto con successo. La postazione assegnata è la B241";
 		resultLabel.setText(result);
+		/*
+		 * TODO: Sostituire con db
+		 */
 	}
 
 	@FXML

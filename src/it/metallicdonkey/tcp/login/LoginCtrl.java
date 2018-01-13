@@ -19,6 +19,7 @@ import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.administrativeArea.AdministrativeAreaCtrl;
 import it.metallicdonkey.tcp.models.Employee;
 import it.metallicdonkey.tcp.models.StatusEmployee;
+import it.metallicdonkey.tcp.models.Workshift;
 import it.metallicdonkey.tcp.vehicleArea.VehicleAreaCtrl;
 
 public class LoginCtrl {
@@ -51,6 +52,7 @@ public class LoginCtrl {
 		e.setSalary(2501.24);
 		e.setStatus(StatusEmployee.AVAILABLE);
 		e.setRole(Role.Autista);
+		e.setWorkshift(Workshift.MORNING);
 		Home home = Home.getHome(Role.Addetto_ai_mezzi);
 		home.goHome(mainApp);
 

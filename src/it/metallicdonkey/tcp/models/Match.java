@@ -4,10 +4,18 @@ public class Match {
 	private Employee employee;
 	private Line line;
 	private Vehicle vehicle;
-	public Match(Employee employee, Line line, Vehicle vehicle) {
+	private Workshift workshift;
+	public Match(Employee employee, Line line, Vehicle vehicle, Workshift workshift) {
 		this.setEmployee(employee);
 		this.setLine(line);
 		this.setVehicle(vehicle);
+		this.setWorkshift(workshift);
+	}
+	public Workshift getWorkshift() {
+		return workshift;
+	}
+	public void setWorkshift(Workshift workshift) {
+		this.workshift = workshift;
 	}
 	public Employee getEmployee() {
 		return employee;

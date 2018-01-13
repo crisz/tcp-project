@@ -32,6 +32,9 @@ public class VehicleDataModel {
 		return "delete";
 	}
 
+	public String getBroken() {
+		return "broken";
+	}
 
 
 	public String getId() {
@@ -60,5 +63,12 @@ public class VehicleDataModel {
 
 	public String getVLocation() {
 		return location.get();
+	}
+
+
+
+	public void setVLocation(String string) {
+		location.set(string);
+		
 	}
 }

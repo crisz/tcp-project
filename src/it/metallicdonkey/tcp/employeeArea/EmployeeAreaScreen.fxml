@@ -10,7 +10,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.administrativeArea.AdministrativeAreaCtrl">
    <children>
-      <Pane prefHeight="500.0" prefWidth="700.0">
+      <Pane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #d3d8d8;">
          <children>
             <Button alignment="CENTER" contentDisplay="TOP" layoutX="35.0" layoutY="60.0" mnemonicParsing="false" onAction="#showPersonalInfo" prefHeight="152.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Visualizza informazioni&#13;personali" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <graphic>
