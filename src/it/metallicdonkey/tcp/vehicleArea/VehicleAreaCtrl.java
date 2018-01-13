@@ -32,6 +32,21 @@ public class VehicleAreaCtrl {
     stage.setScene(scene);
   }
   
+  @FXML 
+  private void showSearchLine() throws IOException {
+  	System.out.println("Showing search info line...");
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(App.class.getResource("administrativeArea/ListSearchLineScreen.fxml"));
+    AnchorPane lsl = (AnchorPane) loader.load();
+    System.out.println("Resource done!");
+    
+		Scene scene = new Scene(lsl);
+		System.out.println(scene);
+		System.out.println(mainApp);
+    Stage stage = mainApp.getPrimaryStage();
+    stage.setScene(scene);
+  }
+  
   public void setMainApp(App mainApp) {
     this.mainApp = mainApp;
   }

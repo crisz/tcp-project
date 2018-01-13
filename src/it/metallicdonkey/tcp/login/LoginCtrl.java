@@ -19,6 +19,7 @@ import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.administrativeArea.AdministrativeAreaCtrl;
 import it.metallicdonkey.tcp.models.Employee;
 import it.metallicdonkey.tcp.models.Status;
+import it.metallicdonkey.tcp.vehicleArea.VehicleAreaCtrl;
 
 public class LoginCtrl {
 	@FXML
@@ -77,12 +78,12 @@ public class LoginCtrl {
   		e.setRole("Addetto ai mezzi");
       FXMLLoader loader = new FXMLLoader();
       loader.setLocation(App.class.getResource("vehicleArea/VehicleAreaScreen.fxml"));
-      AnchorPane adminScreen = (AnchorPane) loader.load();
+      AnchorPane vehicleScreen = (AnchorPane) loader.load();
   		
-  		Scene scene = new Scene(adminScreen);
+  		Scene scene = new Scene(vehicleScreen);
       mainApp.getPrimaryStage().setScene(scene);
-      AdministrativeAreaCtrl adminCtrl = loader.getController();
-      adminCtrl.setMainApp(mainApp);
+      VehicleAreaCtrl vehicleCtrl = loader.getController();
+      vehicleCtrl.setMainApp(mainApp);
   	} else {
   		Alert alert = new Alert(AlertType.WARNING);
       alert.initOwner(mainApp.getPrimaryStage());
