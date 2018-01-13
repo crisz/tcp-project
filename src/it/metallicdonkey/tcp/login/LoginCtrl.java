@@ -43,14 +43,14 @@ public class LoginCtrl {
 		Session.employee = new Employee();
 		Employee e = Session.employee;
 		e.setId("0641265");
-		e.setAdress("Via dei pini, 41");
+		e.setAddress("Via dei pini, 41");
 		e.setBirthDate(LocalDate.of(1955, 10, 1));
 		e.setEmail("pippo@gmail.com");
 		e.setFirstName(matricola.getText());
 		e.setLastName("Vattelappesca");
 		e.setSalary(2501.24);
-		e.setStatus(Status.AVAILABLE);
-		e.setRole("Autista");
+		e.setAvailable(true);
+		e.setRole(Role.Autista);
 		
 		
 		Home home = Home.getHome(Role.Addetto_ai_mezzi);

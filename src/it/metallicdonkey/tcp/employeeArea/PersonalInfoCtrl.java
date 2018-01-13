@@ -27,7 +27,7 @@ public class PersonalInfoCtrl {
   	this.nomecognome.setText(Session.employee.getFirstName() + " " + Session.employee.getLastName());
   	this.email.setText(Session.employee.getEmail());
   	this.datanascita.setText(Session.employee.getBirthDate().toString());
-  	this.ruolo.setText(Session.employee.getRole());
+  	this.ruolo.setText(Session.employee.getRole().name());
   	this.stipendiolordo.setText(String.valueOf(Session.employee.getSalary()));
   	
   }
