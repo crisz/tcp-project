@@ -12,9 +12,9 @@
    <children>
       <Pane prefHeight="500.0" prefWidth="700.0">
          <children>
-            <Button contentDisplay="TOP" layoutX="35.0" layoutY="60.0" mnemonicParsing="false" onAction="#showPersonalInfo" prefHeight="190.0" prefWidth="216.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Visualizza informazioni personali" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="35.0" layoutY="60.0" mnemonicParsing="false" onAction="#showPersonalInfo" prefHeight="152.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Visualizza informazioni&#13;personali" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <graphic>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="111.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../icons/personalInfo.png" />
                      </image>
@@ -23,7 +23,7 @@
                <font>
                   <Font name="Arial" size="12.0" />
                </font></Button>
-            <Label layoutX="62.0" layoutY="23.0" text="Impiegato amministrativo" />
+            <Label alignment="CENTER" layoutX="62.0" layoutY="23.0" text="Impiegato amministrativo" />
          </children>
       </Pane>
    </children>

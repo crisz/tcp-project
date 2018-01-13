@@ -55,7 +55,28 @@ public class LoginCtrl {
   		e.setStatus(Status.AVAILABLE);
   		e.setRole("Autista");
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(App.class.getResource("administrativeArea/AdministrativeAreaScreen.fxml"));
+      loader.setLocation(App.class.getResource("employeeArea/EmployeeAreaScreen.fxml"));
+      AnchorPane adminScreen = (AnchorPane) loader.load();
+  		
+  		Scene scene = new Scene(adminScreen);
+      mainApp.getPrimaryStage().setScene(scene);
+      AdministrativeAreaCtrl adminCtrl = loader.getController();
+      adminCtrl.setMainApp(mainApp);
+  	} 
+  	else if (matricola.getText().equals("bob")) {
+  		Session.employee = new Employee();
+  		Employee e = Session.employee;
+  		e.setId("0641265");
+  		e.setAdress("Via dei pini, 41");
+  		e.setBirthDate(LocalDate.of(1955, 10, 1));
+  		e.setEmail("pippo@gmail.com");
+  		e.setFirstName("Bob");
+  		e.setLastName("Vattelappesca");
+  		e.setSalary(2501.24);
+  		e.setStatus(Status.AVAILABLE);
+  		e.setRole("Addetto ai mezzi");
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(App.class.getResource("vehicleArea/VehicleAreaScreen.fxml"));
       AnchorPane adminScreen = (AnchorPane) loader.load();
   		
   		Scene scene = new Scene(adminScreen);
