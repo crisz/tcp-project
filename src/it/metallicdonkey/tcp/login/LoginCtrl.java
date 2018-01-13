@@ -39,59 +39,31 @@ public class LoginCtrl {
   
   @FXML
   private void submitLogin() throws IOException {
-  	if(matricola.getText().equals("pippo")) {
-  		
-  		/*
-  		 * A questo punto già sappiamo chi è l'impiegato, o in alternativa si fa una nuova query
-  		 */
-  		Session.employee = new Employee();
-  		Employee e = Session.employee;
-  		e.setId("0641265");
-  		e.setAdress("Via dei pini, 41");
-  		e.setBirthDate(LocalDate.of(1955, 10, 1));
-  		e.setEmail("pippo@gmail.com");
-  		e.setFirstName("Pippo");
-  		e.setLastName("Vattelappesca");
-  		e.setSalary(2501.24);
-  		e.setStatus(Status.AVAILABLE);
-  		e.setRole("Autista");
-      FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(App.class.getResource("employeeArea/EmployeeAreaScreen.fxml"));
-      AnchorPane adminScreen = (AnchorPane) loader.load();
-  		
-  		Scene scene = new Scene(adminScreen);
-      mainApp.getPrimaryStage().setScene(scene);
-      AdministrativeAreaCtrl adminCtrl = loader.getController();
-      adminCtrl.setMainApp(mainApp);
-  	} 
-  	else if (matricola.getText().equals("bob")) {
-  		Session.employee = new Employee();
-  		Employee e = Session.employee;
-  		e.setId("0641265");
-  		e.setAdress("Via dei pini, 41");
-  		e.setBirthDate(LocalDate.of(1955, 10, 1));
-  		e.setEmail("pippo@gmail.com");
-  		e.setFirstName("Bob");
-  		e.setLastName("Vattelappesca");
-  		e.setSalary(2501.24);
-  		e.setStatus(Status.AVAILABLE);
-  		e.setRole("Addetto ai mezzi");
-      FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(App.class.getResource("vehicleArea/VehicleAreaScreen.fxml"));
-      AnchorPane vehicleScreen = (AnchorPane) loader.load();
-  		
-  		Scene scene = new Scene(vehicleScreen);
-      mainApp.getPrimaryStage().setScene(scene);
-      VehicleAreaCtrl vehicleCtrl = loader.getController();
-      vehicleCtrl.setMainApp(mainApp);
-  	} else {
-  		Alert alert = new Alert(AlertType.WARNING);
-      alert.initOwner(mainApp.getPrimaryStage());
-      alert.setTitle("Login information");
-      alert.setHeaderText("Login fallito!");
-      alert.setContentText("Controlla i dati inseriti e riprova.");
-      alert.showAndWait();
-  	}
+  	/* Qua viene effettuato il login **/
+		Session.employee = new Employee();
+		Employee e = Session.employee;
+		e.setId("0641265");
+		e.setAdress("Via dei pini, 41");
+		e.setBirthDate(LocalDate.of(1955, 10, 1));
+		e.setEmail("pippo@gmail.com");
+		e.setFirstName(matricola.getText());
+		e.setLastName("Vattelappesca");
+		e.setSalary(2501.24);
+		e.setStatus(Status.AVAILABLE);
+		e.setRole("Autista");
+		
+		
+		Home home = Home.getHome(Role.Addetto_ai_mezzi);
+		home.goHome(mainApp);
+		
+//  	if(false) {
+//  		Alert alert = new Alert(AlertType.WARNING);
+//      alert.initOwner(mainApp.getPrimaryStage());
+//      alert.setTitle("Login information");
+//      alert.setHeaderText("Login fallito!");
+//      alert.setContentText("Controlla i dati inseriti e riprova.");
+//      alert.showAndWait();
+//  	}
   }
 
   public void setMainApp(App mainApp) {
