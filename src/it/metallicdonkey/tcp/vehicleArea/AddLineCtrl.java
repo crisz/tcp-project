@@ -1,0 +1,120 @@
+package it.metallicdonkey.tcp.vehicleArea;
+
+
+import java.io.IOException;
+
+import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.login.Home;
+import it.metallicdonkey.tcp.login.Session;
+import it.metallicdonkey.tcp.models.Stop;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
+
+public class AddLineCtrl {
+	private App mainApp;
+
+	@FXML
+	private TextField name;
+	
+	@FXML
+	ListView<Stop> stopsList;
+	
+	ObservableList<Stop> stops;
+	
+	@FXML
+	TextField newStop;
+	
+	@FXML
+	Button addStop;
+	
+	@FXML
+	private Button sendButton;
+	
+	@FXML
+	private TextField priority;
+
+	@FXML
+	private void initialize() {
+		stops = FXCollections.observableArrayList();
+	}
+	
+	
+	@FXML
+	private void onAddStopClicked() {
+		Stop stop = new Stop(newStop.getText());
+		stops.add(stop);
+		stopsList.setItems(stops);
+		
+		// Clean the input field
+		newStop.setText("");
+	}
+
+	@FXML
+	private void submitVehicle() {
+		
+		Alert error = check();
+		if(error != null) {
+			error.showAndWait();
+		} else {
+			String result = "La linea " + name.getText() + " é stata inserita con successo";
+			System.out.println(result);
+		}
+	}
+	
+	private Alert check() {
+		Alert alert = new Alert(AlertType.WARNING);
+	    alert.initOwner(mainApp.getPrimaryStage());
+	    alert.setTitle("Avviso");
+	    alert.setHeaderText("Inserimento fallito!");
+	    
+	    if (stops.size() < 4) {
+	    	alert.setContentText("Inserisci almeno 4 fermate.");
+	    	return alert;
+	    }
+	    else if (name.getText().equals("")) {
+	    	alert.setContentText("Inserisci un nome alla linea.");
+	    	return alert;
+	    }
+	    else if (priority.getText().equals("")) {
+	    	alert.setContentText("Inserisci una priorità alla linea.");
+	    	return alert;
+	    }
+	    else {
+	    	int priorityValue = -1;
+		    try {
+		    	priorityValue = Integer.parseInt(priority.getText());
+		    }
+		    catch (NumberFormatException e) {
+		    	alert.setContentText("Inserisci un valore numerico nel campo priorità");
+		    	return alert;
+			}
+	    }
+	    // If data is OK
+	    return null;
+	    
+	}
+
+	@FXML
+  public void goHome() throws IOException {
+  	Home.getHome(null).goHome(this.mainApp);
+  }
+
+	public void setMainApp(App mainApp) {
+		this.mainApp = mainApp;
+	}
+}
