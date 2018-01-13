@@ -1,24 +1,19 @@
 /**
- * 
+ *
  */
 package it.metallicdonkey.tcp.models;
 
 import java.time.LocalDate;
-import java.util.Date;
 
-/**
- * @author crist
- *
- */
 public class Employee {
 	private String id;
 	private String firstName;
 	private String lastName;
 	private LocalDate birthDate;
 	private String email;
-	private String adress;
+	private String address;
 	private double Salary;
-	private Status status;
+	private StatusEmployee status;
 	private String role;
 	public String getId() {
 		return id;
@@ -50,11 +45,11 @@ public class Employee {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getAdress() {
-		return adress;
+	public String getAddress() {
+		return address;
 	}
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public double getSalary() {
 		return Salary;
@@ -62,10 +57,10 @@ public class Employee {
 	public void setSalary(double salary) {
 		Salary = salary;
 	}
-	public Status getStatus() {
+	public StatusEmployee getStatus() {
 		return status;
 	}
-	public void setStatus(Status status) {
+	public void setStatus(StatusEmployee status) {
 		this.status = status;
 	}
 	public String getRole() {

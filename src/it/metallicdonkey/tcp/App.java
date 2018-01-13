@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import com.mysql.jdbc.Driver;
+//import com.mysql.jdbc.Driver;
 
 import it.metallicdonkey.tcp.login.LoginCtrl;
 import javafx.application.Application;
@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 public class App extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -29,17 +29,17 @@ public class App extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void initRootLayout() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(App.class.getResource("RootLayout.fxml"));
 		rootLayout = (BorderPane) loader.load();
-		
+
 		Scene scene = new Scene(rootLayout);
     primaryStage.setScene(scene);
     primaryStage.show();
 	}
-	
+
 	public void showLogin() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(App.class.getResource("login/LoginScreen.fxml"));
@@ -47,11 +47,11 @@ public class App extends Application {
 
     // Set person overview into the center of root layout.
     rootLayout.setCenter(loginScreen);
-    
+
     LoginCtrl loginCtrl = loader.getController();
     loginCtrl.setMainApp(this);
 	}
-	
+
   public Stage getPrimaryStage() {
     return primaryStage;
   }
@@ -67,7 +67,7 @@ public class App extends Application {
 //		} catch (SQLException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
-//		}  
+//		}
 		launch(args);
 	}
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.metallicdonkey.tcp.models;
 
@@ -7,7 +7,7 @@ package it.metallicdonkey.tcp.models;
  * @author crist
  *
  */
-public enum Status {
+public enum StatusEmployee {
 	AVAILABLE,
 	ABSENT
 }
