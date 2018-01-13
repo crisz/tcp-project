@@ -20,8 +20,14 @@ public class Employee {
 	private String address;
 	private double Salary;
 	private StatusEmployee status;
-	private boolean isAvailable;
 	private Role role;
+	private Workshift workshift;
+	public Workshift getWorkshift() {
+		return workshift;
+	}
+	public void setWorkshift(Workshift workshift) {
+		this.workshift = workshift;
+	}
 	public String getId() {
 		return id;
 	}
