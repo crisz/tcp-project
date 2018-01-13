@@ -15,6 +15,8 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -59,37 +61,48 @@ public class CheckCtrl {
 	private Button nextButton;
 	private int turno = 0;
 	private ObservableList<CheckDataModel> check1, check2;
-	final ObservableList<LineDataModel> dataLines = FXCollections.observableArrayList(
-	    new LineDataModel("101", "Stazione Centrale", "Stadio"),
-	    new LineDataModel("102", "Piazzale Giotto", "Stazione Centrale"),
-	    new LineDataModel("806", "Politeama", "Mondello"),
-	    new LineDataModel("108", "Politeama", "Ospedale Civico"),
-	    new LineDataModel("534", "Piazzale Giotto", "Mondello")
-	);
+	ObservableList<LineDataModel> dataLines;
+	ObservableList<VehicleDataModel> dataVehicles;
+	ObservableList<EmployeeDataModel> dataEmployees;
+	ObservableList<CheckDataModel> dataCheck;
 	
-	final ObservableList<VehicleDataModel> dataVehicles = FXCollections.observableArrayList(
-	    new VehicleDataModel("A320", 30, 140, 1, "214"),
-	    new VehicleDataModel("B340", 20, 60, 1, "In circolazione"),
-	    new VehicleDataModel("C120", 20, 70, 0, "041"),
-	    new VehicleDataModel("A120", 30, 10, 0, "Guasto"),
-	    new VehicleDataModel("A221", 50, 10, 2, "In circolazione")
-	);
-	final ObservableList<EmployeeDataModel> dataEmployees = FXCollections.observableArrayList(
-	    new EmployeeDataModel("Pippo", "Vattelappesca"),
-	    new EmployeeDataModel("Giovanni", "Muciaccia"),
-	    new EmployeeDataModel("Paolo", "Rossi"),
-	    new EmployeeDataModel("Paolino", "Paperino"),
-	    new EmployeeDataModel("Marco", "Verdi"),
-	    new EmployeeDataModel("Luca", "Gialli"),
-	    new EmployeeDataModel("Carlo", "Neri")
-	);
-	final ObservableList<CheckDataModel> dataCheck = FXCollections.observableArrayList(
-	    new CheckDataModel(
-	    		new EmployeeDataModel("Pietro","Gambadilegno"), 
-	    		new VehicleDataModel("A320", 40, 0, 0, "210"), 
-	    		new LineDataModel("806","Politeama","Mondello")
-	    	)
-	);
+	
+	public CheckCtrl() {
+	// TODO: Sostituire i 4 ObservabileList qua sottocon i dati scaricati dal db (check giorno precedente + guasti e assenti)
+		
+		this.dataLines = FXCollections.observableArrayList(
+		    new LineDataModel("101", "Stazione Centrale", "Stadio"),
+		    new LineDataModel("102", "Piazzale Giotto", "Stazione Centrale"),
+		    new LineDataModel("806", "Politeama", "Mondello"),
+		    new LineDataModel("108", "Politeama", "Ospedale Civico"),
+		    new LineDataModel("534", "Piazzale Giotto", "Mondello")
+		);
+		
+		this.dataVehicles = FXCollections.observableArrayList(
+		    new VehicleDataModel("A320", 30, 140, 1, "214"),
+		    new VehicleDataModel("B340", 20, 60, 1, "In circolazione"),
+		    new VehicleDataModel("C120", 20, 70, 0, "041"),
+		    new VehicleDataModel("A120", 30, 10, 0, "Guasto"),
+		    new VehicleDataModel("A221", 50, 10, 2, "In circolazione")
+		);
+		this.dataEmployees = FXCollections.observableArrayList(
+		    new EmployeeDataModel("Pippo", "Vattelappesca"),
+		    new EmployeeDataModel("Giovanni", "Muciaccia"),
+		    new EmployeeDataModel("Paolo", "Rossi"),
+		    new EmployeeDataModel("Paolino", "Paperino"),
+		    new EmployeeDataModel("Marco", "Verdi"),
+		    new EmployeeDataModel("Luca", "Gialli"),
+		    new EmployeeDataModel("Carlo", "Neri")
+		);
+		this.dataCheck = FXCollections.observableArrayList(
+		    new CheckDataModel(
+		    		new EmployeeDataModel("Pietro","Gambadilegno"), 
+		    		new VehicleDataModel("A320", 40, 0, 0, "210"), 
+		    		new LineDataModel("806","Politeama","Mondello")
+		    	)
+		);
+	}
+	
 	
   @FXML
   private void initialize() {
@@ -132,14 +145,17 @@ public class CheckCtrl {
   	
   	if(turno==1) {
     	/*
-    	 * TODO: aggiornare i dati dal database, replicando la logica nel costruttore.
-    	 * Ah, abbiamo bisogno di un costruttore.
+    	 * TODO: aggiornare i dati dal database, replicando la logica nel costruttore, però per il turno pomeridiano.
     	 * 
     	 */
   		
   		this.workshiftLabel.setText("Pomeriggio");
   		this.check1 = FXCollections.observableArrayList(dataCheck);
   	} else if(turno==2) {
+  		/*
+  		 * 
+  		 * TODO: aggiornare i dati dal database, con il turno serale.
+  		 */
   		this.workshiftLabel.setText("Sera");
   		this.nextButton.setText("Fine");
   		this.check2 = FXCollections.observableArrayList(dataCheck);
@@ -162,22 +178,40 @@ public class CheckCtrl {
   
   @FXML
   public void addBind() {
-  	EmployeeDataModel e = this.employees.getSelectionModel().getSelectedItem();
-  	VehicleDataModel v = this.vehicles.getSelectionModel().getSelectedItem();
-  	LineDataModel l = this.lines.getSelectionModel().getSelectedItem();
-  	dataCheck.add(new CheckDataModel(e, v, l));
-  	dataEmployees.remove(e);
-  	dataVehicles.remove(v);
+  	try {
+    	EmployeeDataModel e = this.employees.getSelectionModel().getSelectedItem();
+    	VehicleDataModel v = this.vehicles.getSelectionModel().getSelectedItem();
+    	LineDataModel l = this.lines.getSelectionModel().getSelectedItem();
+    	dataCheck.add(new CheckDataModel(e, v, l));
+    	dataEmployees.remove(e);
+    	dataVehicles.remove(v);
+  	} catch(NullPointerException e) {
+			Alert alert = new Alert(AlertType.WARNING);
+	    alert.initOwner(mainApp.getPrimaryStage());
+	    alert.setTitle("Error");
+	    alert.setHeaderText("Impossibile creare l'abbinamento");
+	    alert.setContentText("Seleziona almeno un impiegato, una linea e un mezzo dalle 3 liste superiori.");
+	    alert.showAndWait();
+  	}
   }
   
   @FXML
   public void removeBind() {
-  	CheckDataModel c = this.check.getSelectionModel().getSelectedItem();
-  	EmployeeDataModel e = c.getEmployeeModel();
-  	VehicleDataModel v = c.getVehicleModel();
-  	dataCheck.remove(c);
-  	dataEmployees.add(e);
-  	dataVehicles.add(v);
+  	try {
+	  	CheckDataModel c = this.check.getSelectionModel().getSelectedItem();
+	  	EmployeeDataModel e = c.getEmployeeModel();
+	  	VehicleDataModel v = c.getVehicleModel();
+	  	dataCheck.remove(c);
+	  	dataEmployees.add(e);
+	  	dataVehicles.add(v);
+  	} catch(NullPointerException e) {
+			Alert alert = new Alert(AlertType.WARNING);
+	    alert.initOwner(mainApp.getPrimaryStage());
+	    alert.setTitle("Error");
+	    alert.setHeaderText("Impossibile rimuovere l'abbinamento");
+	    alert.setContentText("Seleziona almeno un abbinamento dalla lista inferiore.");
+	    alert.showAndWait();
+  	}
   }
   
   public void setMainApp(App mainApp) {

@@ -6,6 +6,7 @@ import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.administrativeArea.AdministrativeAreaCtrl;
 import it.metallicdonkey.tcp.administrativeArea.CheckCtrl;
 import it.metallicdonkey.tcp.administrativeArea.ListSearchLineCtrl;
+import it.metallicdonkey.tcp.employeeArea.PersonalInfoCtrl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -28,11 +29,13 @@ public class VehicleAreaCtrl {
     AnchorPane personalInfo = (AnchorPane) loader.load();
     System.out.println("Resource done!");
     
-	Scene scene = new Scene(personalInfo);
-	System.out.println(scene);
-	System.out.println(personalInfo);
+		Scene scene = new Scene(personalInfo);
+		System.out.println(scene);
+		System.out.println(personalInfo);
     Stage stage = mainApp.getPrimaryStage();
     stage.setScene(scene);
+    PersonalInfoCtrl lsvCtrl = loader.getController();
+    lsvCtrl.setMainApp(mainApp);
   }
   
   @FXML

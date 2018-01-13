@@ -50,6 +50,10 @@ public class AddVehicleCtrl {
 	private void submitVehicle() {
 		String result = "Il veicolo " + matricola.getText() + " é stato inserito con successo";
 		System.out.println(result);
+		/*
+		 * TODO: Sostituire questo codice con l'inserimento del veicolo nel database.
+		 * Completare l'operazione con un Alert di successo o fallimento. 
+		 */
 	}
 
 	@FXML

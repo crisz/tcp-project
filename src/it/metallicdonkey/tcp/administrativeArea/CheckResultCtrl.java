@@ -114,7 +114,7 @@ public class CheckResultCtrl {
   	this.checkPData = check2;
   	this.checkSData = check3;
   	this.checkS.setItems(checkSData);
-  	this.checkP.setItems(checkSData);
+  	this.checkP.setItems(checkPData);
   	this.checkM.setItems(checkMData);
   }
 

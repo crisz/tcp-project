@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="340.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.login.LoginCtrl">
    <children>
-      <AnchorPane prefHeight="340.59131564567616" prefWidth="540.1043657420404" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane prefHeight="340.59131564567616" prefWidth="540.1043657420404" style="-fx-background-color: #d3d8d8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button layoutX="185.0" layoutY="257.0" mnemonicParsing="false" onAction="#submitLogin" prefHeight="28.0" prefWidth="311.0" text="Login" />
             <TextField fx:id="matricola" layoutX="185.0" layoutY="157.0" prefHeight="27.0" prefWidth="311.0" />
