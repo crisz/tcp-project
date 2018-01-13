@@ -36,6 +36,9 @@ public class ExitVehicleCtrl {
 	private void submitVehicle() {
 		String result = "L'uscita del veicolo " + vehicleField.getText() + " è avvenuto con successo.";
 		resultLabel.setText(result);
+		/*
+		 * Sostituire con db
+		 */
 	}
 
 	@FXML
