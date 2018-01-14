@@ -54,6 +54,23 @@ public class VehicleAreaCtrl {
     AddVehicleCtrl lsvCtrl = loader.getController();
     lsvCtrl.setMainApp(mainApp);
 	  }
+  
+  @FXML
+  private void showAddLine() throws IOException {
+  	System.out.println("Showing personal info...");
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(App.class.getResource("vehicleArea/AddLineScreen.fxml"));
+    AnchorPane personalInfo = (AnchorPane) loader.load();
+    System.out.println("Resource done!");
+	    
+		Scene scene = new Scene(personalInfo);
+		System.out.println(scene);
+		System.out.println(personalInfo);
+    Stage stage = mainApp.getPrimaryStage();
+    stage.setScene(scene);
+    AddLineCtrl lsvCtrl = loader.getController();
+    lsvCtrl.setMainApp(mainApp);
+	  }
   @FXML 
   private void showSearchLine() throws IOException {
   	System.out.println("Showing search info line...");

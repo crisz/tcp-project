@@ -23,6 +23,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -98,16 +100,21 @@ public class ListSearchVehicleCtrl {
   	// Add actions!
   	
     editColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-
+    
+    Image imageOk = new Image(getClass().getResourceAsStream("../icons/ve.png"));
+    ImageView ve = new ImageView(imageOk);
+    ve.setFitWidth(43.5);
+    ve.setFitHeight(24.0);
+    final Button btn = new Button("", ve);
     Callback<TableColumn<VehicleDataModel, String>, TableCell<VehicleDataModel, String>> cellFactory
             = //
             new Callback<TableColumn<VehicleDataModel, String>, TableCell<VehicleDataModel, String>>() {
         @Override
         public TableCell<VehicleDataModel, String> call(final TableColumn<VehicleDataModel, String> param) {
             final TableCell<VehicleDataModel, String> cell = new TableCell<VehicleDataModel, String>() {
-
-                final Button btn = new Button("Modifica");
-
+            	
+            		
+                
                 @Override
                 public void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);

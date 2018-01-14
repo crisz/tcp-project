@@ -21,10 +21,10 @@
                <columns>
                   <TableColumn fx:id="id" prefWidth="152.76522827148438" text="Matricola" />
                   <TableColumn fx:id="seats" minWidth="0.0" prefWidth="60.93914794921875" text="Posti" />
-                  <TableColumn fx:id="sSeats" prefWidth="84.31306457519531" text="Posti in piedi" />
-                  <TableColumn fx:id="hSeats" prefWidth="105.18267822265625" text="Posti disabili" />
+                  <TableColumn fx:id="sSeats" prefWidth="84.31306457519531" text="Posti&#13;in piedi" />
+                  <TableColumn fx:id="hSeats" prefWidth="105.18267822265625" text="Posti&#13;disabili" />
                   <TableColumn fx:id="vLocation" prefWidth="106.85220336914062" text="Posizione" />
-                  <TableColumn fx:id="editColumn" prefWidth="131.0609130859375" text="Visualizza / Modifica" />
+                  <TableColumn fx:id="editColumn" prefWidth="131.0609130859375" text="Visualizza &#13;e Modifica" />
                   <TableColumn fx:id="brokenColumn" prefWidth="107.68701171875" text="Segnala guasto" />
                   <TableColumn fx:id="removeColumn" prefWidth="68.4521484375" text="Rimuovi" />
                </columns>
