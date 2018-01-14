@@ -38,6 +38,7 @@ public class DBHelper {
 			}
 			// if the query table returned contains something
 			ResultSet result = dbm.getResultSet();
+			result.beforeFirst();
 			while(result.next()) {
 				Employee e= new Employee();
 				e.setId(result.getString("idEmployee"));
@@ -70,6 +71,7 @@ public class DBHelper {
 			}
 			// if the query table returned contains something
 			ResultSet result = dbm.getResultSet();
+			result.beforeFirst();
 			while(dbm.getResultSet().next()) {
 				Employee e= new Employee();
 				e.setId(result.getString("idEmployee"));
