@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import it.metallicdonkey.tcp.login.Role;
-import it.metallicdonkey.tcp.models.*;
+import it.metallicdonkey.tcp.models.Employee;
+import it.metallicdonkey.tcp.models.StatusEmployee;
+import it.metallicdonkey.tcp.models.Workshift;
 
 public class DBHelper {
 	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");

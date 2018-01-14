@@ -1,8 +1,6 @@
 package it.metallicdonkey.tcp;
 
 import java.io.IOException;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 //import com.mysql.jdbc.Driver;
 
