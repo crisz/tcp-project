@@ -42,7 +42,7 @@ public class LoginCtrl {
 		e.setSalary(2501.24);
 		e.setStatus(StatusEmployee.AVAILABLE);
 		e.setRole(Role.Autista);
-		e.setWorkshift(Workshift.MORNING);
+		e.setWorkshift(Workshift.MATTINA);
 		Home home = Home.getHome(Role.Addetto_agli_impiegati);
 		home.goHome(mainApp);
 

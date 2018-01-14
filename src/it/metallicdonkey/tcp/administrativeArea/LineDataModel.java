@@ -7,7 +7,7 @@ public class LineDataModel {
   private final SimpleStringProperty name;
   private final SimpleStringProperty startTerminal;
   private final SimpleStringProperty endTerminal;
-  
+
   public LineDataModel(String name, String startTerminal, String endTerminal) {
     this.name = new SimpleStringProperty(name);
     this.startTerminal = new SimpleStringProperty(startTerminal);
@@ -15,8 +15,8 @@ public class LineDataModel {
   }
   public LineDataModel(Line l) {
     this.name = new SimpleStringProperty(l.getName());
-    this.startTerminal = new SimpleStringProperty(l.getStartTerminal().getAdress());
-    this.endTerminal = new SimpleStringProperty(l.getEndTerminal().getAdress());
+    this.startTerminal = new SimpleStringProperty(l.getStartTerminal().getAddress());
+    this.endTerminal = new SimpleStringProperty(l.getEndTerminal().getAddress());
   }
 
 	public String getName() {
@@ -30,11 +30,11 @@ public class LineDataModel {
 	public String getEndTerminal() {
 		return endTerminal.get();
 	}
-	
+
 	public String getEdit() {
 		return "edit";
 	}
-	
+
 	public String getDelete() {
 		return "delete";
 	}
