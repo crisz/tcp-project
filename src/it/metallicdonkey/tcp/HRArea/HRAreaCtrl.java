@@ -30,7 +30,7 @@ public class HRAreaCtrl {
 		Stage stage = mainApp.getPrimaryStage();
 		stage.setScene(scene);
 		PersonalInfoCtrl ctrl = loader.getController();
-		ctrl.setMainApp(mainApp);
+	    ctrl.setMainApp(mainApp);
 	}
 	@FXML
 	private void showAddEmployee() throws IOException {
@@ -121,7 +121,8 @@ public class HRAreaCtrl {
 		PaySalaryCtrl cCtrl = loader.getController();
 		cCtrl.setMainApp(mainApp);
 	}
-	private void setMainApp(App mainApp) {
+	public void setMainApp(App mainApp) {
 		this.mainApp = mainApp;
 	}
+		
 }
