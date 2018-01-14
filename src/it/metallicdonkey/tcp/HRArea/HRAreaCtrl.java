@@ -4,6 +4,7 @@ import java.io.IOException;
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.administrativeArea.CheckCtrl;
 import it.metallicdonkey.tcp.administrativeArea.ListSearchLineCtrl;
+import it.metallicdonkey.tcp.employeeArea.PersonalInfoCtrl;
 import it.metallicdonkey.tcp.vehicleArea.AddLineCtrl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +29,8 @@ public class HRAreaCtrl {
 		System.out.println(personalInfo);
 		Stage stage = mainApp.getPrimaryStage();
 		stage.setScene(scene);
+		PersonalInfoCtrl ctrl = loader.getController();
+		ctrl.setMainApp(mainApp);
 	}
 	@FXML
 	private void showAddEmployee() throws IOException {
@@ -117,5 +120,8 @@ public class HRAreaCtrl {
 		stage.setScene(scene);
 		PaySalaryCtrl cCtrl = loader.getController();
 		cCtrl.setMainApp(mainApp);
+	}
+	private void setMainApp(App mainApp) {
+		this.mainApp = mainApp;
 	}
 }

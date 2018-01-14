@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.HRArea.AddEmployeeCtrl">
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.HRArea.HRAreaCtrl">
    <children>
       <Pane prefHeight="500.0" prefWidth="870.0" style="-fx-background-color: #d3d8d8;">
          <children>
@@ -33,7 +33,7 @@
                   <Insets bottom="20.0" />
                </padding>
             </Button>
-            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="445.0" layoutY="60.0" mnemonicParsing="false" onAction="#showSearchVehicle" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Lista e ricerca impiegati" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="445.0" layoutY="60.0" mnemonicParsing="false" onAction="#showSearchEmployee" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Lista e ricerca impiegati" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
