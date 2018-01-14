@@ -49,9 +49,9 @@ public class ListSearchVehicleCtrl {
 	private TableColumn<VehicleDataModel, String> brokenColumn;
 	@FXML
 	private TableColumn<VehicleDataModel, String> removeColumn;
-	
+
 	public static VehicleDataModel selectedVehicle;
-	
+
 	final ObservableList<VehicleDataModel> data = FXCollections.observableArrayList(
 	    new VehicleDataModel("A320", 30, 140, 1, "214"),
 	    new VehicleDataModel("B340", 20, 60, 1, "In circolazione"),
@@ -59,7 +59,7 @@ public class ListSearchVehicleCtrl {
 	    new VehicleDataModel("A120", 30, 10, 0, "Guasto"),
 	    new VehicleDataModel("A221", 50, 10, 2, "In circolazione")
 	);
-	
+
   @FXML
   private void initialize() {
   	// Initialization data
@@ -75,7 +75,7 @@ public class ListSearchVehicleCtrl {
         new PropertyValueFactory<VehicleDataModel, String>("vLocation"));
   	// Initialization filter
     FilteredList<VehicleDataModel> filteredData = new FilteredList<>(data, p -> true);
-    
+
     filter.textProperty().addListener((observable, oldValue, newValue) -> {
       filteredData.setPredicate(v -> {
           // If filter text is empty, display all persons.
@@ -85,7 +85,7 @@ public class ListSearchVehicleCtrl {
 
           // Compare first name and last name of every person with filter text.
           String lowerCaseFilter = newValue.toLowerCase();
-          	
+
           return v.getId().toLowerCase().contains(lowerCaseFilter) ||
           			 v.getVLocation().toLowerCase().contains(lowerCaseFilter);
       });
@@ -94,9 +94,9 @@ public class ListSearchVehicleCtrl {
     sortedData.comparatorProperty().bind(vehicles.comparatorProperty());
 
   	vehicles.setItems(sortedData);
-  	
+
   	// Add actions!
-  	
+
     editColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
     Callback<TableColumn<VehicleDataModel, String>, TableCell<VehicleDataModel, String>> cellFactory
@@ -119,16 +119,16 @@ public class ListSearchVehicleCtrl {
                             VehicleDataModel vehicle = getTableView().getItems().get(getIndex());
                             ListSearchVehicleCtrl.selectedVehicle = vehicle;
                           	FXMLLoader loader = new FXMLLoader();
-                            loader.setLocation(App.class.getResource("vehicleArea/ChangeVehicleScreen.fxml"));                           
+                            loader.setLocation(App.class.getResource("vehicleArea/ChangeVehicleScreen.fxml"));
                             AnchorPane personalInfo;
 														try {
 															personalInfo = (AnchorPane) loader.load();
-															
+
 	                        		Scene scene = new Scene(personalInfo);
 	                            Stage stage = mainApp.getPrimaryStage();
 	                            stage.setScene(scene);
-	                            ChangeVehicleCtrl lsvCtrl = loader.getController();
-	                            lsvCtrl.setMainApp(mainApp);
+//	                            ChangeVehicleCtrl lsvCtrl = loader.getController();
+//                            lsvCtrl.setMainApp(mainApp);
 
 
 														} catch (IOException e) {
@@ -189,9 +189,9 @@ public class ListSearchVehicleCtrl {
     };
 
     brokenColumn.setCellFactory(cellFactory3);
-    
-    // Action: remove 
-    
+
+    // Action: remove
+
     removeColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
     Callback<TableColumn<VehicleDataModel, String>, TableCell<VehicleDataModel, String>> cellFactory2
@@ -221,7 +221,7 @@ public class ListSearchVehicleCtrl {
                             if (result.get() == ButtonType.OK){
                                 // TODO: implementare cancellazione su db
                             		data.remove(line);
-                            } 
+                            }
                         });
                         setGraphic(btn);
                         setText(null);
@@ -235,12 +235,12 @@ public class ListSearchVehicleCtrl {
     removeColumn.setCellFactory(cellFactory2);
 
   }
-  
+
   @FXML
   public void goHome() throws IOException {
   	Home.getHome(null).goHome(this.mainApp);
   }
-  
+
   public void setMainApp(App mainApp) {
     this.mainApp = mainApp;
   }
