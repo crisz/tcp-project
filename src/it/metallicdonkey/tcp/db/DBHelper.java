@@ -9,6 +9,7 @@ import java.util.Date;
 
 import java.sql.PreparedStatement;
 
+import it.metallicdonkey.tcp.HRArea.EmployeeDataModel;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.*;
 import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;
@@ -53,7 +54,15 @@ public class DBHelper {
 				e.setSalary(result.getDouble("Salary"));
 				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
 				e.setRole(Role.valueOf(result.getString("Role")));
-				e.setWorkshift(Workshift.valueOf(result.getString("Workshift")));
+				String w = result.getString("Workshift");
+				System.out.println("wwww");
+				System.out.println(w);
+				if(w.equals("MORNING"))
+					e.setWorkshift(Workshift.MATTINA);
+				if(w.equals("AFTERNOON"))
+					e.setWorkshift(Workshift.POMERIGGIO);
+				else
+					e.setWorkshift(Workshift.SERA);
 				employees.add(e);				
 			}
 		}
@@ -63,10 +72,9 @@ public class DBHelper {
 		return employees;
 	}
 	
-	public static ArrayList<Employee> getAllEmployees(){
-		ArrayList<Employee> employees = new ArrayList<>();
+	public ObservableList<EmployeeDataModel> getAllEmployees() {
+		ArrayList<EmployeeDataModel> employees = new ArrayList<>();
 		try {
-			
 			dbm.executeQuery("SELECT * FROM employee");
 			// verify if the query returned an empty table
 //			if(!dbm.getResultSet().next()) {
@@ -74,9 +82,10 @@ public class DBHelper {
 //			}
 			// if the query table returned contains something
 			ResultSet result = dbm.getResultSet();
-//			result.beforeFirst();
+			result.beforeFirst();
+			
 			while(dbm.getResultSet().next()) {
-				Employee e= new Employee();
+				Employee e = new Employee();
 				e.setId(result.getString("idEmployee"));
 				e.setFirstName(result.getString("First Name"));
 				e.setLastName(result.getString("Last Name"));
@@ -86,18 +95,30 @@ public class DBHelper {
 				e.setSalary(result.getDouble("Salary"));
 				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
 				e.setRole(Role.valueOf(result.getString("Role")));
-				e.setWorkshift(Workshift.valueOf(result.getString("Workshift")));
-				employees.add(e);					
+				String w = result.getString("Workshift");
+				System.out.println("wwww");
+				System.out.println(w);
+				if(w.equals("MORNING")) {
+					System.out.println("Questo impiegato è di mattina");
+					e.setWorkshift(Workshift.MATTINA);
+				}
+				else if(w.equals("AFTERNOON"))
+					e.setWorkshift(Workshift.POMERIGGIO);
+				else
+					e.setWorkshift(Workshift.SERA);
+				employees.add(new EmployeeDataModel(e));
 			}
 		}
 		catch(SQLException exc) {
 			exc.printStackTrace();
+			return null;
 		}
-		return employees;
+		ObservableList<EmployeeDataModel> dataEmployees = FXCollections.observableArrayList(employees);
+		return dataEmployees;
 	}
 
-	public static void insertEmployee(Employee e) throws SQLException{
-		String query = " INSERT INTO tcp.employee ()" + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	public void insertEmployee(Employee e) throws SQLException{
+		String query = " INSERT INTO tcp.employee ()" + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		// create the mysql insert preparedstatement
 		PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
@@ -105,18 +126,16 @@ public class DBHelper {
 		preparedStmt.setString (2, e.getFirstName());
 		preparedStmt.setString (3, e.getLastName());
 		preparedStmt.setString (4, e.getBirthDate().getYear()+"-"+e.getBirthDate().getMonthValue()+"-"+e.getBirthDate().getDayOfMonth());
-		preparedStmt.setString (5, e.getWorkshift().name());
+		preparedStmt.setString (5, this.workshiftToEnglish(e.getWorkshift()));
 		preparedStmt.setDouble (6, e.getSalary());
 		preparedStmt.setString (7, e.getEmail());
 		preparedStmt.setString (8, e.getRole().name());
-		preparedStmt.setString (9, e.getStatus().name());
+		preparedStmt.setString (9, "AVAILABLE");
 		preparedStmt.setString (10, e.getAddress());
 		preparedStmt.setString (11, "TCP_password");
 
 		// execute the preparedstatement
 		preparedStmt.execute();
-		
-		
 	}
 
 	public ObservableList<VehicleDataModel> getAllVehicles() {
@@ -146,6 +165,18 @@ public class DBHelper {
 		}
 		ObservableList<VehicleDataModel> dataVehicles = FXCollections.observableArrayList(vehicles);
 		return dataVehicles;
+	}
+	
+	public String workshiftToEnglish(Workshift w) {
+		switch(w) {
+		case MATTINA: 
+			return "MORNING";
+		case POMERIGGIO:
+			return "AFTERNOON";
+		case SERA:
+			return "EVENING";
+		}
+		return "MORNING";
 	}
 
 	public void insertVehicle(Vehicle v) throws SQLException {

@@ -53,7 +53,7 @@ public class ListSearchLineCtrl {
     endTerminalColumn.setCellValueFactory(
         new PropertyValueFactory<LineDataModel, String>("endTerminal"));
   	System.out.println(data);
-
+  	
   	// Initialization filter
     FilteredList<LineDataModel> filteredData = new FilteredList<>(data, p -> true);
     

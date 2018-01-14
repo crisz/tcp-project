@@ -7,9 +7,12 @@ import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.HRArea.EmployeeDataModel;
 import it.metallicdonkey.tcp.db.DBHelper;
 import it.metallicdonkey.tcp.login.Home;
+import it.metallicdonkey.tcp.login.Role;
+import it.metallicdonkey.tcp.models.Workshift;
 import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -61,7 +64,10 @@ public class CheckCtrl {
 	ObservableList<EmployeeDataModel> dataEmployees;
 	ObservableList<CheckDataModel> dataCheck;
 
-
+	FilteredList<EmployeeDataModel> empM;
+	FilteredList<EmployeeDataModel> empP;
+	FilteredList<EmployeeDataModel> empS;
+	
 	public CheckCtrl() throws SQLException {
 	// TODO: Sostituire i 4 ObservabileList qua sottocon i dati scaricati dal db (check giorno precedente + guasti e assenti)
 
@@ -75,15 +81,18 @@ public class CheckCtrl {
 
 		this.dataVehicles = DBHelper.getInstance().getAllVehicles();
 
-		this.dataEmployees = FXCollections.observableArrayList(
-		    new EmployeeDataModel("0643436", "Pippo", "Vattelappesca"),
-		    new EmployeeDataModel("0642156", "Giovanni", "Muciaccia"),
-		    new EmployeeDataModel("0513545", "Paolo", "Rossi"),
-		    new EmployeeDataModel("0642735", "Paolino", "Paperino"),
-		    new EmployeeDataModel("0186512", "Marco", "Verdi"),
-		    new EmployeeDataModel("0153572", "Luca", "Gialli"),
-		    new EmployeeDataModel("0545483", "Carlo", "Neri")
-		);
+		this.dataEmployees = DBHelper.getInstance().getAllEmployees();
+		System.out.println("tutti gli impiegati");
+		for(int i=0; i<dataEmployees.size(); i++) {
+			System.out.println("Impeigati, tutti: " + dataEmployees.get(i).getEmployee().getWorkshift().name());
+		}
+		this.empM = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.MATTINA && e.getEmployee().getRole() == Role.Autista);
+		this.empP = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.POMERIGGIO && e.getEmployee().getRole() == Role.Autista);
+		this.empS = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.SERA && e.getEmployee().getRole() == Role.Autista);
+	  
+		for(int i=0; i<empM.size(); i++) {
+			System.out.println("Impeigati, mattina: " + empM.get(i).getEmployee().getWorkshift().name());
+		}
 		this.dataCheck = FXCollections.observableArrayList(
 		    new CheckDataModel(
 		    		new EmployeeDataModel("0186121", "Pietro","Gambadilegno"),
@@ -113,7 +122,7 @@ public class CheckCtrl {
 
     nomeECognome.setCellValueFactory(
         new PropertyValueFactory<EmployeeDataModel, String>("nomeECognome"));
-    this.employees.setItems(dataEmployees);
+    this.employees.setItems(new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.MATTINA));
 
     checkEmployee.setCellValueFactory(
         new PropertyValueFactory<CheckDataModel, String>("employee"));
@@ -134,19 +143,13 @@ public class CheckCtrl {
   	this.turno++;
 
   	if(turno==1) {
-    	/*
-    	 * TODO: aggiornare i dati dal database, replicando la logica nel costruttore, però per il turno pomeridiano.
-    	 *
-    	 */
+    	this.employees.setItems(empP);
 
   		this.workshiftLabel.setText("Pomeriggio");
   		this.check1 = FXCollections.observableArrayList(dataCheck);
   	} else if(turno==2) {
-  		/*
-  		 *
-  		 * TODO: aggiornare i dati dal database, con il turno serale.
-  		 */
-  		this.workshiftLabel.setText("Sera");
+    	this.employees.setItems(empS);
+    	this.workshiftLabel.setText("Sera");
   		this.nextButton.setText("Fine");
   		this.check2 = FXCollections.observableArrayList(dataCheck);
   	} else {

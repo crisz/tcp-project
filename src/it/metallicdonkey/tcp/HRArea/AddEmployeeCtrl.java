@@ -2,14 +2,18 @@ package it.metallicdonkey.tcp.HRArea;
 
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.db.DBHelper;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.Employee;
+import it.metallicdonkey.tcp.models.StatusEmployee;
+import it.metallicdonkey.tcp.models.Workshift;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -42,31 +46,62 @@ public class AddEmployeeCtrl {
 	@FXML
 	private Spinner<String> ruolo;
 	@FXML
+	private Spinner<String> turno;
+	@FXML
 	private Button inviaButton;
 	private EmployeeDataModel employee;
 	@FXML
 	public void initialize() {
 		// Init entries for the role spinner
 		String[] rolesEntries = {"Autista" ,"Addetto agli impiegati" , "Addetto ai mezzi" ,"Impiegato amministrativo" , "Impiegato"};
+		String[] workshiftEntries = {"Mattina", "Pomeriggio", "Sera"};
 		ObservableList<String> roles = FXCollections.observableArrayList(rolesEntries);
+		ObservableList<String> workshifts = FXCollections.observableArrayList(workshiftEntries);
 		
 		SpinnerValueFactory<String> valueFactory = new SpinnerValueFactory.ListSpinnerValueFactory<String>(roles);
+		SpinnerValueFactory<String> valueFactory2 = new SpinnerValueFactory.ListSpinnerValueFactory<String>(workshifts);
+		
+		
 		ruolo.setValueFactory(valueFactory);
+		turno.setValueFactory(valueFactory2);
 		
 		// Default value
 		ruolo.getValueFactory().setValue(rolesEntries[0]);
+		turno.getValueFactory().setValue(workshiftEntries[0]);
 		
 	}
 	@FXML
 	private void submitEmployee() {
+		System.out.println(turno.getValue());
 		Alert error = check();
 		if (error != null) {
 			error.showAndWait();
 		} else {
-			/*
-			 * TODO: Sostituire questo codice con l'inserimento dell'impiegato nel database.
-			 * Completare l'operazione con un Alert di successo o fallimento.
-			 */
+			try {
+				DBHelper.getInstance().insertEmployee(getNewEmployee());
+//				Alert alert = new Alert(AlertType.NONE);
+//		    alert.initOwner(mainApp.getPrimaryStage());
+//		    alert.setTitle("Avviso");
+//		    alert.setHeaderText("Inserimento avvenuto con successo!");
+//		    alert.showAndWait();
+				
+		    matricola.setText("");
+		    nome.setText("");
+		    cognome.setText("");
+		    email.setText("");
+		    password.setText("");
+		    indirizzo.setText("");
+		    datanascita.setValue(LocalDate.of(1900, 1, 1));;
+		    stipendio.setText("");
+		    
+			} catch (SQLException e) {
+				Alert alert = new Alert(AlertType.WARNING);
+		    alert.initOwner(mainApp.getPrimaryStage());
+		    alert.setTitle("Avviso");
+		    alert.setHeaderText("Inserimento fallito!");
+		    alert.showAndWait();
+		    e.printStackTrace();
+			}
 			String result = "L'impiegato con matricola " + matricola.getText() + " é stato inserito con successo";
 			System.out.println(result);
 		}
@@ -87,6 +122,7 @@ public class AddEmployeeCtrl {
 		e.setSalary(Double.parseDouble(stipendio.getText()));
 		e.setEmail(email.getText());
 		e.setRole(Role.valueOf(this.ruolo.getValue().replace(" ", "_")));
+		e.setWorkshift(Workshift.valueOf(this.turno.getValue().toUpperCase()));
 		return e;
 	}
 	
