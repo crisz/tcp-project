@@ -1,25 +1,25 @@
 package it.metallicdonkey.tcp.models;
 
 public class Stop {
-	private String adress;
+	private String address;
 
-	public String getAdress() {
-		return adress;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
-	
-	public Stop(String adress) {
-		this.setAdress(adress);
+
+	public Stop(String address) {
+		this.setAddress(address);
 	}
-	
+
 	public Stop() {
 		this(null);
 	}
-	
+
 	public String toString() {
-		return adress;
+		return address;
 	}
 }

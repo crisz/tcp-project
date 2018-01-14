@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
-
 import java.sql.PreparedStatement;
 
+import it.metallicdonkey.tcp.administrativeArea.LineDataModel;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.*;
 import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;
@@ -18,11 +18,11 @@ import javafx.collections.ObservableList;
 public class DBHelper {
 	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
 	private static DBHelper instance;
-	
+
 	private DBHelper() throws SQLException {
 		dbm.connect();
 	}
-	
+
 	public static DBHelper getInstance() throws SQLException {
 		if(instance != null) {
 			return instance;
@@ -30,7 +30,7 @@ public class DBHelper {
 		instance = new DBHelper();
 		return instance;
 	}
-	
+
 	public static ArrayList<Employee> getAllEmployees(String clause){
 		ArrayList<Employee> employees = new ArrayList<>();
 		try {
@@ -54,7 +54,7 @@ public class DBHelper {
 				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
 				e.setRole(Role.valueOf(result.getString("Role")));
 				e.setWorkshift(Workshift.valueOf(result.getString("Workshift")));
-				employees.add(e);				
+				employees.add(e);
 			}
 		}
 		catch(SQLException exc) {
@@ -62,11 +62,11 @@ public class DBHelper {
 		}
 		return employees;
 	}
-	
+
 	public static ArrayList<Employee> getAllEmployees(){
 		ArrayList<Employee> employees = new ArrayList<>();
 		try {
-			
+
 			dbm.executeQuery("SELECT * FROM employee");
 			// verify if the query returned an empty table
 //			if(!dbm.getResultSet().next()) {
@@ -87,7 +87,7 @@ public class DBHelper {
 				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
 				e.setRole(Role.valueOf(result.getString("Role")));
 				e.setWorkshift(Workshift.valueOf(result.getString("Workshift")));
-				employees.add(e);					
+				employees.add(e);
 			}
 		}
 		catch(SQLException exc) {
@@ -115,8 +115,8 @@ public class DBHelper {
 
 		// execute the preparedstatement
 		preparedStmt.execute();
-		
-		
+
+
 	}
 
 	public ObservableList<VehicleDataModel> getAllVehicles() {
@@ -147,6 +147,28 @@ public class DBHelper {
 		ObservableList<VehicleDataModel> dataVehicles = FXCollections.observableArrayList(vehicles);
 		return dataVehicles;
 	}
+	public ObservableList<VehicleDataModel> getAllVehicles(String clause) {
+		ArrayList<VehicleDataModel> vehicles = new ArrayList<>();
+		try {
+			dbm.executeQuery("SELECT * FROM vehicle WHERE " + clause);
+			ResultSet result = dbm.getResultSet();
+			result.beforeFirst();
+			while(result.next()) {
+				Vehicle v = new Vehicle();
+				v.setId(result.getString("idVehicle"));
+				v.setPlate(result.getString("Plate"));
+				v.setPlacesForDisable(result.getInt("PlacesForDisabled"));
+				v.setSeats(result.getInt("Seats"));
+				v.setStandingPlaces(result.getInt("StandingSeats"));
+				v.setStatus(StatusVehicle.valueOf(result.getString("Status")));
+				vehicles.add(new VehicleDataModel(v, "In circolazione"));
+			}
+		} catch(SQLException exc) {
+			exc.printStackTrace();
+		}
+		ObservableList<VehicleDataModel> dataVehicles = FXCollections.observableArrayList(vehicles);
+		return dataVehicles;
+	}
 
 	public void insertVehicle(Vehicle v) throws SQLException {
     // the mysql insert statement
@@ -165,5 +187,70 @@ public class DBHelper {
 
     // execute the preparedstatement
     preparedStmt.execute();
+	}
+	// bisogna vedere come identificare un capolinea rispetto alle normali fermate
+	public Stop getTerminal(Line line, boolean first) {
+		Stop stop = new Stop();
+		try {
+			if(first == true) {
+				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, lines_has_stop ls, line l " +
+						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
+						" AND l.idLine=ls.Line_idLine AND ls.firstTerminal=TRUE");
+			} else {
+				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, lines_has_stop ls, line l " +
+						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
+						" AND l.idLine=ls.Line_idLine AND ls.endTerminal=TRUE");
+			}
+			ResultSet result = dbm.getResultSet();
+			stop.setAddress(result.getString("Address"));
+		} catch(SQLException exc) {
+			exc.printStackTrace();
+		}
+		return stop;
+	}
+	public ArrayList<Stop> getStops(Line line, boolean going) {
+		ArrayList<Stop> stops = new ArrayList<>();
+		try {
+			if(going == true) {
+				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, lines_has_stop ls, line l " +
+						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
+						" AND l.idLine=ls.Line_idLine AND ls.goingStop=TRUE");
+			} else {
+				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, lines_has_stop ls, line l " +
+						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
+						" AND l.idLine=ls.Line_idLine AND ls.returnStop=TRUE");
+			}
+			ResultSet resultSet = dbm.getResultSet();
+			resultSet.beforeFirst();
+			while(resultSet.next()) {
+				Stop stop = new Stop();
+				stop.setAddress(resultSet.getString("Address"));
+				stops.add(stop);
+			}
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+		return stops;
+	}
+	public ObservableList<LineDataModel> getAllLines() {
+		ArrayList<LineDataModel> lines = new ArrayList<>();
+		try {
+			dbm.executeQuery("SELECT * FROM line");
+			ResultSet resultSet = dbm.getResultSet();
+			resultSet.beforeFirst();
+			while(resultSet.next()) {
+				Line line = new Line();
+				line.setName(resultSet.getString("idLine"));
+				line.setStartTerminal(this.getTerminal(line, true));
+				line.setEndTerminal(this.getTerminal(line, false));
+				line.setGoingStops(this.getStops(line, true));
+				line.setReturnStops(this.getStops(line, false));
+				lines.add(new LineDataModel(line));
+			}
+		} catch(SQLException exc) {
+			exc.printStackTrace();
+		}
+		ObservableList<LineDataModel> dataLines = FXCollections.observableArrayList();
+		return dataLines;
 	}
 }
