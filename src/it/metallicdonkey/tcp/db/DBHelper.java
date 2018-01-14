@@ -7,6 +7,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
+import java.sql.PreparedStatement;
+
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.*;
 import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;
@@ -34,12 +36,12 @@ public class DBHelper {
 		try {
 			dbm.executeQuery("SELECT * FROM employee WHERE "+clause);
 			// verify if the query returned an empty table
-			if(!dbm.getResultSet().next()) {
-				return null;
-			}
+//			if(!dbm.getResultSet().next()) {
+//				return null;
+//			}
 			// if the query table returned contains something
 			ResultSet result = dbm.getResultSet();
-			result.beforeFirst();
+//			result.beforeFirst();
 			while(result.next()) {
 				Employee e= new Employee();
 				e.setId(result.getString("idEmployee"));
@@ -62,18 +64,59 @@ public class DBHelper {
 	}
 	
 	public static ArrayList<Employee> getAllEmployees(){
-		return getAllEmployees("TRUE");
+		ArrayList<Employee> employees = new ArrayList<>();
+		try {
+			
+			dbm.executeQuery("SELECT * FROM employee");
+			// verify if the query returned an empty table
+//			if(!dbm.getResultSet().next()) {
+//				return null;
+//			}
+			// if the query table returned contains something
+			ResultSet result = dbm.getResultSet();
+//			result.beforeFirst();
+			while(dbm.getResultSet().next()) {
+				Employee e= new Employee();
+				e.setId(result.getString("idEmployee"));
+				e.setFirstName(result.getString("First Name"));
+				e.setLastName(result.getString("Last Name"));
+				e.setBirthDate(result.getDate("BirthDate").toLocalDate());
+				e.setEmail(result.getString("Email"));
+				e.setAddress(result.getString("Address"));
+				e.setSalary(result.getDouble("Salary"));
+				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
+				e.setRole(Role.valueOf(result.getString("Role")));
+				e.setWorkshift(Workshift.valueOf(result.getString("Workshift")));
+				employees.add(e);					
+			}
+		}
+		catch(SQLException exc) {
+			exc.printStackTrace();
+		}
+		return employees;
 	}
 
-	public static void insertEmployee(Employee e) {
-		String id = e.getId();
-		String fristName = e.getFirstName();
-		String lastName = e.getLastName();
-		Date birthDate = Date.from(e.getBirthDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
-		String email = e.getEmail();
-		String address = e.getAddress();
-		double salary = e.getSalary();
-		String status = e.getStatus().name();
+	public static void insertEmployee(Employee e) throws SQLException{
+		String query = " INSERT INTO tcp.employee ()" + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+		// create the mysql insert preparedstatement
+		PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
+		preparedStmt.setString (1, e.getId());
+		preparedStmt.setString (2, e.getFirstName());
+		preparedStmt.setString (3, e.getLastName());
+		preparedStmt.setString (4, e.getBirthDate().getYear()+"-"+e.getBirthDate().getMonthValue()+"-"+e.getBirthDate().getDayOfMonth());
+		preparedStmt.setString (5, e.getWorkshift().name());
+		preparedStmt.setDouble (6, e.getSalary());
+		preparedStmt.setString (7, e.getEmail());
+		preparedStmt.setString (8, e.getRole().name());
+		preparedStmt.setString (9, e.getStatus().name());
+		preparedStmt.setString (10, e.getAddress());
+		preparedStmt.setString (11, "TCP_password");
+
+		// execute the preparedstatement
+		preparedStmt.execute();
+		
+		
 	}
 
 	public ObservableList<VehicleDataModel> getAllVehicles() {

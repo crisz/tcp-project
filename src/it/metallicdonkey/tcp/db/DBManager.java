@@ -29,7 +29,7 @@ public class DBManager {
     public Connection getConnection() {
     	return connection;
     }
-
+    
     public DBManager(String host, String uname, String password, String db) {
         loadMySQLDriver();
         this.server = host;
