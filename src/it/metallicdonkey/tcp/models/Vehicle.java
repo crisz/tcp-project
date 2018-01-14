@@ -10,16 +10,18 @@ public class Vehicle {
 	private int standingPlaces;
 	private int placesForDisable;
 	private StatusVehicle status;
+	private String brand;
 	
 	public Vehicle() {
 		
 	}
 	
-	public Vehicle(String id, String plate, int seats, int standingPlaces, int placesForDisable, StatusVehicle status) {
+	public Vehicle(String id, String plate, int seats, int standingPlaces, int placesForDisable, String brand, StatusVehicle status) {
 		this.setId(id);
 		this.setPlate(plate);
 		this.setSeats(seats);
 		this.setStandingPlaces(standingPlaces);
+		this.setBrand(brand);
 		this.setPlacesForDisable(placesForDisable);
 	}
 	public int getStandingPlaces() {
@@ -57,5 +59,13 @@ public class Vehicle {
 	}
 	public void setStatus(StatusVehicle status) {
 		this.status = status;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 }

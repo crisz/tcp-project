@@ -18,11 +18,13 @@
             <TextField fx:id="matricola" layoutX="218.0" layoutY="98.0" />
             <TextField fx:id="postiASedere" layoutX="218.0" layoutY="158.0" />
             <TextField fx:id="postiDisabili" layoutX="218.0" layoutY="214.0" />
-            <Label layoutX="522.0" layoutY="102.0" text="Targa" />
-            <TextField fx:id="targa" layoutX="627.0" layoutY="98.0" />
-            <TextField fx:id="postiInPiedi" layoutX="627.0" layoutY="158.0" />
-            <Label layoutX="503.0" layoutY="162.0" text="Posti in piedi" />
+            <Label layoutX="521.0" layoutY="154.0" text="Targa" />
+            <TextField fx:id="targa" layoutX="627.0" layoutY="158.0" />
+            <TextField fx:id="postiInPiedi" layoutX="627.0" layoutY="214.0" />
+            <Label layoutX="501.0" layoutY="218.0" text="Posti in piedi" />
             <Button fx:id="inviaButton" layoutX="415.0" layoutY="460.0" mnemonicParsing="false" onAction="#submitVehicle" text="Invia" />
+            <Label layoutX="513.0" layoutY="102.0" text="Modello" />
+            <TextField fx:id="modello" layoutX="627.0" layoutY="98.0" />
          </children>
       </Pane>
    </children>

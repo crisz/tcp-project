@@ -58,6 +58,8 @@ public class ListSearchVehicleCtrl {
 	
 	public ListSearchVehicleCtrl() throws SQLException {
 		this.data = DBHelper.getInstance().getAllVehicles();
+		System.out.println("Data loaded");
+		System.out.println(data);
 	}
 	@FXML
 	private void initialize() {

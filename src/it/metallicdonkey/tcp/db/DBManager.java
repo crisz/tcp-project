@@ -25,9 +25,9 @@ public class DBManager {
     public void log(Level level, String msg) {
         LOG.log(level, msg);
     }
-
+    
     public Connection getConnection() {
-    	return this.connection;
+    	return connection;
     }
     
     public DBManager(String host, String uname, String password, String db) {
@@ -112,7 +112,7 @@ public class DBManager {
             this.statement = this.connection.createStatement();
             this.resultSet = this.statement.executeQuery(query);
             return this.resultSet;
-        } 
+        }
         catch (SQLException ex) {
         	Alert alert = new Alert(AlertType.WARNING);
           alert.initOwner(null);
