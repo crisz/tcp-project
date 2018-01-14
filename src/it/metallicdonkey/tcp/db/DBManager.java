@@ -75,10 +75,22 @@ public class DBManager {
         this.database = database;
     }
 
-    public boolean connect() throws SQLException{
+    public void connect() {
         String driverString = "jdbc:mysql://" + server + "/" + database + "?user=" + username + "&password=" + psw;
-            this.connection = DriverManager.getConnection(driverString);
-            return true; 
+        try {    
+        	this.connection = DriverManager.getConnection(driverString);
+            return;
+        }
+        catch (SQLException ex) {
+        	Alert alert = new Alert(AlertType.WARNING);
+          alert.initOwner(null);
+          alert.setTitle("Connection Information");
+          alert.setHeaderText("Connessione Non Disponibile");
+          alert.setContentText("Controlla la connessione e riprova.");
+          alert.showAndWait();
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }        
     }
 
     public boolean disconnect() {
@@ -96,12 +108,13 @@ public class DBManager {
             this.statement = this.connection.createStatement();
             this.resultSet = this.statement.executeQuery(query);
             return this.resultSet;
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) {
         	Alert alert = new Alert(AlertType.WARNING);
           alert.initOwner(null);
-          alert.setTitle("Login information");
-          alert.setHeaderText("Login fallito!");
-          alert.setContentText("Controlla i dati inseriti e riprova.");
+          alert.setTitle("Connection Information");
+          alert.setHeaderText("Connessione Non Disponibile");
+          alert.setContentText("Controlla la connessione e riprova.");
           alert.showAndWait();
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
