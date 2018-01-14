@@ -1,4 +1,5 @@
 package it.metallicdonkey.tcp.db;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -27,28 +28,25 @@ public class DBHelper {
 	public static ArrayList<Employee> getAllEmployees(String clause){
 		ArrayList<Employee> employees = new ArrayList<>();
 		try {
-
+			dbm.executeQuery("SELECT * FROM employee WHERE "+clause);
+			// verify if the query returned an empty table
 			if(!dbm.getResultSet().next()) {
 				return null;
 			}
-			
-			dbm.executeQuery("SELECT * FROM employee WHERE "+clause);
-			while(dbm.getResultSet().next()) {
+			// if the query table returned contains something
+			ResultSet result = dbm.getResultSet();
+			while(result.next()) {
 				Employee e= new Employee();
-				e.setId(dbm.getResultSet().getString("idEmployee"));
-				e.setFirstName(dbm.getResultSet().getString("Name"));
-				e.setLastName(dbm.getResultSet().getString("Surname"));
-				LocalDate date = dbm.getResultSet().getDate("BirthDate").toLocalDate();
-				e.setBirthDate(date);
-				e.setEmail(dbm.getResultSet().getString("MailAddress"));
-				e.setAddress(dbm.getResultSet().getString("Address"));
-				e.setSalary(dbm.getResultSet().getDouble("GrossSalary"));
-				String stringa = dbm.getResultSet().getString("Status");
-				e.setStatus(StatusEmployee.valueOf(stringa));
-				stringa = dbm.getResultSet().getString("Role");
-				e.setRole(Role.valueOf(stringa));
-				dbm.getResultSet().getString("Workshift");
-				e.setWorkshift(Workshift.valueOf(stringa));
+				e.setId(result.getString("idEmployee"));
+				e.setFirstName(result.getString("First Name"));
+				e.setLastName(result.getString("Last Name"));
+				e.setBirthDate(result.getDate("BirthDate").toLocalDate());
+				e.setEmail(result.getString("Email"));
+				e.setAddress(result.getString("Address"));
+				e.setSalary(result.getDouble("Salary"));
+				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
+				e.setRole(Role.valueOf(result.getString("Role")));
+				e.setWorkshift(Workshift.valueOf(result.getString("Workshift")));
 				employees.add(e);				
 			}
 		}
@@ -61,27 +59,27 @@ public class DBHelper {
 	public static ArrayList<Employee> getAllEmployees(){
 		ArrayList<Employee> employees = new ArrayList<>();
 		try {
+			
 			dbm.executeQuery("SELECT * FROM employee");
+			// verify if the query returned an empty table
 			if(!dbm.getResultSet().next()) {
 				return null;
 			}
+			// if the query table returned contains something
+			ResultSet result = dbm.getResultSet();
 			while(dbm.getResultSet().next()) {
 				Employee e= new Employee();
-				e.setId(dbm.getResultSet().getString("idEmployee"));
-				e.setFirstName(dbm.getResultSet().getString("Name"));
-				e.setLastName(dbm.getResultSet().getString("Surname"));
-				LocalDate date = dbm.getResultSet().getDate("BirthDate").toLocalDate();
-				e.setBirthDate(date);
-				e.setEmail(dbm.getResultSet().getString("MailAddress"));
-				e.setAddress(dbm.getResultSet().getString("Address"));
-				e.setSalary(dbm.getResultSet().getDouble("GrossSalary"));
-				String stringa = dbm.getResultSet().getString("Status");
-				e.setStatus(StatusEmployee.valueOf(stringa));
-				stringa = dbm.getResultSet().getString("Role");
-				e.setRole(Role.valueOf(stringa));
-				dbm.getResultSet().getString("Workshift");
-				e.setWorkshift(Workshift.valueOf(stringa));
-				employees.add(e);				
+				e.setId(result.getString("idEmployee"));
+				e.setFirstName(result.getString("First Name"));
+				e.setLastName(result.getString("Last Name"));
+				e.setBirthDate(result.getDate("BirthDate").toLocalDate());
+				e.setEmail(result.getString("Email"));
+				e.setAddress(result.getString("Address"));
+				e.setSalary(result.getDouble("Salary"));
+				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
+				e.setRole(Role.valueOf(result.getString("Role")));
+				e.setWorkshift(Workshift.valueOf(result.getString("Workshift")));
+				employees.add(e);					
 			}
 		}
 		catch(SQLException exc) {
@@ -91,7 +89,7 @@ public class DBHelper {
 	}
 
 	// To Do 
-	/*public static void insertEmployee(Employee e) {
+	public static void insertEmployee(Employee e) {
 		String id = e.getId();
 		String fristName = e.getFirstName();
 		String lastName = e.getLastName();
@@ -99,6 +97,6 @@ public class DBHelper {
 		String email = e.getEmail();
 		String address = e.getAddress();
 		double salary = e.getSalary();
-		String status = e 
-	}*/
+		String status = e.getStatus().name();
+	}
 }

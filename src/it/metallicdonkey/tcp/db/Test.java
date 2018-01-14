@@ -8,10 +8,14 @@ public class Test {
 		DBHelper db = DBHelper.getInstance();
 		ArrayList<Employee> employees = new ArrayList<>();
 		Iterator<Employee> it;
+		Employee e = new Employee();
+		e.setStatus(StatusEmployee.AVAILABLE);
 		
-		if(db.getAllEmployees() == null) {
+		System.out.println(e.getStatus().name());
+		
+		/*if(db.getAllEmployees() == null) {
 			System.out.println("No Data");
-		}
+		}*/
 		
 	}
 }
