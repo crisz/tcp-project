@@ -8,16 +8,19 @@ import java.util.Date;
 
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.*;
+import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class DBHelper {
 	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
 	private static DBHelper instance;
 	
-	private DBHelper() {
+	private DBHelper() throws SQLException {
 		dbm.connect();
 	}
 	
-	public static DBHelper getInstance() {
+	public static DBHelper getInstance() throws SQLException {
 		if(instance != null) {
 			return instance;
 		}
@@ -35,6 +38,7 @@ public class DBHelper {
 			}
 			// if the query table returned contains something
 			ResultSet result = dbm.getResultSet();
+			result.beforeFirst();
 			while(result.next()) {
 				Employee e= new Employee();
 				e.setId(result.getString("idEmployee"));
@@ -60,7 +64,6 @@ public class DBHelper {
 		return getAllEmployees("TRUE");
 	}
 
-	// To Do 
 	public static void insertEmployee(Employee e) {
 		String id = e.getId();
 		String fristName = e.getFirstName();
@@ -70,5 +73,34 @@ public class DBHelper {
 		String address = e.getAddress();
 		double salary = e.getSalary();
 		String status = e.getStatus().name();
+	}
+
+	public ObservableList<VehicleDataModel> getAllVehicles() {
+		ArrayList<VehicleDataModel> vehicles= new ArrayList<>();
+		try {
+			dbm.executeQuery("SELECT * FROM vehicle ");
+			// verify if the query returned an empty table
+			if(!dbm.getResultSet().next()) {
+				return null;
+			}
+			// if the query table returned contains something
+			ResultSet result = dbm.getResultSet();
+			result.beforeFirst();
+			while(result.next()) {
+				Vehicle v= new Vehicle();
+				v.setId(result.getString("idVehicle"));
+				v.setPlate(result.getString("Plate"));
+				v.setPlacesForDisable(result.getInt("PlacesForDisabled"));
+				v.setSeats(result.getInt("Seats"));
+				v.setStandingPlaces(result.getInt("StandingSeats"));
+				v.setStatus(StatusVehicle.valueOf(result.getString("Status")));
+				vehicles.add(new VehicleDataModel(v, "In circolazione"));
+			}
+		}
+		catch(SQLException exc) {
+			exc.printStackTrace();
+		}
+		ObservableList<VehicleDataModel> dataVehicles = FXCollections.observableArrayList(vehicles);
+		return dataVehicles;
 	}
 }

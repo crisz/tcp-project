@@ -1,16 +1,11 @@
 package it.metallicdonkey.tcp.HRArea;
 
 import java.io.IOException;
-
-import org.omg.CORBA.INITIALIZE;
-
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.administrativeArea.AdministrativeAreaCtrl;
 import it.metallicdonkey.tcp.administrativeArea.CheckCtrl;
 import it.metallicdonkey.tcp.administrativeArea.ListSearchLineCtrl;
 import it.metallicdonkey.tcp.employeeArea.PersonalInfoCtrl;
 import it.metallicdonkey.tcp.vehicleArea.AddLineCtrl;
-import it.metallicdonkey.tcp.vehicleArea.AddVehicleCtrl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -128,6 +123,6 @@ public class HRAreaCtrl {
 	}
 	public void setMainApp(App mainApp) {
 		this.mainApp = mainApp;
-		
 	}
+		
 }

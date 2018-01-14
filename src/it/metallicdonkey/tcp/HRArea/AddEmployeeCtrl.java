@@ -3,6 +3,8 @@ package it.metallicdonkey.tcp.HRArea;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.login.Home;
@@ -77,7 +79,7 @@ public class AddEmployeeCtrl {
 	
 	private Employee getNewEmployee() {
 		Employee e = new Employee();
-		e.setFirstName(nome.getText())
+		e.setFirstName(nome.getText());
 		e.setLastName(cognome.getText());
 		e.setBirthDate(datanascita.getValue());
 		e.setAddress(indirizzo.getText());
@@ -117,6 +119,7 @@ public class AddEmployeeCtrl {
 	    	alert.setContentText("Inserisci un indirizzo e-mail");
 	    	return alert;
 	    }
+	    
 	    // Check password
 	    if (password.getText().equals("")) {
 	    	alert.setContentText("Inserisci una password");
@@ -138,6 +141,15 @@ public class AddEmployeeCtrl {
 	    	return alert;
 	    }
 	    else {
+	    	 //Check email pattern
+	    	String regex = "^[\\w\\d\\.]+@[\\w\\.]+\\.\\w+$";
+		    Pattern p = Pattern.compile(regex);
+		    Matcher m = p.matcher(email.getText());
+		    if(! m.matches()) {
+		    	alert.setContentText("Inserisci un indirizzo email valido");
+		    	return alert;
+		    }
+		    // Numberical check for stipendio
 	    	try {
 	    		double d = Double.parseDouble(stipendio.getText());
 	    	}

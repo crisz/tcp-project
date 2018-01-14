@@ -7,6 +7,9 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class DBManager {
     private String username;
     private String psw;
@@ -72,15 +75,22 @@ public class DBManager {
         this.database = database;
     }
 
-    public boolean connect() {
+    public void connect() {
         String driverString = "jdbc:mysql://" + server + "/" + database + "?user=" + username + "&password=" + psw;
-        try {
-            this.connection = DriverManager.getConnection(driverString);
-            return true;
-        } catch (SQLException ex) {
-            LOG.log(Level.SEVERE, null, ex);
-            return false;
+        try {    
+        	this.connection = DriverManager.getConnection(driverString);
+            return;
         }
+        catch (SQLException ex) {
+        	Alert alert = new Alert(AlertType.WARNING);
+          alert.initOwner(null);
+          alert.setTitle("Connection Information");
+          alert.setHeaderText("Connessione Non Disponibile");
+          alert.setContentText("Controlla la connessione e riprova.");
+          alert.showAndWait();
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }        
     }
 
     public boolean disconnect() {
@@ -98,7 +108,14 @@ public class DBManager {
             this.statement = this.connection.createStatement();
             this.resultSet = this.statement.executeQuery(query);
             return this.resultSet;
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) {
+        	Alert alert = new Alert(AlertType.WARNING);
+          alert.initOwner(null);
+          alert.setTitle("Connection Information");
+          alert.setHeaderText("Connessione Non Disponibile");
+          alert.setContentText("Controlla la connessione e riprova.");
+          alert.showAndWait();
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
