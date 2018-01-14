@@ -3,6 +3,7 @@ package it.metallicdonkey.tcp.login;
 import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.HRArea.HRAreaCtrl;
 import it.metallicdonkey.tcp.administrativeArea.AdministrativeAreaCtrl;
 import it.metallicdonkey.tcp.vehicleArea.VehicleAreaCtrl;
 import javafx.fxml.FXMLLoader;
@@ -51,6 +52,14 @@ public class Home {
 	      vehicleCtrl.setMainApp(mainApp);
 			break;
 			
+			case Addetto_agli_impiegati:;
+		      loader.setLocation(App.class.getResource("HRArea/HRAreaScreen.fxml"));
+		      AnchorPane anchorPane = (AnchorPane) loader.load();
+		  		scene = new Scene(anchorPane);
+		      mainApp.getPrimaryStage().setScene(scene);
+		      HRAreaCtrl ctrl = loader.getController();
+		      ctrl.setMainApp(mainApp);
+				break;
 			default:
 				System.out.println("No such role");
 			break;  
