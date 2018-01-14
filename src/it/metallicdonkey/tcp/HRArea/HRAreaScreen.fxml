@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.HRArea.AddEmployeeCtrl">
+   <children>
+      <Pane prefHeight="500.0" prefWidth="870.0" style="-fx-background-color: #d3d8d8;">
+         <children>
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="35.0" layoutY="60.0" mnemonicParsing="false" onAction="#showPersonalInfo" prefHeight="152.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Visualizza informazioni&#13;personali" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+               <graphic>
+                  <ImageView fitHeight="111.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/personalInfo.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></Button>
+            <Label alignment="CENTER" layoutX="62.0" layoutY="23.0" text="Addetto al personale" />
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="240.0" layoutY="60.0" mnemonicParsing="false" onAction="#showAddEmployee" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Inserisci impiegato" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="445.0" layoutY="60.0" mnemonicParsing="false" onAction="#showSearchVehicle" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Lista e ricerca impiegati" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="38.0" layoutY="250.0" mnemonicParsing="false" onAction="#showPaySalary" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Paga stipendi" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="240.0" layoutY="250.0" mnemonicParsing="false" onAction="#showAddLine" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Inserisci linea" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+               <graphic>
+                  <ImageView fitHeight="68.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/al.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+            </Button>
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="445.0" layoutY="250.0" mnemonicParsing="false" onAction="#showSearchLine" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Lista e ricerca linee" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+               <graphic>
+                  <ImageView fitHeight="111.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/lsl.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="656.0" layoutY="60.0" mnemonicParsing="false" onAction="#showCheck" prefHeight="354.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Check e abbinamenti" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+               <padding>
+                  <Insets bottom="100.0" />
+               </padding>
+            </Button>
+            <ImageView fitHeight="108.0" fitWidth="124.0" layoutX="269.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/ai.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="90.0" fitWidth="101.0" layoutX="80.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/ps.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="106.0" fitWidth="111.0" layoutX="691.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/c.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="90.0" fitWidth="164.0" layoutX="457.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/lsi.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
