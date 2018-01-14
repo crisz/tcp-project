@@ -1,9 +1,11 @@
 package it.metallicdonkey.tcp.administrativeArea;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.HRArea.EmployeeDataModel;
+import it.metallicdonkey.tcp.db.DBHelper;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;
 import javafx.collections.FXCollections;
@@ -60,7 +62,7 @@ public class CheckCtrl {
 	ObservableList<CheckDataModel> dataCheck;
 	
 	
-	public CheckCtrl() {
+	public CheckCtrl() throws SQLException {
 	// TODO: Sostituire i 4 ObservabileList qua sottocon i dati scaricati dal db (check giorno precedente + guasti e assenti)
 		
 		this.dataLines = FXCollections.observableArrayList(
@@ -71,13 +73,8 @@ public class CheckCtrl {
 		    new LineDataModel("534", "Piazzale Giotto", "Mondello")
 		);
 		
-		this.dataVehicles = FXCollections.observableArrayList(
-		    new VehicleDataModel("A320", 30, 140, 1, "214"),
-		    new VehicleDataModel("B340", 20, 60, 1, "In circolazione"),
-		    new VehicleDataModel("C120", 20, 70, 0, "041"),
-		    new VehicleDataModel("A120", 30, 10, 0, "Guasto"),
-		    new VehicleDataModel("A221", 50, 10, 2, "In circolazione")
-		);
+		this.dataVehicles = DBHelper.getInstance().getAllVehicles();
+		
 		this.dataEmployees = FXCollections.observableArrayList(
 		    new EmployeeDataModel("Pippo", "Vattelappesca"),
 		    new EmployeeDataModel("Giovanni", "Muciaccia"),
@@ -90,7 +87,7 @@ public class CheckCtrl {
 		this.dataCheck = FXCollections.observableArrayList(
 		    new CheckDataModel(
 		    		new EmployeeDataModel("Pietro","Gambadilegno"), 
-		    		new VehicleDataModel("A320", 40, 0, 0, "210"), 
+		    		DBHelper.getInstance().getAllVehicles().get(0) ,
 		    		new LineDataModel("806","Politeama","Mondello")
 		    	)
 		);

@@ -1,9 +1,11 @@
 package it.metallicdonkey.tcp.vehicleArea;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.db.DBHelper;
 import it.metallicdonkey.tcp.login.Home;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,14 +54,11 @@ public class ListSearchVehicleCtrl {
 
 	public static VehicleDataModel selectedVehicle;
 
-	final ObservableList<VehicleDataModel> data = FXCollections.observableArrayList(
-			new VehicleDataModel("A320", 30, 140, 1, "214"),
-			new VehicleDataModel("B340", 20, 60, 1, "In circolazione"),
-			new VehicleDataModel("C120", 20, 70, 0, "041"),
-			new VehicleDataModel("A120", 30, 10, 0, "Guasto"),
-			new VehicleDataModel("A221", 50, 10, 2, "In circolazione")
-			);
-
+	ObservableList<VehicleDataModel> data;
+	
+	public ListSearchVehicleCtrl() throws SQLException {
+		this.data = DBHelper.getInstance().getAllVehicles();
+	}
 	@FXML
 	private void initialize() {
 		// Initialization data
