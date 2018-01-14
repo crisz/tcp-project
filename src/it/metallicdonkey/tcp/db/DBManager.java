@@ -25,6 +25,10 @@ public class DBManager {
     public void log(Level level, String msg) {
         LOG.log(level, msg);
     }
+    
+    public Connection getConnection() {
+    	return connection;
+    }
 
     public DBManager(String host, String uname, String password, String db) {
         loadMySQLDriver();
@@ -75,10 +79,22 @@ public class DBManager {
         this.database = database;
     }
 
-    public boolean connect() throws SQLException{
+    public boolean connect() {
+    	try {
         String driverString = "jdbc:mysql://" + server + "/" + database + "?user=" + username + "&password=" + psw;
             this.connection = DriverManager.getConnection(driverString);
-            return true; 
+            System.out.println("!CONNESSO");
+            return true;
+    	} catch (SQLException e) {
+      	System.out.println("ciaoo!");
+      	Alert alert = new Alert(AlertType.WARNING);
+        alert.initOwner(null);
+        alert.setTitle("Login information");
+        alert.setHeaderText("Login fallito!");
+        alert.setContentText("Controlla i dati inseriti e riprova.");
+        alert.showAndWait();
+    			return false;
+    	}
     }
 
     public boolean disconnect() {
@@ -97,6 +113,7 @@ public class DBManager {
             this.resultSet = this.statement.executeQuery(query);
             return this.resultSet;
         } catch (SQLException ex) {
+        	System.out.println("ciaoo!");
         	Alert alert = new Alert(AlertType.WARNING);
           alert.initOwner(null);
           alert.setTitle("Login information");

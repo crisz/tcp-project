@@ -1,9 +1,13 @@
 package it.metallicdonkey.tcp.vehicleArea;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.db.DBHelper;
 import it.metallicdonkey.tcp.login.Home;
+import it.metallicdonkey.tcp.models.StatusVehicle;
+import it.metallicdonkey.tcp.models.Vehicle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -29,7 +33,11 @@ public class AddVehicleCtrl {
 	private TextField postiInPiedi;
 	
 	@FXML
+	private TextField modello;
+	
+	@FXML
 	private Button inviaButton;
+	
 
 	private VehicleDataModel vehicle;
 
@@ -44,10 +52,14 @@ public class AddVehicleCtrl {
 		if (error != null) {
 			error.showAndWait();
 		} else {
-			/*
-			 * TODO: Sostituire questo codice con l'inserimento del veicolo nel database.
-			 * Completare l'operazione con un Alert di successo o fallimento. 
-			 */
+			Vehicle v = new Vehicle(matricola.getText(), targa.getText(), Integer.parseInt(postiASedere.getText()), 
+															Integer.parseInt(postiInPiedi.getText()), Integer.parseInt(postiDisabili.getText()), modello.getText(), StatusVehicle.AVAILABLE);
+			try {
+				DBHelper.getInstance().insertVehicle(v);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			String result = "Il veicolo " + matricola.getText() + " é stato inserito con successo";
 			System.out.println(result);
 		}
