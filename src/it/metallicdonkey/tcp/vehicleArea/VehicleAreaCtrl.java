@@ -54,6 +54,11 @@ public class VehicleAreaCtrl {
     lsvCtrl.setMainApp(mainApp);
 	  }
   
+  /*
+   * TODO Remove the following showAddLine() because it has to be stored in 
+   *  HRAreaCtrl
+   */
+  
   @FXML
   private void showAddLine() throws IOException {
   	System.out.println("Showing personal info...");

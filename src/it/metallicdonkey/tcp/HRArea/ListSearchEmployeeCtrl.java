@@ -41,11 +41,11 @@ public class ListSearchEmployeeCtrl {
 	private void initialize() {
 		// Initialization data
 		idColumn.setCellValueFactory(
-			new PropertyValueFactory<EmployeeDataModel, String>("Matricola"));
+			new PropertyValueFactory<EmployeeDataModel, String>("id"));
 		firstNameColumn.setCellValueFactory(
-			new PropertyValueFactory<EmployeeDataModel, String>("startTerminal"));
+			new PropertyValueFactory<EmployeeDataModel, String>("firstName"));
 		lastNameColumn.setCellValueFactory(
-			new PropertyValueFactory<EmployeeDataModel, String>("endTerminal"));
+			new PropertyValueFactory<EmployeeDataModel, String>("lastName"));
 		System.out.println(data);
 		// Initialization filter
 		FilteredList<EmployeeDataModel> filteredData = new FilteredList<>(data, p -> true);
@@ -63,6 +63,7 @@ public class ListSearchEmployeeCtrl {
 			});
 		});
 		SortedList<EmployeeDataModel> sortedData = new SortedList<>(filteredData);
+		System.out.println(employees);
 		sortedData.comparatorProperty().bind(employees.comparatorProperty());
 		employees.setItems(sortedData);
 		// Add actions!
@@ -132,7 +133,7 @@ public class ListSearchEmployeeCtrl {
 		Home.getHome(null).goHome(this.mainApp);
 	}
 	public void setMainApp(App mainApp) {
-		this.setMainApp(mainApp);
+		this.mainApp = mainApp;
 	}
 
 }

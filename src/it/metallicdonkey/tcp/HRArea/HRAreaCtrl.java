@@ -50,7 +50,7 @@ public class HRAreaCtrl {
 	@FXML
 	private void showAddLine() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(App.class.getResource("HRArea/AddEmployeeScreen.fxml"));
+		loader.setLocation(App.class.getResource("vehicleArea/AddLineScreen.fxml"));
 		AnchorPane personalInfo = (AnchorPane) loader.load();
 		System.out.println("Resource done!");
 		Scene scene = new Scene(personalInfo);
@@ -61,6 +61,8 @@ public class HRAreaCtrl {
 		AddLineCtrl lsvCtrl = loader.getController();
 		lsvCtrl.setMainApp(mainApp);
 	}
+	
+	
 	@FXML
 	private void showSearchLine() throws IOException {
 		System.out.println("Showing search info line...");
