@@ -1,5 +1,6 @@
 package it.metallicdonkey.tcp.vehicleArea;
 
+import it.metallicdonkey.tcp.models.Vehicle;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -8,20 +9,29 @@ public class VehicleDataModel {
   private final SimpleIntegerProperty seats;
   private final SimpleIntegerProperty sSeats;
   private final SimpleIntegerProperty hSeats;
-  private final SimpleStringProperty location;
+  private final SimpleStringProperty status;
+  private Vehicle vehicle;
+  private SimpleStringProperty location;
   
-  public VehicleDataModel(String id, int seats, int sSeats, int hSeats, String location) {
+  private VehicleDataModel(String id, int seats, int sSeats, int hSeats, String status) {
     this.id = new SimpleStringProperty(id);
     this.seats = new SimpleIntegerProperty(seats);
     this.hSeats = new SimpleIntegerProperty(hSeats);
     this.sSeats = new SimpleIntegerProperty(sSeats);
-    this.location = new SimpleStringProperty(location);
+    this.status = new SimpleStringProperty(status);
+    this.location = null;
   }
-//  public VehicleDataModel(Vehicle v) {
-//  	/** TODO: da implementare */
-//  }
+  public VehicleDataModel(Vehicle v, String location) {
+  	this(v.getId(), v.getSeats(), v.getStandingPlaces(), v.getPlacesForDisable(), v.getStatus().toString());
+  	this.setVehicle(v);
+  	this.location = new SimpleStringProperty(location);
+  }
 
+  
 
+	public String getStatus() {
+		return this.status.get();
+	}
 	
 	public String getEdit() {
 		return "edit";
@@ -69,5 +79,11 @@ public class VehicleDataModel {
 	public void setVLocation(String string) {
 		location.set(string);
 		
+	}
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
 	}
 }

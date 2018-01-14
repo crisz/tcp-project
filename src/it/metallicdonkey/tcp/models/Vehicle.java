@@ -10,6 +10,11 @@ public class Vehicle {
 	private int standingPlaces;
 	private int placesForDisable;
 	private StatusVehicle status;
+	
+	public Vehicle() {
+		
+	}
+	
 	public Vehicle(String id, String plate, int seats, int standingPlaces, int placesForDisable, StatusVehicle status) {
 		this.setId(id);
 		this.setPlate(plate);
@@ -46,5 +51,11 @@ public class Vehicle {
 	}
 	public void setSeats(int seats) {
 		this.seats = seats;
+	}
+	public StatusVehicle getStatus() {
+		return status;
+	}
+	public void setStatus(StatusVehicle status) {
+		this.status = status;
 	}
 }
