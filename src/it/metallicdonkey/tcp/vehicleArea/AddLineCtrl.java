@@ -43,6 +43,9 @@ public class AddLineCtrl {
 	Button addStop;
 	
 	@FXML
+	Button removeStop;
+	
+	@FXML
 	private Button sendButton;
 	
 	@FXML
@@ -56,12 +59,30 @@ public class AddLineCtrl {
 	
 	@FXML
 	private void onAddStopClicked() {
+		// Check for valid text
+		if (newStop.getText().equals("")) {
+			return;
+		}
 		Stop stop = new Stop(newStop.getText());
 		stops.add(stop);
 		stopsList.setItems(stops);
 		
 		// Clean the input field
 		newStop.setText("");
+	}
+	
+	@FXML
+	private void onRemoveStopClicked() {
+		int index = stopsList.getSelectionModel().getSelectedIndex();
+		if(index == -1) {	// No stop is selected
+			// Check first if there are stops
+			if(stops.size() == 0)	return;
+			
+			index = stops.size()-1;  // Select the last stop
+		}
+		// Remove the selected stop from both stops and stopsList
+		stops.remove(index);
+		stopsList.setItems(stops);
 	}
 
 	@FXML

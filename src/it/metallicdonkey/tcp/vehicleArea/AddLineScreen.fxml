@@ -22,6 +22,7 @@
             <Button fx:id="addStop" layoutX="295.0" layoutY="363.0" mnemonicParsing="false" onAction="#onAddStopClicked" text="Aggiungi fermata" />
             <TextField fx:id="newStop" layoutX="107.0" layoutY="363.0" />
             <TextField fx:id="priority" layoutX="651.0" layoutY="58.0" />
+            <Button fx:id="removeStop" layoutX="415.0" layoutY="363.0" mnemonicParsing="false" onAction="#onRemoveStopClicked" text="Rimuovi fermata" />
          </children>
       </Pane>
    </children>
