@@ -60,11 +60,11 @@ public class CheckCtrl {
 	ObservableList<VehicleDataModel> dataVehicles;
 	ObservableList<EmployeeDataModel> dataEmployees;
 	ObservableList<CheckDataModel> dataCheck;
-	
-	
+
+
 	public CheckCtrl() throws SQLException {
 	// TODO: Sostituire i 4 ObservabileList qua sottocon i dati scaricati dal db (check giorno precedente + guasti e assenti)
-		
+
 		this.dataLines = FXCollections.observableArrayList(
 		    new LineDataModel("101", "Stazione Centrale", "Stadio"),
 		    new LineDataModel("102", "Piazzale Giotto", "Stazione Centrale"),
@@ -72,28 +72,28 @@ public class CheckCtrl {
 		    new LineDataModel("108", "Politeama", "Ospedale Civico"),
 		    new LineDataModel("534", "Piazzale Giotto", "Mondello")
 		);
-		
+
 		this.dataVehicles = DBHelper.getInstance().getAllVehicles();
-		
+
 		this.dataEmployees = FXCollections.observableArrayList(
-		    new EmployeeDataModel("Pippo", "Vattelappesca"),
-		    new EmployeeDataModel("Giovanni", "Muciaccia"),
-		    new EmployeeDataModel("Paolo", "Rossi"),
-		    new EmployeeDataModel("Paolino", "Paperino"),
-		    new EmployeeDataModel("Marco", "Verdi"),
-		    new EmployeeDataModel("Luca", "Gialli"),
-		    new EmployeeDataModel("Carlo", "Neri")
+		    new EmployeeDataModel("0643436", "Pippo", "Vattelappesca"),
+		    new EmployeeDataModel("0642156", "Giovanni", "Muciaccia"),
+		    new EmployeeDataModel("0513545", "Paolo", "Rossi"),
+		    new EmployeeDataModel("0642735", "Paolino", "Paperino"),
+		    new EmployeeDataModel("0186512", "Marco", "Verdi"),
+		    new EmployeeDataModel("0153572", "Luca", "Gialli"),
+		    new EmployeeDataModel("0545483", "Carlo", "Neri")
 		);
 		this.dataCheck = FXCollections.observableArrayList(
 		    new CheckDataModel(
-		    		new EmployeeDataModel("Pietro","Gambadilegno"), 
+		    		new EmployeeDataModel("0186121", "Pietro","Gambadilegno"),
 		    		DBHelper.getInstance().getAllVehicles().get(0) ,
 		    		new LineDataModel("806","Politeama","Mondello")
 		    	)
 		);
 	}
-	
-	
+
+
   @FXML
   private void initialize() {
   	// Initialization data
@@ -104,17 +104,17 @@ public class CheckCtrl {
     endTerminalColumn.setCellValueFactory(
         new PropertyValueFactory<LineDataModel, String>("endTerminal"));
   	this.lines.setItems(dataLines);
-  	
+
   	vehicleId.setCellValueFactory(
         new PropertyValueFactory<VehicleDataModel, String>("id"));
     seats.setCellValueFactory(
         new PropertyValueFactory<VehicleDataModel, String>("seats"));
     this.vehicles.setItems(dataVehicles);
-    
+
     nomeECognome.setCellValueFactory(
         new PropertyValueFactory<EmployeeDataModel, String>("nomeECognome"));
     this.employees.setItems(dataEmployees);
-    
+
     checkEmployee.setCellValueFactory(
         new PropertyValueFactory<CheckDataModel, String>("employee"));
     checkVehicle.setCellValueFactory(
@@ -123,27 +123,27 @@ public class CheckCtrl {
         new PropertyValueFactory<CheckDataModel, String>("line"));
     this.check.setItems(dataCheck);
   }
-  
+
   @FXML
   public void goHome() throws IOException {
   	Home.getHome(null).goHome(this.mainApp);
   }
-  
+
   @FXML
   public void nextWorkshift() throws IOException {
   	this.turno++;
-  	
+
   	if(turno==1) {
     	/*
     	 * TODO: aggiornare i dati dal database, replicando la logica nel costruttore, però per il turno pomeridiano.
-    	 * 
+    	 *
     	 */
-  		
+
   		this.workshiftLabel.setText("Pomeriggio");
   		this.check1 = FXCollections.observableArrayList(dataCheck);
   	} else if(turno==2) {
   		/*
-  		 * 
+  		 *
   		 * TODO: aggiornare i dati dal database, con il turno serale.
   		 */
   		this.workshiftLabel.setText("Sera");
@@ -153,7 +153,7 @@ public class CheckCtrl {
   		System.out.println(check1);
   		System.out.println(check2);
   		System.out.println(dataCheck);
-  		
+
   		FXMLLoader loader = new FXMLLoader();
   		loader.setLocation(App.class.getResource("administrativeArea/CheckResultScreen.fxml"));
       AnchorPane resultScreen = (AnchorPane) loader.load();
@@ -163,9 +163,9 @@ public class CheckCtrl {
       resultCtrl.setMainApp(mainApp);
       resultCtrl.setData(check1, check2, dataCheck);
   	}
-  		
+
   }
-  
+
   @FXML
   public void addBind() {
   	try {
@@ -184,7 +184,7 @@ public class CheckCtrl {
 	    alert.showAndWait();
   	}
   }
-  
+
   @FXML
   public void removeBind() {
   	try {
@@ -203,7 +203,7 @@ public class CheckCtrl {
 	    alert.showAndWait();
   	}
   }
-  
+
   public void setMainApp(App mainApp) {
     this.mainApp = mainApp;
   }
