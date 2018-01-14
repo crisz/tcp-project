@@ -12,5 +12,6 @@ public class EmployeeDataModel {
 	
 	public String getNomeECognome() {
 		return this.nome.get()+" "+this.cognome.get();
+		
 	}
 }

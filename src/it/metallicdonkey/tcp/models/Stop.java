@@ -14,4 +14,12 @@ public class Stop {
 	public Stop(String adress) {
 		this.setAdress(adress);
 	}
+	
+	public Stop() {
+		this(null);
+	}
+	
+	public String toString() {
+		return adress;
+	}
 }
