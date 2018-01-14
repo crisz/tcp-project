@@ -26,6 +26,10 @@ public class DBManager {
         LOG.log(level, msg);
     }
 
+    public Connection getConnection() {
+    	return this.connection;
+    }
+    
     public DBManager(String host, String uname, String password, String db) {
         loadMySQLDriver();
         this.server = host;
