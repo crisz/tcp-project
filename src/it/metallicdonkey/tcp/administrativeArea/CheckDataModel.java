@@ -1,8 +1,6 @@
 package it.metallicdonkey.tcp.administrativeArea;
 
 import it.metallicdonkey.tcp.HRArea.EmployeeDataModel;
-import it.metallicdonkey.tcp.models.Employee;
-import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;
 import javafx.beans.property.SimpleStringProperty;
 

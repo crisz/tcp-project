@@ -1,6 +1,5 @@
 package it.metallicdonkey.tcp.vehicleArea;
 
-import it.metallicdonkey.tcp.models.Line;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 

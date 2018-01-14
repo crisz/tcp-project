@@ -3,7 +3,6 @@ package it.metallicdonkey.tcp.vehicleArea;
 import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.administrativeArea.AdministrativeAreaCtrl;
 import it.metallicdonkey.tcp.administrativeArea.CheckCtrl;
 import it.metallicdonkey.tcp.administrativeArea.ListSearchLineCtrl;
 import it.metallicdonkey.tcp.employeeArea.PersonalInfoCtrl;
@@ -43,35 +42,34 @@ public class VehicleAreaCtrl {
   	System.out.println("Showing personal info...");
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(App.class.getResource("vehicleArea/AddVehicleScreen.fxml"));
-    AnchorPane anchorPane = (AnchorPane) loader.load();
+    AnchorPane personalInfo = (AnchorPane) loader.load();
     System.out.println("Resource done!");
 	    
-	Scene scene = new Scene(anchorPane);
-	System.out.println(scene);
-	System.out.println(anchorPane);
+		Scene scene = new Scene(personalInfo);
+		System.out.println(scene);
+		System.out.println(personalInfo);
     Stage stage = mainApp.getPrimaryStage();
     stage.setScene(scene);
     AddVehicleCtrl lsvCtrl = loader.getController();
     lsvCtrl.setMainApp(mainApp);
-    }
+	  }
   
   @FXML
   private void showAddLine() throws IOException {
-  	System.out.println("Showing add line...");
+  	System.out.println("Showing personal info...");
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(App.class.getResource("vehicleArea/AddLineScreen.fxml"));
     AnchorPane personalInfo = (AnchorPane) loader.load();
     System.out.println("Resource done!");
 	    
-	Scene scene = new Scene(personalInfo);
-	System.out.println(scene);
-	System.out.println(personalInfo);
+		Scene scene = new Scene(personalInfo);
+		System.out.println(scene);
+		System.out.println(personalInfo);
     Stage stage = mainApp.getPrimaryStage();
     stage.setScene(scene);
     AddLineCtrl lsvCtrl = loader.getController();
     lsvCtrl.setMainApp(mainApp);
-  }
-  
+	  }
   @FXML 
   private void showSearchLine() throws IOException {
   	System.out.println("Showing search info line...");

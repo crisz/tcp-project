@@ -1,26 +1,16 @@
 package it.metallicdonkey.tcp.login;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.control.TextField;
-
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Date;
 
 //import com.mysql.jdbc.Driver;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.administrativeArea.AdministrativeAreaCtrl;
 import it.metallicdonkey.tcp.models.Employee;
 import it.metallicdonkey.tcp.models.StatusEmployee;
 import it.metallicdonkey.tcp.models.Workshift;
-import it.metallicdonkey.tcp.vehicleArea.VehicleAreaCtrl;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 
 public class LoginCtrl {
 	@FXML
