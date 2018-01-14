@@ -79,22 +79,22 @@ public class DBManager {
         this.database = database;
     }
 
-    public boolean connect() {
-    	try {
+    public void connect() {
         String driverString = "jdbc:mysql://" + server + "/" + database + "?user=" + username + "&password=" + psw;
-            this.connection = DriverManager.getConnection(driverString);
-            System.out.println("!CONNESSO");
-            return true;
-    	} catch (SQLException e) {
-      	System.out.println("ciaoo!");
-      	Alert alert = new Alert(AlertType.WARNING);
-        alert.initOwner(null);
-        alert.setTitle("Login information");
-        alert.setHeaderText("Login fallito!");
-        alert.setContentText("Controlla i dati inseriti e riprova.");
-        alert.showAndWait();
-    			return false;
-    	}
+        try {    
+        	this.connection = DriverManager.getConnection(driverString);
+            return;
+        }
+        catch (SQLException ex) {
+        	Alert alert = new Alert(AlertType.WARNING);
+          alert.initOwner(null);
+          alert.setTitle("Connection Information");
+          alert.setHeaderText("Connessione Non Disponibile");
+          alert.setContentText("Controlla la connessione e riprova.");
+          alert.showAndWait();
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }        
     }
 
     public boolean disconnect() {
@@ -112,13 +112,13 @@ public class DBManager {
             this.statement = this.connection.createStatement();
             this.resultSet = this.statement.executeQuery(query);
             return this.resultSet;
-        } catch (SQLException ex) {
-        	System.out.println("ciaoo!");
+        }
+        catch (SQLException ex) {
         	Alert alert = new Alert(AlertType.WARNING);
           alert.initOwner(null);
-          alert.setTitle("Login information");
-          alert.setHeaderText("Login fallito!");
-          alert.setContentText("Controlla i dati inseriti e riprova.");
+          alert.setTitle("Connection Information");
+          alert.setHeaderText("Connessione Non Disponibile");
+          alert.setContentText("Controlla la connessione e riprova.");
           alert.showAndWait();
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;

@@ -1,14 +1,25 @@
 package it.metallicdonkey.tcp.HRArea;
 
-import java.awt.Button;
-import java.awt.TextField;
+
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.login.Home;
+import it.metallicdonkey.tcp.login.Role;
+import it.metallicdonkey.tcp.models.Employee;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 
 public class AddEmployeeCtrl {
 	private App mainApp;
@@ -21,20 +32,30 @@ public class AddEmployeeCtrl {
 	@FXML
 	private TextField password;
 	@FXML
-	private TextField datanascita;
+	private DatePicker datanascita;
+	@FXML
+	private TextField stipendio;
 	@FXML
 	private TextField email;
 	@FXML
 	private TextField indirizzo;
 	@FXML
-	private TextField ruolo;
-	@FXML
-	private TextField turno;
+	private Spinner<String> ruolo;
 	@FXML
 	private Button inviaButton;
 	private EmployeeDataModel employee;
 	@FXML
 	public void initialize() {
+		// Init entries for the role spinner
+		String[] rolesEntries = {"Autista" ,"Addetto agli impiegati" , "Addetto ai mezzi" ,"Impiegato amministrativo" , "Impiegato"};
+		ObservableList<String> roles = FXCollections.observableArrayList(rolesEntries);
+		
+		SpinnerValueFactory<String> valueFactory = new SpinnerValueFactory.ListSpinnerValueFactory<String>(roles);
+		ruolo.setValueFactory(valueFactory);
+		
+		// Default value
+		ruolo.getValueFactory().setValue(rolesEntries[0]);
+		
 	}
 	@FXML
 	private void submitEmployee() {
@@ -50,7 +71,28 @@ public class AddEmployeeCtrl {
 			System.out.println(result);
 		}
 	}
-
+	
+	/*
+	 * This method return the employee created with the values inserted by the user
+	 * Make sure to call this methods after the check for the values
+	 */
+	
+	private Employee getNewEmployee() {
+		Employee e = new Employee();
+		e.setFirstName(nome.getText());
+		e.setLastName(cognome.getText());
+		e.setBirthDate(datanascita.getValue());
+		e.setAddress(indirizzo.getText());
+		e.setId(matricola.getText());
+		e.setSalary(Double.parseDouble(stipendio.getText()));
+		e.setEmail(email.getText());
+		e.setRole(Role.valueOf(this.ruolo.getValue().replace(" ", "_")));
+		return e;
+	}
+	
+	/*
+	 * TODO ADD Maximum date selectable
+	 */
 	private Alert check() {
 		Alert alert = new Alert(AlertType.WARNING);
 	    alert.initOwner(mainApp.getPrimaryStage());
@@ -77,6 +119,7 @@ public class AddEmployeeCtrl {
 	    	alert.setContentText("Inserisci un indirizzo e-mail");
 	    	return alert;
 	    }
+	    
 	    // Check password
 	    if (password.getText().equals("")) {
 	    	alert.setContentText("Inserisci una password");
@@ -88,36 +131,34 @@ public class AddEmployeeCtrl {
 	    	return alert;
 	    }
 	    // Check datanascita
-	    if (datanascita.getText().equals("")) {
+	    if (datanascita.getValue() == null) {
 	    	alert.setContentText("Inserisci una data di nascita");
 	    	return alert;
 	    }
-	    // Check ruolo
-	    if (ruolo.getText().equals("")) {
-	    	alert.setContentText("Inserisci un ruolo");
+	    // Check stipendio
+	    if (stipendio.getText().equals("")) {
+	    	alert.setContentText("Inserisci uno stipendio");
 	    	return alert;
 	    }
-	    // Check turno
-	    if (turno.getText().equals("")) {
-	    	alert.setContentText("Inserisci un turno");
-	    	return alert;
-	    }
-	    // Check if values are correct;
 	    else {
-/*	    	int numPostiASedere = -1;
-	    	int numPostiDisabili = -1;
-	    	int numPostiInPiedi = -1;
+	    	 //Check email pattern
+	    	String regex = "^[\\w\\d\\.]+@[\\w\\.]+\\.\\w+$";
+		    Pattern p = Pattern.compile(regex);
+		    Matcher m = p.matcher(email.getText());
+		    if(! m.matches()) {
+		    	alert.setContentText("Inserisci un indirizzo email valido");
+		    	return alert;
+		    }
+		    // Numberical check for stipendio
 	    	try {
-	    		numPostiASedere = Integer.parseInt(postiASedere.getText());
-	    		numPostiDisabili = Integer.parseInt(postiDisabili.getText());
-	    		numPostiInPiedi = Integer.parseInt(postiInPiedi.getText());
+	    		double d = Double.parseDouble(stipendio.getText());
 	    	}
 	    	catch(NumberFormatException e) {
-	    		alert.setContentText("Inserisci un valore numerico nei campi del numero di posti");
-	    		return alert;
+	    		alert.setContentText("Inserisci un valore numerico per lo stipendio");
+		    	return alert;
 	    	}
-*/
 	    }
+	 
 	    // Data is ok
 	    return null;
 	}
