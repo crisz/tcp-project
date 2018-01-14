@@ -107,7 +107,7 @@ public class DBHelper {
 
 	public void insertVehicle(Vehicle v) throws SQLException {
     // the mysql insert statement
-    String query = " insert into vehicle (idVehicle, Brand, Status, Seats, StandingSeats, PlacesForDisabled, Plate)"
+    String query = "insert into vehicle (idVehicle, Brand, Status, Seats, StandingSeats, PlacesForDisabled, Plate)"
       + " values (?, ?, ?, ?, ?, ?, ?)";
 
 
