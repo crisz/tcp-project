@@ -1,5 +1,4 @@
 package it.metallicdonkey.tcp.db;
-import java.awt.geom.AffineTransform;
 import java.security.spec.ECField;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.sql.PreparedStatement;
 import it.metallicdonkey.tcp.administrativeArea.LineDataModel;
 import it.metallicdonkey.tcp.HRArea.EmployeeDataModel;
 import it.metallicdonkey.tcp.login.Role;
