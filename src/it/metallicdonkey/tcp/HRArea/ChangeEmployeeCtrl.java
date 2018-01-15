@@ -84,27 +84,19 @@ public class ChangeEmployeeCtrl {
 			error.showAndWait();
 		} else {
 			try {
+				DBHelper.getInstance().removeEmployee(employee.getEmployee());
 				DBHelper.getInstance().insertEmployee(getNewEmployee());
-//				Alert alert = new Alert(AlertType.NONE);
-//		    alert.initOwner(mainApp.getPrimaryStage());
-//		    alert.setTitle("Avviso");
-//		    alert.setHeaderText("Inserimento avvenuto con successo!");
-//		    alert.showAndWait();
-				
-		    matricola.setText("");
-		    nome.setText("");
-		    cognome.setText("");
-		    email.setText("");
-		    password.setText("");
-		    indirizzo.setText("");
-		    datanascita.setValue(LocalDate.of(1900, 1, 1));;
-		    stipendio.setText("");
-		    
+				Alert alert = new Alert(AlertType.INFORMATION);
+		    alert.initOwner(mainApp.getPrimaryStage());
+		    alert.setTitle("Avviso");
+		    alert.setHeaderText("Inserimento avvenuto con successo!");
+				alert.show();
 			} catch (SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 		    alert.initOwner(mainApp.getPrimaryStage());
 		    alert.setTitle("Avviso");
 		    alert.setHeaderText("Inserimento fallito!");
+		    alert.setContentText("Controlla la connessione e riprova");
 		    alert.showAndWait();
 		    e.printStackTrace();
 			}
@@ -162,11 +154,6 @@ public class ChangeEmployeeCtrl {
 	    	return alert;
 	    }
 	    
-	    // Check password
-	    if (password.getText().equals("")) {
-	    	alert.setContentText("Inserisci una password");
-	    	return alert;
-	    }
 	    // Check indirizzo
 	    if (indirizzo.getText().equals("")) {
 	    	alert.setContentText("Inserisci un indirizzo di residenza");

@@ -587,7 +587,7 @@ public class DBHelper {
 	}
 	//this method returns 1 if the query success
 	public int removeEmployee(Employee e) {
-		int result = dbm.executeUpdate("DELETE FROM tcp.employee WHERE idEmployee="+e.getId());
+		int result = dbm.executeUpdate("DELETE FROM tcp.employee WHERE idEmployee='"+e.getId()+"'");
 		return result; 
 	}
 	

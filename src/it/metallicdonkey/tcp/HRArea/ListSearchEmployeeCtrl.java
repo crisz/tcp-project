@@ -251,16 +251,21 @@ public class ListSearchEmployeeCtrl {
 							setText(null);
 						} else {
 							btn3.setOnAction(event -> {
-								EmployeeDataModel line = getTableView().getItems().get(getIndex());
+								EmployeeDataModel employee = getTableView().getItems().get(getIndex());
 								Alert alert = new Alert(AlertType.CONFIRMATION);
 								alert.setTitle("Confirmation Dialog");
 								alert.setHeaderText("Sei sicuro di voler eliminare il veicolo?");
-								alert.setContentText("Il veicolo con matricola " + line.getId() + " verrà eliminato. Questa operazione è irreversibile.");
+								alert.setContentText("Il veicolo con matricola " + employee.getId() + " verrà eliminato. Questa operazione è irreversibile.");
 
 								Optional<ButtonType> result = alert.showAndWait();
 								if (result.get() == ButtonType.OK){
-									// TODO: implementare cancellazione su db
-									data.remove(line);
+									try {
+										DBHelper.getInstance().removeEmployee(employee.getEmployee());
+									} catch (SQLException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+									data.remove(employee);
 									lsvc.initialize();
 								} 
 							});
