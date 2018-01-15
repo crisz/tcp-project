@@ -643,4 +643,8 @@ public class DBHelper {
 		}
 		return freeLocations;	
 	}
+	public Location getLocation(Vehicle v) {
+		ArrayList<Location> locations = this.getLocations("Vehicle_idVehicle='"+v.getId()+"'");
+		return locations.get(0);
+	}
 }

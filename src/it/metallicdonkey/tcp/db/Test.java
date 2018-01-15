@@ -11,9 +11,9 @@ import java.util.Iterator;
 public class Test {
 	public static void main(String[] args) throws SQLException {
 		DBHelper db = DBHelper.getInstance();
-//		Vehicle v = new Vehicle();
-//		
-//		v.setId("12345");
+		Vehicle v = new Vehicle();
+		
+		v.setId("2587");
 //		int result = db.removeVehicle(v);
 //		System.out.println(result);
 		
@@ -22,11 +22,13 @@ public class Test {
 //		int result = db.removeLine(l);
 //		System.out.println(result);
 		
-		ArrayList<Location> locations = db.getAllFreeLocations();
-		Iterator<Location> it = locations.iterator();
-		while(it.hasNext()) {
-			Location l = it.next();
-			System.out.println(l.getId_Location()+" "+ l.getId_Vehicle());
-		}
+//		ArrayList<Location> locations = db.getAllFreeLocations();
+//		Iterator<Location> it = locations.iterator();
+//		while(it.hasNext()) {
+//			Location l = it.next();
+//			System.out.println(l.getId_Location()+" "+ l.getId_Vehicle());
+//		}
+		Location l = db.getLocation(v);
+		System.out.println(l.getId_Location());
 	}
 }
