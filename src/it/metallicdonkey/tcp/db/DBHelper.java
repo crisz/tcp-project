@@ -8,6 +8,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import it.metallicdonkey.tcp.administrativeArea.LineDataModel;
@@ -601,5 +602,45 @@ public class DBHelper {
 	public int removeLine(Line l) {
 		int result = dbm.executeUpdate("DELETE FROM tcp.line WHERE idLine='"+l.getName()+"'");
 		return result;
+	}
+	
+	private ArrayList<Location> getLocations(String clause){
+		ArrayList<Location> locations = new ArrayList<>();
+		try {
+			dbm.executeQuery("SELECT * FROM tcp.location WHERE "+clause);
+			// verify if the query returned an empty table
+//			if(!dbm.getResultSet().next()) {
+//				return null;
+//			}
+			// if the query table returned contains something
+			ResultSet result = dbm.getResultSet();
+//			result.beforeFirst();
+			while(result.next()) {
+				Location l= new Location();
+				l.setId_Location(result.getInt("idPlace"));
+				l.setId_Vehicle(result.getString("Vehicle_idVehicle"));
+				locations.add(l);
+			}
+		}
+		catch(SQLException exc) {
+			exc.printStackTrace();
+		}
+		return locations;		
+	}
+	public ArrayList<Location> getAllLocations(){
+		return this.getLocations("TRUE");
+	}
+	public ArrayList<Location> getAllFreeLocations(){
+		ArrayList<Location> locations = this.getAllLocations();
+		Iterator<Location> it = locations.iterator();
+		ArrayList<Location> freeLocations = new ArrayList<>();
+		
+		while(it.hasNext()) {
+			Location l = it.next();
+			if(l.getId_Vehicle() == null) {
+				freeLocations.add(l);
+			}
+		}
+		return freeLocations;	
 	}
 }
