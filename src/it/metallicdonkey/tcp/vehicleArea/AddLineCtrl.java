@@ -2,10 +2,15 @@ package it.metallicdonkey.tcp.vehicleArea;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.login.Home;
+import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.models.Stop;
+import it.metallicdonkey.tcp.models.Vehicle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -74,6 +79,20 @@ public class AddLineCtrl {
 		stops.remove(index);
 		stopsList.setItems(stops);
 	}
+	
+	private Line getNewLine() {
+		Line l = new Line();
+		l.setName(name.getText());
+		l.setGoingStops((ArrayList<Stop>) Arrays.asList(stops.toArray(new Stop[stops.size()])));
+		l.setStartTerminal(stops.get(0));
+		l.setEndTerminal(stops.get(stops.size()-1));
+		
+		ArrayList<Stop> reverseList = new ArrayList<>();
+		reverseList.addAll(l.getGoingStops());
+		Collections.reverse(reverseList);
+		l.setReturnStops(reverseList);
+		return l;
+	}
 
 	@FXML
 	private void submitVehicle() {
@@ -82,7 +101,8 @@ public class AddLineCtrl {
 		if(error != null) {
 			error.showAndWait();
 		} else {
-			String result = "La linea " + name.getText() + " é stata inserita con successo";
+			Line outputLine = getNewLine();
+			String result = "La linea " + outputLine.getName() + " é stata inserita con successo";
 			System.out.println(result);
 		}
 	}
@@ -97,18 +117,17 @@ public class AddLineCtrl {
 	    	alert.setContentText("Inserisci almeno 4 fermate.");
 	    	return alert;
 	    }
-	    else if (name.getText().equals("")) {
+	    if (name.getText().equals("")) {
 	    	alert.setContentText("Inserisci un nome alla linea.");
 	    	return alert;
 	    }
-	    else if (priority.getText().equals("")) {
+	    if (priority.getText().equals("")) {
 	    	alert.setContentText("Inserisci una priorità alla linea.");
 	    	return alert;
 	    }
 	    else {
-	    	int priorityValue = -1;
 		    try {
-		    	priorityValue = Integer.parseInt(priority.getText());
+		    	Integer.parseInt(priority.getText());
 		    }
 		    catch (NumberFormatException e) {
 		    	alert.setContentText("Inserisci un valore numerico nel campo priorità");
