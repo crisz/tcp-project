@@ -83,4 +83,8 @@ public class Employee {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+	public String toString() {
+		return "Matricola: " + id + "\nNome: " + firstName + "\nCognome: " + lastName +
+			"\nStato: " + status;
+	}
 }

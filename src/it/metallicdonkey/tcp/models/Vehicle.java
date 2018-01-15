@@ -11,11 +11,11 @@ public class Vehicle {
 	private int placesForDisable;
 	private StatusVehicle status;
 	private String brand;
-	
+
 	public Vehicle() {
-		
+
 	}
-	
+
 	public Vehicle(String id, String plate, int seats, int standingPlaces, int placesForDisable, String brand, StatusVehicle status) {
 		this.setId(id);
 		this.setPlate(plate);
@@ -67,5 +67,8 @@ public class Vehicle {
 
 	public void setBrand(String brand) {
 		this.brand = brand;
+	}
+	public String toString() {
+		return "Matricola: " + id + "\nStato: " + status;
 	}
 }
