@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
+
 import it.metallicdonkey.tcp.administrativeArea.LineDataModel;
 import it.metallicdonkey.tcp.HRArea.EmployeeDataModel;
 import it.metallicdonkey.tcp.login.Role;
@@ -166,29 +169,24 @@ public class DBHelper {
 		return employees;
 	}
 
-	public void insertEmployee(Employee e) throws SQLException{
+	public void insertEmployee(Employee e) throws SQLException {
 		String query = " INSERT INTO tcp.employee ()" + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		// create the mysql insert preparedstatement
-		try {
-			PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
-			preparedStmt.setString (1, e.getId());
-			preparedStmt.setString (2, e.getFirstName());
-			preparedStmt.setString (3, e.getLastName());
-			preparedStmt.setString (4, e.getBirthDate().getYear()+"-"+e.getBirthDate().getMonthValue()+"-"+e.getBirthDate().getDayOfMonth());
-			preparedStmt.setString (5, this.workshiftToEnglish(e.getWorkshift()));
-			preparedStmt.setDouble (6, e.getSalary());
-			preparedStmt.setString (7, e.getEmail());
-			preparedStmt.setString (8, e.getRole().name());
-			preparedStmt.setString (9, "AVAILABLE");
-			preparedStmt.setString (10, e.getAddress());
-			preparedStmt.setString (11, "TCP_password");
-
-			// execute the preparedstatement
-			preparedStmt.execute();
-		} catch (SQLException exc) {
-			exc.printStackTrace();
-		}
+		PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
+		preparedStmt.setString (1, e.getId());
+		preparedStmt.setString (2, e.getFirstName());
+		preparedStmt.setString (3, e.getLastName());
+		preparedStmt.setString (4, e.getBirthDate().getYear()+"-"+e.getBirthDate().getMonthValue()+"-"+e.getBirthDate().getDayOfMonth());
+		preparedStmt.setString (5, this.workshiftToEnglish(e.getWorkshift()));
+		preparedStmt.setDouble (6, e.getSalary());
+		preparedStmt.setString (7, e.getEmail());
+		preparedStmt.setString (8, e.getRole().name());
+		preparedStmt.setString (9, "AVAILABLE");
+		preparedStmt.setString (10, e.getAddress());
+		preparedStmt.setString (11, "TCP_password");
+		// execute the preparedstatement
+		preparedStmt.execute();
 	}
 	public ObservableList<VehicleDataModel> getAllVehicles() {
 		ArrayList<VehicleDataModel> vehicles= new ArrayList<>();
@@ -280,26 +278,20 @@ public class DBHelper {
 		}
 		return "MORNING";
 	}
-
 	public void insertVehicle(Vehicle v) throws SQLException {
 		// the mysql insert statement
 		String query = "insert into vehicle (idVehicle, Brand, Status, Seats, StandingPlaces, PlacesForDisabled, Plate)"
 				+ " values (?, ?, ?, ?, ?, ?, ?)";
-		try {
-			PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
-		    preparedStmt.setString(1, v.getId());
-		    preparedStmt.setString(2, v.getBrand());
-		    preparedStmt.setString(3, v.getStatus().name());
-		    preparedStmt.setInt(4, v.getSeats());
-		    preparedStmt.setInt(5, v.getStandingPlaces());
-		    preparedStmt.setInt(6, v.getPlacesForDisable());
-		    preparedStmt.setString(7, v.getPlate());
-
-		    // execute the preparedstatement
-		    preparedStmt.execute();
-		} catch (SQLException exc) {
-			exc.printStackTrace();
-		}
+		PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
+	    preparedStmt.setString(1, v.getId());
+	    preparedStmt.setString(2, v.getBrand());
+	    preparedStmt.setString(3, v.getStatus().name());
+	    preparedStmt.setInt(4, v.getSeats());
+	    preparedStmt.setInt(5, v.getStandingPlaces());
+	    preparedStmt.setInt(6, v.getPlacesForDisable());
+	    preparedStmt.setString(7, v.getPlate());
+	    // execute the preparedstatement
+	    preparedStmt.execute();
 	}
 	// bisogna vedere come identificare un capolinea rispetto alle normali fermate
 	public Stop getTerminal(Line line, boolean first) {
@@ -393,67 +385,54 @@ public class DBHelper {
 		}
 		return idAbs;
 	}
-	public void insertAbsenceStartDay(Employee e) {
+	public void insertAbsenceStartDay(Employee e) throws SQLException {
 		LocalDate date = LocalDate.now();
 		String id = this.getNewAbsenceId();
+		int updated = -1;
 		if(id != null) {
-			String query = "INSERT INTO absenceInterval (idAbsenceInterval, StartDay, EndDay, Employee_idEmployee) "+
+			String query = "INSERT INTO tcp.absenceInterval (idAbsenceInterval, StartDay, EndDay, Employee_idEmployee) "+
 					"VALUES (?, ?, ?, ?)";
-			try {
-				String query2 = "UPDATE employee SET Status=ABSENT WHERE idEmployee="+e.getId();
-				PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
-				preparedStmt.setString(1, id);
-				preparedStmt.setString(2, date.format(DateTimeFormatter.ISO_LOCAL_DATE));
-				preparedStmt.setString(3, "1970-01-01");
-				preparedStmt.setString(4, e.getId());
-				preparedStmt.execute();
-				dbm.executeQuery(query2);
-			} catch (SQLException exc) {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.initOwner(null);
-		        alert.setTitle("Attenzione");
-		        alert.setHeaderText("Problemi nella connessione");
-		        alert.setContentText("I dati non sono stati alterati, riprovare più tardi.");
-		        alert.showAndWait();
-				exc.printStackTrace();
-			}
-		} else {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(null);
-	        alert.setTitle("Attenzione");
-	        alert.setHeaderText("Problemi nella connessione");
-	        alert.setContentText("I dati non sono stati alterati, riprovare più tardi.");
-	        alert.showAndWait();
-		}
-
+			String query2 = "UPDATE tcp.employee SET Status=\"ABSENT\" WHERE idEmployee=\""+e.getId() + "\"";
+			e.setStatus(StatusEmployee.ABSENT);
+			updated = dbm.executeUpdate(query2);
+			if(updated < 1)
+				throw new SQLException();
+			PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
+			preparedStmt.setString(1, id);
+			preparedStmt.setString(2, date.format(DateTimeFormatter.ISO_LOCAL_DATE));
+			preparedStmt.setString(3, "1970-01-01");
+			preparedStmt.setString(4, e.getId());
+			preparedStmt.execute();
+		} else
+			throw new SQLException();
 	}
 	private String getAbsenceId(Employee e) {
 		String id = null;
 		try {
-			dbm.executeQuery("SELECT idAbsenceInterval FROM AbsenceInterval "+
-					"WHERE Employee_idEmployee="+e.getId()+" AND endDay='1970-01-01'");
+			dbm.executeQuery("SELECT * FROM AbsenceInterval "+
+					"WHERE Employee_idEmployee=\""+e.getId()+"\" AND endDay=\"1970-01-01\"");
 			ResultSet result = dbm.getResultSet();
-			id = result.getString("idAbsenceInterval");
+			while(result.next())
+				id = result.getString("idAbsenceInterval");
 		} catch (SQLException exc) {
 			exc.printStackTrace();
 		}
 		return id;
 	}
-	public void insertAbsenceEndDay(Employee e) {
+	public void insertAbsenceEndDay(Employee e) throws SQLException {
 		String id = this.getAbsenceId(e);
 		LocalDate date = LocalDate.now();
+		int updated1 = -1;
+		int updated2 = -1;
 		if(id != null) {
-			dbm.executeQuery("UPDATE AbsenceInterval SET endDay="+date.format(DateTimeFormatter.ISO_LOCAL_DATE)+
-					" WHERE idAbsenceInterval="+id+" AND Employee_idEmployee="+e.getId());
-			dbm.executeQuery("UPDATE Employee SET Statur=AVAILABLE WHERE idEmploee="+e.getId());
-		} else {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(null);
-	        alert.setTitle("Attenzione");
-	        alert.setHeaderText("Problemi nella connessione");
-	        alert.setContentText("I dati non sono stati alterati, riprovare più tardi.");
-	        alert.showAndWait();
-		}
+			updated1 = dbm.executeUpdate("UPDATE tcp.Employee SET Status=\"AVAILABLE\" WHERE idEmployee=\""+e.getId()+"\"");
+			updated2 = dbm.executeUpdate("UPDATE tcp.absenceInterval SET EndDay=\""+date.format(DateTimeFormatter.ISO_LOCAL_DATE)+
+					"\" WHERE idAbsenceInterval=\""+id+"\" AND Employee_idEmployee=\""+e.getId()+"\"");
+			if(updated1 < 1 || updated2 < 1)
+				throw new SQLException();
+			e.setStatus(StatusEmployee.AVAILABLE);
+		} else
+			throw new SQLException();
 	}
 	private String getNewBrokenId() {
 		List<String> ids = new ArrayList<>();
@@ -482,66 +461,54 @@ public class DBHelper {
 		}
 		return idAbs;
 	}
-	public void insertBrokenStartDay(Vehicle v) {
+	public void insertBrokenStartDay(Vehicle v) throws SQLException {
 		String id = this.getNewBrokenId();
 		LocalDate date = LocalDate.now();
+		int updated = -1;
 		if(id != null) {
+			String query2 = "UPDATE vehicle SET Status=\"BROKEN\" WHERE idVehicle=\""+v.getId()+"\"";
+			updated = dbm.executeUpdate(query2);
 			String query = "INSERT INTO BrokenInterval (idBrokenInterval, StartDay, EndDay, Vehicle_idVehicle) "+
 					"VALUES (?, ?, ?, ?)";
-			try {
-				String query2 = "UPDATE vehiclee SET Status=BROKEN WHERE idVehicle="+v.getId();
-				PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
-				preparedStmt.setString(1, id);
-				preparedStmt.setString(2, date.format(DateTimeFormatter.ISO_LOCAL_DATE));
-				preparedStmt.setString(3, "1970-01-01");
-				preparedStmt.setString(4, v.getId());
-				preparedStmt.execute();
-				dbm.executeQuery(query2);
-			} catch (SQLException exc) {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.initOwner(null);
-		        alert.setTitle("Attenzione");
-		        alert.setHeaderText("Problemi nella connessione");
-		        alert.setContentText("I dati non sono stati alterati, riprovare più tardi.");
-		        alert.showAndWait();
-		        exc.printStackTrace();
-			}
-		} else {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(null);
-	        alert.setTitle("Attenzione");
-	        alert.setHeaderText("Problemi nella connessione");
-	        alert.setContentText("I dati non sono stati alterati, riprovare più tardi.");
-	        alert.showAndWait();
-		}
+			if (updated < 1)
+				throw new SQLException();
+			PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
+			preparedStmt.setString(1, id);
+			preparedStmt.setString(2, date.format(DateTimeFormatter.ISO_LOCAL_DATE));
+			preparedStmt.setString(3, "1970-01-01");
+			preparedStmt.setString(4, v.getId());
+			preparedStmt.execute();
+			v.setStatus(StatusVehicle.BROKEN);
+		} else
+			throw new SQLException();
 	}
 	private String getBrokenId(Vehicle v) {
 		String id = null;
 		try {
 			dbm.executeQuery("SELECT idBrokenInterval FROM BrokenInterval "+
-					"WHERE Vehicle_idVehicle="+v.getId()+" AND endDay='1970-01-01'");
+					"WHERE Vehicle_idVehicle=\""+v.getId()+"\" AND endDay=\"1970-01-01\"");
 			ResultSet result = dbm.getResultSet();
-			id = result.getString("idBrokenInterval");
+			while(result.next())
+				id = result.getString("idBrokenInterval");
 		} catch (SQLException exc) {
 			exc.printStackTrace();
 		}
 		return id;
 	}
-	public void insertBrokenEndDay(Vehicle v) {
+	public void insertBrokenEndDay(Vehicle v) throws SQLException {
 		String id = this.getBrokenId(v);
 		LocalDate date = LocalDate.now();
+		int updated = -1;
+		int updated2 = -1;
 		if(id != null) {
-			dbm.executeQuery("UPDATE BrokenInterval SET endDay="+date.format(DateTimeFormatter.ISO_LOCAL_DATE)+
-					" WHERE idBrokenInterval="+id + "AND Vehicle_idVehicle="+v.getId());
-			dbm.executeQuery("UPDATE vehicle SET Status=AVAILABLE WHERE idVehicle="+v.getId());
-		} else {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(null);
-	        alert.setTitle("Attenzione");
-	        alert.setHeaderText("Problemi nella connessione");
-	        alert.setContentText("I dati non sono stati alterati, riprovare più tardi.");
-	        alert.showAndWait();
-		}
+			updated = dbm.executeUpdate("UPDATE vehicle SET Status=\"AVAILABLE\" WHERE idVehicle=\""+v.getId()+"\"");
+			updated2 = dbm.executeUpdate("UPDATE tcp.BrokenInterval SET EndDay=\""+date.format(DateTimeFormatter.ISO_LOCAL_DATE)+
+					"\" WHERE idBrokenInterval=\""+id + "\" AND Vehicle_idVehicle=\""+v.getId()+"\"");
+			if (updated < 1 || updated2 < 1)
+				throw new SQLException();
+			v.setStatus(StatusVehicle.AVAILABLE);
+		} else
+			throw new SQLException();
 	}
 	public ArrayList<AbsenceInterval> getAbsenceInterval(Employee e) {
 		ArrayList<AbsenceInterval> array = new ArrayList<>();
@@ -566,7 +533,7 @@ public class DBHelper {
 	public ArrayList<BrokenInterval> getBrokenInterval(Vehicle v) {
 		ArrayList<BrokenInterval> array = new ArrayList<>();
 		try {
-			dbm.executeQuery("SELECT * FROM BrokenInterval WHERE Vehicle_idVehicle="+v.getId());
+			dbm.executeQuery("SELECT * FROM BrokenInterval WHERE Vehicle_idVehicle=\""+v.getId()+"\"");
 			ResultSet result = dbm.getResultSet();
 			result.beforeFirst();
 			while(result.next()) {
@@ -586,7 +553,6 @@ public class DBHelper {
 	//this method returns 1 if the query success
 	public int removeEmployee(Employee e) {
 		int result = dbm.executeUpdate("DELETE FROM tcp.employee WHERE idEmployee="+e.getId());
-		return result; 
+		return result;
 	}
-	
 }

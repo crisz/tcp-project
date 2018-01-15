@@ -23,6 +23,7 @@ public class Employee {
 	private StatusEmployee status;
 	private Role role;
 	private Workshift workshift;
+	private String password;
 	public Workshift getWorkshift() {
 		return workshift;
 	}
@@ -86,5 +87,11 @@ public class Employee {
 	public String toString() {
 		return "Matricola: " + id + "\nNome: " + firstName + "\nCognome: " + lastName +
 			"\nStato: " + status;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
