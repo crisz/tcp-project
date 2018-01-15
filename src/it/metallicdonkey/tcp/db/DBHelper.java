@@ -1,5 +1,4 @@
 package it.metallicdonkey.tcp.db;
-import java.awt.geom.AffineTransform;
 import java.security.spec.ECField;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.sql.PreparedStatement;
 import it.metallicdonkey.tcp.administrativeArea.LineDataModel;
 import it.metallicdonkey.tcp.HRArea.EmployeeDataModel;
 import it.metallicdonkey.tcp.login.Role;
@@ -371,6 +369,7 @@ public class DBHelper {
 		return dataLines;
 	}
 	private String getNewAbsenceId() {
+		// TODO: WTF? Qual è il motivo? L'ID viene generato automaticamente
 		List<String> ids = new ArrayList<>();
 		String idAbs = null;
 		try {
@@ -398,6 +397,7 @@ public class DBHelper {
 		return idAbs;
 	}
 	public void insertAbsenceStartDay(Employee e) {
+		// TODO: sistemare assolutamente 
 		LocalDate date = LocalDate.now();
 		String id = this.getNewAbsenceId();
 		if(id != null) {
@@ -411,7 +411,7 @@ public class DBHelper {
 				preparedStmt.setString(3, "1970-01-01");
 				preparedStmt.setString(4, e.getId());
 				preparedStmt.execute();
-				dbm.executeQuery(query2);
+				dbm.executeUpdate(query2);
 			} catch (SQLException exc) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.initOwner(null);
