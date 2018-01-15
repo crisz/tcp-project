@@ -22,9 +22,9 @@
                   <TableColumn fx:id="idColumn" prefWidth="153.33333333333334" text="Matricola" />
                   <TableColumn fx:id="lastNameColumn" minWidth="0.0" prefWidth="153.33333333333334" text="Cognome" />
                   <TableColumn fx:id="firstNameColumn" prefWidth="153.33333333333334" text="Nome" />
-                  <TableColumn fx:id="editColumn" prefWidth="130.0" text="Visualizza / Modifica" />
-                  <TableColumn prefWidth="130.0" text="Segnala Assenza" />
-                  <TableColumn fx:id="removeColumn" prefWidth="130.0" text="Rimuovi" />
+                  <TableColumn fx:id="editColumn" prefWidth="131.0609130859375" text="Visualizza &#13;e Modifica" />
+                  <TableColumn fx:id="absenceColumn" prefWidth="107.68701171875" text="Segnala assenza" />
+                  <TableColumn fx:id="removeColumn" prefWidth="68.4521484375" text="Rimuovi" />
                </columns>
             </TableView>
          </children>

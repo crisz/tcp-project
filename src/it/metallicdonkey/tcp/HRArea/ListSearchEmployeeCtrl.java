@@ -1,19 +1,32 @@
 package it.metallicdonkey.tcp.HRArea;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Optional;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.db.DBHelper;
 import it.metallicdonkey.tcp.login.Home;
+import it.metallicdonkey.tcp.models.StatusEmployee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class ListSearchEmployeeCtrl {
@@ -31,14 +44,17 @@ public class ListSearchEmployeeCtrl {
 	@FXML
 	private TableColumn<EmployeeDataModel, String> editColumn;
 	@FXML
+	private TableColumn<EmployeeDataModel, String> absenceColumn;
+	@FXML
 	private TableColumn<EmployeeDataModel, String> removeColumn;
 	@FXML
 	private TableColumn<EmployeeDataModel, String> setAbsenceOrEndAbsence;
-	final ObservableList<EmployeeDataModel> data = FXCollections.observableArrayList(
-		    new EmployeeDataModel("0643436", "Matteo", "Farina"),
-		    new EmployeeDataModel("0641612", "Cristian", "Traina"),
-		    new EmployeeDataModel("0651713", "Mauro", "Liuzzo"),
-		    new EmployeeDataModel("0647813", "Giovanni", "Giglio") );
+	ObservableList<EmployeeDataModel> data;
+	public ListSearchEmployeeCtrl() throws SQLException {
+		 this.data = DBHelper.getInstance().getAllEmployees();
+	}
+	
+	public static EmployeeDataModel selectedEmployee;
 	@FXML
 	private void initialize() {
 		// Initialization data
@@ -70,64 +86,197 @@ public class ListSearchEmployeeCtrl {
 		employees.setItems(sortedData);
 		// Add actions!
 		editColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+
+
+
 		Callback<TableColumn<EmployeeDataModel, String>, TableCell<EmployeeDataModel, String>> cellFactory
-				= //
-	            new Callback<TableColumn<EmployeeDataModel, String>, TableCell<EmployeeDataModel, String>>() {
+		= //
+		new Callback<TableColumn<EmployeeDataModel, String>, TableCell<EmployeeDataModel, String>>() {
 			@Override
-	        public TableCell<EmployeeDataModel, String> call(final TableColumn<EmployeeDataModel, String> param) {
-	        	final TableCell<EmployeeDataModel, String> cell = new TableCell<EmployeeDataModel, String>() {
-	            	final Button btn = new Button("Modifica");
+			public TableCell<EmployeeDataModel, String> call(final TableColumn<EmployeeDataModel, String> param) {
+				final TableCell<EmployeeDataModel, String> cell = new TableCell<EmployeeDataModel, String>() {
 
-	                @Override
-	                public void updateItem(String item, boolean empty) {
-	                    super.updateItem(item, empty);
-	                    if (empty) {
-	                        setGraphic(null);
-	                        setText(null);
-	                    } else {
-	                        btn.setOnAction(event -> {
-	                            EmployeeDataModel employee = getTableView().getItems().get(getIndex());
-	                            System.out.println(employee.getFirstName());
-	                        });
-	                        setGraphic(btn);
-	                        setText(null);
-	                    }
-	                }
-	            };
-	            return cell;
-	        }
-	    };
-	    editColumn.setCellFactory(cellFactory);
-	    // Action: remove
-	    removeColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-	    Callback<TableColumn<EmployeeDataModel, String>, TableCell<EmployeeDataModel, String>> cellFactory2
-	    			= //
-	    			new Callback<TableColumn<EmployeeDataModel, String>, TableCell<EmployeeDataModel, String>>() {
-	    	@Override
-	    	public TableCell<EmployeeDataModel, String> call(final TableColumn<EmployeeDataModel, String> param) {
-	            final TableCell<EmployeeDataModel, String> cell = new TableCell<EmployeeDataModel, String>() {
-	                final Button btn = new Button("Rimuovi");
-	                @Override
-	                public void updateItem(String item, boolean empty) {
-	                    super.updateItem(item, empty);
-	                    if (empty) {
-	                        setGraphic(null);
-	                        setText(null);
-	                    } else {
-	                        btn.setOnAction(event -> {
-	                            EmployeeDataModel employee = getTableView().getItems().get(getIndex());
-	                            System.out.println(employee.getFirstName());
-	                        });
-	                        setGraphic(btn);
-	                        setText(null);
-	                    }
-	                }
-	            };
-	            return cell;
-	        }
-	    };
+					Image ive = new Image(getClass().getResourceAsStream("../icons/ve.png"));
+					ImageView ve = new ImageView(ive);
+					final Button btn1 = new Button("", ve);
 
-	    removeColumn.setCellFactory(cellFactory2);
+					@Override
+					public void updateItem(String item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+							setText(null);
+						} else {
+							btn1.setOnAction(event -> {
+								EmployeeDataModel employee = getTableView().getItems().get(getIndex());
+								ListSearchEmployeeCtrl.selectedEmployee = employee;
+								FXMLLoader loader = new FXMLLoader();
+								loader.setLocation(App.class.getResource("HRArea/ChangeEmployeeScreen.fxml"));                           
+								AnchorPane personalInfo;
+								try {
+									personalInfo = (AnchorPane) loader.load();
+
+									Scene scene = new Scene(personalInfo);
+									Stage stage = mainApp.getPrimaryStage();
+									stage.setScene(scene);
+									ChangeEmployeeCtrl lsvCtrl = loader.getController();
+									lsvCtrl.setMainApp(mainApp);
+
+
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+							});
+							btn1.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1px");
+							ve.setFitWidth(43.5);
+							ve.setFitHeight(24.0);
+							setGraphic(btn1);
+							setText(null);
+						}
+					}
+				};
+				return cell;
+			}
+		};
+
+		editColumn.setCellFactory(cellFactory);
+		
+		// Action: absence
+		absenceColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+
+		Callback<TableColumn<EmployeeDataModel, String>, TableCell<EmployeeDataModel, String>> cellFactory3
+		= //
+		new Callback<TableColumn<EmployeeDataModel, String>, TableCell<EmployeeDataModel, String>>() {
+			@Override
+			public TableCell<EmployeeDataModel, String> call(final TableColumn<EmployeeDataModel, String> param) {
+				final TableCell<EmployeeDataModel, String> cell = new TableCell<EmployeeDataModel, String>() {
+
+					Image ibv = new Image(getClass().getResourceAsStream("../icons/bv.png"));
+					ImageView bv = new ImageView(ibv);
+					final Button btn2 = new Button("", bv);
+					@Override
+					public void updateItem(String item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+							setText(null);
+						} else {
+							btn2.setOnAction(event -> {
+								EmployeeDataModel employee = getTableView().getItems().get(getIndex());
+								if(!(employee.getEmployee().getStatus() == StatusEmployee.ABSENT)) {
+									Alert alert = new Alert(AlertType.CONFIRMATION);
+									alert.setTitle("Confirmation Dialog");
+									alert.setHeaderText("Sei sicuro di voler segnalare l'impiegato come assente?");
+									alert.setContentText("L'impiegato con matricola " + employee.getId() + " verrà segnalato come assente fino a nuova comunicazione.");
+
+									Optional<ButtonType> result = alert.showAndWait();
+									if (result.get() == ButtonType.OK){
+										try {
+											DBHelper.getInstance().insertAbsenceStartDay(employee.getEmployee());
+										} catch (SQLException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										employee.getEmployee().setStatus(StatusEmployee.ABSENT);
+										ImageView nimv = new ImageView(new Image(getClass().getResourceAsStream("../icons/nbv.png")));
+										nimv.setFitHeight(24.0);
+										nimv.setFitWidth(24.0);
+										Button button = (Button) event.getSource();
+										button.setGraphic(nimv);
+										employees.getColumns().get(0).setVisible(false);
+										employees.getColumns().get(0).setVisible(true);
+
+									}
+
+								}
+								else {
+									Alert alert = new Alert(AlertType.CONFIRMATION);
+									alert.setTitle("Confirmation Dialog");
+									alert.setHeaderText("Sei sicuro di voler segnalare il veicolo come funzionante?");
+									alert.setContentText("Il veicolo con matricola " + employee.getId() + " verrà segnalato come funzionante e sarà utilizzabile.");
+
+									Optional<ButtonType> result = alert.showAndWait();
+									if (result.get() == ButtonType.OK){
+										ImageView nimv = new ImageView(new Image(getClass().getResourceAsStream("../icons/bv.png")));
+										nimv.setFitHeight(24.0);
+										nimv.setFitWidth(24.0);
+										Button button = (Button) event.getSource();
+										button.setGraphic(nimv);
+										employees.getColumns().get(0).setVisible(false);
+										employees.getColumns().get(0).setVisible(true);
+									}
+								}
+							});
+							btn2.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1px");
+							bv.setFitWidth(24.0);
+							bv.setFitHeight(24.0);
+							EmployeeDataModel employee = getTableView().getItems().get(getIndex());
+							if(employee.getEmployee().getStatus() == StatusEmployee.ABSENT) {
+								System.out.println("Broken employee");
+								bv.setImage(new Image(getClass().getResourceAsStream("../icons/nbv.png")));
+							}
+							setGraphic(btn2);
+							setText(null);
+						}
+					}
+				};
+				return cell;
+			}
+		};
+
+		absenceColumn.setCellFactory(cellFactory3);
+
+		// Action: remove 
+
+		removeColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+		final ListSearchEmployeeCtrl lsvc = this;
+
+		Callback<TableColumn<EmployeeDataModel, String>, TableCell<EmployeeDataModel, String>> cellFactory2
+		= //
+		new Callback<TableColumn<EmployeeDataModel, String>, TableCell<EmployeeDataModel, String>>() {
+			@Override
+			public TableCell<EmployeeDataModel, String> call(final TableColumn<EmployeeDataModel, String> param) {
+				final TableCell<EmployeeDataModel, String> cell = new TableCell<EmployeeDataModel, String>() {
+
+					Image irv = new Image(getClass().getResourceAsStream("../icons/rv.png"));
+					ImageView rv = new ImageView(irv);
+					final Button btn3 = new Button("", rv);
+					@Override
+					public void updateItem(String item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+							setText(null);
+						} else {
+							btn3.setOnAction(event -> {
+								EmployeeDataModel line = getTableView().getItems().get(getIndex());
+								Alert alert = new Alert(AlertType.CONFIRMATION);
+								alert.setTitle("Confirmation Dialog");
+								alert.setHeaderText("Sei sicuro di voler eliminare il veicolo?");
+								alert.setContentText("Il veicolo con matricola " + line.getId() + " verrà eliminato. Questa operazione è irreversibile.");
+
+								Optional<ButtonType> result = alert.showAndWait();
+								if (result.get() == ButtonType.OK){
+									// TODO: implementare cancellazione su db
+									data.remove(line);
+									lsvc.initialize();
+								} 
+							});
+							btn3.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1px");
+							rv.setFitWidth(24.0);
+							rv.setFitHeight(24.0);
+							setGraphic(btn3);
+							setText(null);
+						}
+					}
+				};
+				return cell;
+			}
+		};
+
+		removeColumn.setCellFactory(cellFactory2);
 	}
 	@FXML
 	public void goHome() throws IOException {

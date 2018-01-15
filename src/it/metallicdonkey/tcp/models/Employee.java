@@ -4,6 +4,7 @@
 package it.metallicdonkey.tcp.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import it.metallicdonkey.tcp.login.Role;
 
@@ -23,6 +24,7 @@ public class Employee {
 	private StatusEmployee status;
 	private Role role;
 	private Workshift workshift;
+	private ArrayList<AbsenceInterval> absenceIntervals;
 	public Workshift getWorkshift() {
 		return workshift;
 	}
@@ -86,5 +88,11 @@ public class Employee {
 	public String toString() {
 		return "Matricola: " + id + "\nNome: " + firstName + "\nCognome: " + lastName +
 			"\nStato: " + status;
+	}
+	public ArrayList<AbsenceInterval> getAbsenceIntervals() {
+		return absenceIntervals;
+	}
+	public void setAbsenceIntervals(ArrayList<AbsenceInterval> absenceIntervals) {
+		this.absenceIntervals = absenceIntervals;
 	}
 }
