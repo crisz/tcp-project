@@ -1,4 +1,5 @@
 package it.metallicdonkey.tcp.db;
+import java.awt.geom.AffineTransform;
 import java.security.spec.ECField;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -90,7 +91,7 @@ public class DBHelper {
 			ResultSet result = dbm.getResultSet();
 			result.beforeFirst();
 
-			while(dbm.getResultSet().next()) {
+			while(result.next()) {
 				Employee e = new Employee();
 				e.setId(result.getString("idEmployee"));
 				e.setFirstName(result.getString("First Name"));
@@ -123,27 +124,75 @@ public class DBHelper {
 		return dataEmployees;
 	}
 
+	public ArrayList<Employee> getAllEmployeesArray() {
+		ArrayList<Employee> employees = new ArrayList<>();
+		try {
+			dbm.executeQuery("SELECT * FROM employee");
+			// verify if the query returned an empty table
+//			if(!dbm.getResultSet().next()) {
+//				return null;
+//			}
+			// if the query table returned contains something
+			ResultSet result = dbm.getResultSet();
+			result.beforeFirst();
+
+			while(result.next()) {
+				Employee e = new Employee();
+				e.setId(result.getString("idEmployee"));
+				e.setFirstName(result.getString("First Name"));
+				e.setLastName(result.getString("Last Name"));
+				e.setBirthDate(result.getDate("BirthDate").toLocalDate());
+				e.setEmail(result.getString("Email"));
+				e.setAddress(result.getString("Address"));
+				e.setSalary(result.getDouble("Salary"));
+				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
+				e.setRole(Role.valueOf(result.getString("Role")));
+				String w = result.getString("Workshift");
+				System.out.println("wwww");
+				System.out.println(w);
+				if(w.equals("MORNING")) {
+					System.out.println("Questo impiegato è di mattina");
+					e.setWorkshift(Workshift.MATTINA);
+				}
+				else if(w.equals("AFTERNOON"))
+					e.setWorkshift(Workshift.POMERIGGIO);
+				else
+					e.setWorkshift(Workshift.SERA);
+				employees.add(e);
+			}
+		}
+		catch(SQLException exc) {
+			exc.printStackTrace();
+			return null;
+		}
+		// ObservableList<EmployeeDataModel> dataEmployees = FXCollections.observableArrayList(employees);
+		return employees;
+	}
+
 	public void insertEmployee(Employee e) throws SQLException{
 		String query = " INSERT INTO tcp.employee ()" + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		// create the mysql insert preparedstatement
-		PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
-		preparedStmt.setString (1, e.getId());
-		preparedStmt.setString (2, e.getFirstName());
-		preparedStmt.setString (3, e.getLastName());
-		preparedStmt.setString (4, e.getBirthDate().getYear()+"-"+e.getBirthDate().getMonthValue()+"-"+e.getBirthDate().getDayOfMonth());
-		preparedStmt.setString (5, this.workshiftToEnglish(e.getWorkshift()));
-		preparedStmt.setDouble (6, e.getSalary());
-		preparedStmt.setString (7, e.getEmail());
-		preparedStmt.setString (8, e.getRole().name());
-		preparedStmt.setString (9, "AVAILABLE");
-		preparedStmt.setString (10, e.getAddress());
-		preparedStmt.setString (11, "TCP_password");
+		try {
+			PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
+			preparedStmt.setString (1, e.getId());
+			preparedStmt.setString (2, e.getFirstName());
+			preparedStmt.setString (3, e.getLastName());
+			preparedStmt.setString (4, e.getBirthDate().getYear()+"-"+e.getBirthDate().getMonthValue()+"-"+e.getBirthDate().getDayOfMonth());
+			preparedStmt.setString (5, this.workshiftToEnglish(e.getWorkshift()));
+			preparedStmt.setDouble (6, e.getSalary());
+			preparedStmt.setString (7, e.getEmail());
+			preparedStmt.setString (8, e.getRole().name());
+			preparedStmt.setString (9, "AVAILABLE");
+			preparedStmt.setString (10, e.getAddress());
+			preparedStmt.setString (11, "TCP_password");
 
-		// execute the preparedstatement
-		preparedStmt.execute();
+			// execute the preparedstatement
+			preparedStmt.execute();
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
 	}
-
 	public ObservableList<VehicleDataModel> getAllVehicles() {
 		ArrayList<VehicleDataModel> vehicles= new ArrayList<>();
 		try {
@@ -171,6 +220,35 @@ public class DBHelper {
 		}
 		ObservableList<VehicleDataModel> dataVehicles = FXCollections.observableArrayList(vehicles);
 		return dataVehicles;
+	}
+	public ArrayList<Vehicle> getAllVehiclesArray() {
+		ArrayList<Vehicle> vehicles= new ArrayList<>();
+		try {
+			dbm.executeQuery("SELECT * FROM vehicle");
+			// verify if the query returned an empty table
+//			if(!dbm.getResultSet().next()) {
+//				return null;
+//			}
+			// if the query table returned contains something
+			ResultSet result = dbm.getResultSet();
+			result.beforeFirst();
+			while(result.next()) {
+				Vehicle v= new Vehicle();
+				v.setId(result.getString("idVehicle"));
+				v.setPlate(result.getString("Plate"));
+				v.setPlacesForDisable(result.getInt("PlacesForDisabled"));
+				v.setSeats(result.getInt("Seats"));
+				v.setStandingPlaces(result.getInt("StandingSeats"));
+				v.setStatus(StatusVehicle.valueOf(result.getString("Status")));
+				// vehicles.add(new VehicleDataModel(v, "In circolazione"));
+				vehicles.add(v);
+			}
+		}
+		catch(SQLException exc) {
+			exc.printStackTrace();
+		}
+		// ObservableList<VehicleDataModel> dataVehicles = FXCollections.observableArrayList(vehicles);
+		return vehicles;
 	}
 	public ObservableList<VehicleDataModel> getAllVehicles(String clause) {
 		ArrayList<VehicleDataModel> vehicles = new ArrayList<>();
@@ -207,22 +285,24 @@ public class DBHelper {
 	}
 
 	public void insertVehicle(Vehicle v) throws SQLException {
-    // the mysql insert statement
-    String query = "insert into vehicle (idVehicle, Brand, Status, Seats, StandingSeats, PlacesForDisabled, Plate)"
-      + " values (?, ?, ?, ?, ?, ?, ?)";
+		// the mysql insert statement
+		String query = "insert into vehicle (idVehicle, Brand, Status, Seats, StandingSeats, PlacesForDisabled, Plate)"
+				+ " values (?, ?, ?, ?, ?, ?, ?)";
+		try {
+			PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
+		    preparedStmt.setString(1, v.getId());
+		    preparedStmt.setString(2, v.getBrand());
+		    preparedStmt.setString(3, v.getStatus().name());
+		    preparedStmt.setInt(4, v.getSeats());
+		    preparedStmt.setInt(5, v.getStandingPlaces());
+		    preparedStmt.setInt(6, v.getPlacesForDisable());
+		    preparedStmt.setString(7, v.getPlate());
 
-
-    PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
-    preparedStmt.setString(1, v.getId());
-    preparedStmt.setString(2, v.getBrand());
-    preparedStmt.setString(3, v.getStatus().name());
-    preparedStmt.setInt(4, v.getSeats());
-    preparedStmt.setInt(5, v.getStandingPlaces());
-    preparedStmt.setInt(6, v.getPlacesForDisable());
-    preparedStmt.setString(7, v.getPlate());
-
-    // execute the preparedstatement
-    preparedStmt.execute();
+		    // execute the preparedstatement
+		    preparedStmt.execute();
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
 	}
 	// bisogna vedere come identificare un capolinea rispetto alle normali fermate
 	public Stop getTerminal(Line line, boolean first) {
@@ -465,5 +545,45 @@ public class DBHelper {
 	        alert.setContentText("I dati non sono stati alterati, riprovare più tardi.");
 	        alert.showAndWait();
 		}
+	}
+	public ArrayList<AbsenceInterval> getAbsenceInterval(Employee e) {
+		ArrayList<AbsenceInterval> array = new ArrayList<>();
+		try {
+			dbm.executeQuery("SELECT * FROM AbsenceInterval WHERE Employee_idEmployee="+e.getId());
+			ResultSet result = dbm.getResultSet();
+			result.beforeFirst();
+			while(result.next()) {
+				AbsenceInterval abs = new AbsenceInterval();
+				abs.setId(result.getString("idAbsenceInterval"));
+				abs.setStartDay(LocalDate.parse(result.getString("startDay"), DateTimeFormatter.ISO_LOCAL_DATE));
+				abs.setEndDay(LocalDate.parse(result.getString("endDay"), DateTimeFormatter.ISO_LOCAL_DATE));
+				abs.setIdEmployee(result.getString("Employee_idEmployee"));
+				array.add(abs);
+			}
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+			return null;
+		}
+		return array;
+	}
+	public ArrayList<BrokenInterval> getBrokenInterval(Vehicle v) {
+		ArrayList<BrokenInterval> array = new ArrayList<>();
+		try {
+			dbm.executeQuery("SELECT * FROM BrokenInterval WHERE Vehicle_idVehicle="+v.getId());
+			ResultSet result = dbm.getResultSet();
+			result.beforeFirst();
+			while(result.next()) {
+				BrokenInterval bro = new BrokenInterval();
+				bro.setId(result.getString("idBrokenInterval"));
+				bro.setStartDay(LocalDate.parse(result.getString("startDay"), DateTimeFormatter.ISO_LOCAL_DATE));
+				bro.setEndDay(LocalDate.parse(result.getString("endDay"), DateTimeFormatter.ISO_LOCAL_DATE));
+				bro.setIdVehicle(result.getString("Vehicle_idVehicle"));
+				array.add(bro);
+			}
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+			return null;
+		}
+		return array;
 	}
 }

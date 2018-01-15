@@ -2,18 +2,18 @@ package it.metallicdonkey.tcp.models;
 
 import java.time.LocalDate;
 
-public class AbsenceInterval {
+public class BrokenInterval {
 	private String id;
 	private LocalDate startDay;
 	private LocalDate endDay;
-	private String idEmployee;
-	public AbsenceInterval(String id, LocalDate startDay, LocalDate endDay, String idEmployee) {
+	private String idVehicle;
+	public BrokenInterval(String id, LocalDate startDay, LocalDate endDay, String idVehicle) {
 		this.setId(id);
-		this.setIdEmployee(idEmployee);
+		this.setIdVehicle(idVehicle);
 		this.setStartDay(startDay);
 		this.setEndDay(endDay);
 	}
-	public AbsenceInterval() {
+	public BrokenInterval() {
 	}
 	public String getId() {
 		return id;
@@ -33,10 +33,10 @@ public class AbsenceInterval {
 	public void setEndDay(LocalDate endDay) {
 		this.endDay = endDay;
 	}
-	public String getIdEmployee() {
-		return idEmployee;
+	public String getIdVehicle() {
+		return idVehicle;
 	}
-	public void setIdEmployee(String idEmployee) {
-		this.idEmployee = idEmployee;
+	public void setIdVehicle(String idVehicle) {
+		this.idVehicle = idVehicle;
 	}
 }
