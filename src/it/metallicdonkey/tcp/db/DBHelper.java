@@ -182,8 +182,10 @@ public class DBHelper {
 			preparedStmt.setDouble (6, e.getSalary());
 			preparedStmt.setString (7, e.getEmail());
 			preparedStmt.setString (8, e.getRole().name());
+			// default status
 			preparedStmt.setString (9, "AVAILABLE");
 			preparedStmt.setString (10, e.getAddress());
+			// default password
 			preparedStmt.setString (11, "TCP_password");
 
 			// execute the preparedstatement
@@ -587,8 +589,17 @@ public class DBHelper {
 	}
 	//this method returns 1 if the query success
 	public int removeEmployee(Employee e) {
-		int result = dbm.executeUpdate("DELETE FROM tcp.employee WHERE idEmployee="+e.getId());
+		int result = dbm.executeUpdate("DELETE FROM tcp.employee WHERE idEmployee='"+e.getId()+"'");
 		return result; 
 	}
-	
+	//this method returns 1 if the query success
+	public int removeVehicle(Vehicle v) {
+		int result = dbm.executeUpdate("DELETE FROM tcp.vehicle WHERE idVehicle='"+v.getId()+"'");
+		return result;
+	}
+	//this method returns 1 if the query success
+	public int removeLine(Line l) {
+		int result = dbm.executeUpdate("DELETE FROM tcp.line WHERE idLine='"+l.getName()+"'");
+		return result;
+	}
 }
