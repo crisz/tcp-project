@@ -132,6 +132,12 @@ public class DBManager {
             result = this.statement.executeUpdate(query);
             return result;
         } catch (SQLException ex) {
+        	Alert alert = new Alert(AlertType.WARNING);
+            alert.initOwner(null);
+            alert.setTitle("Connection Information");
+            alert.setHeaderText("Connessione Non Disponibile");
+            alert.setContentText("Controlla la connessione e riprova.");
+            alert.showAndWait();
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
             return result;
         }
