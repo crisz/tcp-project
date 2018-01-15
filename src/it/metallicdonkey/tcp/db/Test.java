@@ -156,5 +156,22 @@ public class Test {
 			System.out.println("No Data");
 		}*/
 
+//		Vehicle v = new Vehicle();
+//
+//		v.setId("12345");
+//		int result = db.removeVehicle(v);
+//		System.out.println(result);
+
+//		Line l = new Line();
+//		l.setName("101");
+//		int result = db.removeLine(l);
+//		System.out.println(result);
+
+//		ArrayList<Location> locations = db.getAllFreeLocations();
+//		Iterator<Location> it = locations.iterator();
+//		while(it.hasNext()) {
+//			Location l = it.next();
+//			System.out.println(l.getId_Location()+" "+ l.getId_Vehicle());
+//		}
 	}
 }

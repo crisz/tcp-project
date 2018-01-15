@@ -8,6 +8,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -187,6 +188,7 @@ public class DBHelper {
 		preparedStmt.setString (11, "TCP_password");
 		// execute the preparedstatement
 		preparedStmt.execute();
+
 	}
 	public ObservableList<VehicleDataModel> getAllVehicles() {
 		ArrayList<VehicleDataModel> vehicles= new ArrayList<>();
@@ -359,6 +361,7 @@ public class DBHelper {
 		return dataLines;
 	}
 	private String getNewAbsenceId() {
+		// TODO: WTF? Qual è il motivo? L'ID viene generato automaticamente
 		List<String> ids = new ArrayList<>();
 		String idAbs = null;
 		try {
@@ -552,7 +555,57 @@ public class DBHelper {
 	}
 	//this method returns 1 if the query success
 	public int removeEmployee(Employee e) {
-		int result = dbm.executeUpdate("DELETE FROM tcp.employee WHERE idEmployee="+e.getId());
+		int result = dbm.executeUpdate("DELETE FROM tcp.employee WHERE idEmployee='"+e.getId()+"'");
 		return result;
+	}
+	//this method returns 1 if the query success
+	public int removeVehicle(Vehicle v) {
+		int result = dbm.executeUpdate("DELETE FROM tcp.vehicle WHERE idVehicle='"+v.getId()+"'");
+		return result;
+	}
+	//this method returns 1 if the query success
+	public int removeLine(Line l) {
+		int result = dbm.executeUpdate("DELETE FROM tcp.line WHERE idLine='"+l.getName()+"'");
+		return result;
+	}
+
+	private ArrayList<Location> getLocations(String clause){
+		ArrayList<Location> locations = new ArrayList<>();
+		try {
+			dbm.executeQuery("SELECT * FROM tcp.location WHERE "+clause);
+			// verify if the query returned an empty table
+//			if(!dbm.getResultSet().next()) {
+//				return null;
+//			}
+			// if the query table returned contains something
+			ResultSet result = dbm.getResultSet();
+//			result.beforeFirst();
+			while(result.next()) {
+				Location l= new Location();
+				l.setId_Location(result.getInt("idPlace"));
+				l.setId_Vehicle(result.getString("Vehicle_idVehicle"));
+				locations.add(l);
+			}
+		}
+		catch(SQLException exc) {
+			exc.printStackTrace();
+		}
+		return locations;
+	}
+	public ArrayList<Location> getAllLocations(){
+		return this.getLocations("TRUE");
+	}
+	public ArrayList<Location> getAllFreeLocations(){
+		ArrayList<Location> locations = this.getAllLocations();
+		Iterator<Location> it = locations.iterator();
+		ArrayList<Location> freeLocations = new ArrayList<>();
+
+		while(it.hasNext()) {
+			Location l = it.next();
+			if(l.getId_Vehicle() == null) {
+				freeLocations.add(l);
+			}
+		}
+		return freeLocations;
 	}
 }

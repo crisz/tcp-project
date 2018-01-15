@@ -80,7 +80,7 @@ public class CheckCtrl {
 		);
 
 		this.dataVehicles = DBHelper.getInstance().getAllVehicles();
-
+System.out.println(dataVehicles);
 		this.dataEmployees = DBHelper.getInstance().getAllEmployees();
 		System.out.println("tutti gli impiegati");
 		for(int i=0; i<dataEmployees.size(); i++) {
@@ -96,7 +96,7 @@ public class CheckCtrl {
 		this.dataCheck = FXCollections.observableArrayList(
 		    new CheckDataModel(
 		    		new EmployeeDataModel("0186121", "Pietro","Gambadilegno"),
-		    		DBHelper.getInstance().getAllVehicles().get(0) ,
+		    		DBHelper.getInstance().getAllVehicles().get(0),
 		    		new LineDataModel("806","Politeama","Mondello")
 		    	)
 		);
