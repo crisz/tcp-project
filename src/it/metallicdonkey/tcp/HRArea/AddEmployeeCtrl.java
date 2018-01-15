@@ -187,7 +187,7 @@ public class AddEmployeeCtrl {
 		    }
 		    // Numberical check for stipendio
 	    	try {
-	    		double d = Double.parseDouble(stipendio.getText());
+	    		Double.parseDouble(stipendio.getText());
 	    	}
 	    	catch(NumberFormatException e) {
 	    		alert.setContentText("Inserisci un valore numerico per lo stipendio");

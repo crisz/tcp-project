@@ -52,17 +52,28 @@ public class AddVehicleCtrl {
 		if (error != null) {
 			error.showAndWait();
 		} else {
-			Vehicle v = new Vehicle(matricola.getText(), targa.getText(), Integer.parseInt(postiASedere.getText()), 
-															Integer.parseInt(postiInPiedi.getText()), Integer.parseInt(postiDisabili.getText()), modello.getText(), StatusVehicle.AVAILABLE);
+			Vehicle v = getNewVehicle();
 			try {
 				DBHelper.getInstance().insertVehicle(v);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String result = "Il veicolo " + matricola.getText() + " é stato inserito con successo";
+			String result = "Il veicolo " + v.getId() + " é stato inserito con successo";
 			System.out.println(result);
 		}
+	}
+	
+	private Vehicle getNewVehicle() {
+		Vehicle v = new Vehicle();
+		v.setBrand(modello.getText());
+		v.setId(matricola.getText());
+		v.setPlacesForDisable(Integer.parseInt(postiDisabili.getText()));
+		v.setPlate(targa.getText());
+		v.setSeats(Integer.parseInt(postiASedere.getText()));
+		v.setStandingPlaces(Integer.parseInt(postiInPiedi.getText()));
+		v.setStatus(StatusVehicle.AVAILABLE);
+		return v;
 	}
 	
 	private Alert check() {
