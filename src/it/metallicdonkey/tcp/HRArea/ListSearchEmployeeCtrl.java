@@ -32,6 +32,8 @@ public class ListSearchEmployeeCtrl {
 	private TableColumn<EmployeeDataModel, String> editColumn;
 	@FXML
 	private TableColumn<EmployeeDataModel, String> removeColumn;
+	@FXML
+	private TableColumn<EmployeeDataModel, String> setAbsenceOrEndAbsence;
 	final ObservableList<EmployeeDataModel> data = FXCollections.observableArrayList(
 		    new EmployeeDataModel("0643436", "Matteo", "Farina"),
 		    new EmployeeDataModel("0641612", "Cristian", "Traina"),
@@ -126,7 +128,6 @@ public class ListSearchEmployeeCtrl {
 	    };
 
 	    removeColumn.setCellFactory(cellFactory2);
-
 	}
 	@FXML
 	public void goHome() throws IOException {

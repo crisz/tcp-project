@@ -1,11 +1,15 @@
 package it.metallicdonkey.tcp.db;
+import java.security.spec.ECField;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
 import java.sql.PreparedStatement;
 import it.metallicdonkey.tcp.administrativeArea.LineDataModel;
 import it.metallicdonkey.tcp.HRArea.EmployeeDataModel;
@@ -225,11 +229,11 @@ public class DBHelper {
 			if(first == true) {
 				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, lines_has_stop ls, line l " +
 						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
-						" AND l.idLine=ls.Line_idLine AND ls.firstTerminal=TRUE");
+						" AND l.idLine=ls.Line_idLine AND ls.type=FIRST");
 			} else {
 				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, lines_has_stop ls, line l " +
 						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
-						" AND l.idLine=ls.Line_idLine AND ls.endTerminal=TRUE");
+						" AND l.idLine=ls.Line_idLine AND ls.type=END");
 			}
 			ResultSet result = dbm.getResultSet();
 			stop.setAddress(result.getString("Address"));
@@ -244,11 +248,11 @@ public class DBHelper {
 			if(going == true) {
 				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, lines_has_stop ls, line l " +
 						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
-						" AND l.idLine=ls.Line_idLine AND ls.goingStop=TRUE");
+						" AND l.idLine=ls.Line_idLine AND ls.type=GOING");
 			} else {
 				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, lines_has_stop ls, line l " +
 						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
-						" AND l.idLine=ls.Line_idLine AND ls.returnStop=TRUE");
+						" AND l.idLine=ls.Line_idLine AND ls.type=RETURN");
 			}
 			ResultSet resultSet = dbm.getResultSet();
 			resultSet.beforeFirst();
@@ -282,5 +286,148 @@ public class DBHelper {
 		}
 		ObservableList<LineDataModel> dataLines = FXCollections.observableArrayList();
 		return dataLines;
+	}
+	private String getNewAbsenceId() {
+		List<String> ids = new ArrayList<>();
+		String idAbs = null;
+		try {
+			dbm.executeQuery("SELECT idAbsenceInterval FROM AbsenceInterval");
+			ResultSet result = dbm.getResultSet();
+			while(result.next()) {
+				String id = result.getString("idAbsenceInterval");
+				ids.add(id);
+			}
+			Random random = new Random();
+			int idAbsence = random.nextInt(1024);
+			idAbs = String.valueOf(idAbsence).toString();
+			boolean isUnique = false;
+			while(!isUnique) {
+				if(!ids.contains(idAbs))
+					isUnique = true;
+				else {
+					idAbsence = random.nextInt(1024);
+					idAbs = String.valueOf(idAbsence).toString();
+				}
+			}
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+		return idAbs;
+	}
+	public void insertAbsenceStartDay(Employee e) {
+		LocalDate date = LocalDate.now();
+		String id = this.getNewAbsenceId();
+		if(id != null) {
+			String query = "INSERT INTO absenceInterval (idAbsenceInterval, StartDay, EndDay, Employee_idEmployee) "+
+					"VALUES (?, ?, ?, ?)";
+			try {
+				PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
+				preparedStmt.setString(1, id);
+				preparedStmt.setString(2, date.format(DateTimeFormatter.ISO_LOCAL_DATE));
+				preparedStmt.setString(3, "1970-01-01");
+				preparedStmt.setString(4, e.getId());
+				preparedStmt.execute();
+			} catch (SQLException exc) {
+				// manca la logica per avvisare l'utente che la query non ha avuto successo
+				// probabilmente sarebbe meglio inserire un valore di ritorno per verificare il successo
+				exc.printStackTrace();
+			}
+		} else {
+			// manca la logica per avvisare l'utente che la query non ha avuto successo
+		}
+
+	}
+	private String getAbsenceId(Employee e) {
+		String id = null;
+		try {
+			dbm.executeQuery("SELECT idAbsenceInterval FROM AbsenceInterval "+
+					"WHERE Employee_idEmployee="+e.getId()+" AND endDay='1970-01-01'");
+			ResultSet result = dbm.getResultSet();
+			id = result.getString("idAbsenceInterval");
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+		return id;
+	}
+	public void insertAbsenceEndDay(Employee e) {
+		String id = this.getAbsenceId(e);
+		LocalDate date = LocalDate.now();
+		if(id != null) {
+			dbm.executeQuery("UPDATE AbsenceInterval SET endDay="+date.format(DateTimeFormatter.ISO_LOCAL_DATE)+
+					" WHERE idAbsenceInterval="+id+" AND Employee_idEmployee="+e.getId());
+		} else {
+			// manca la logica per avvisare l'utente che la query non ha avuto successo
+		}
+	}
+	private String getNewBrokenId() {
+		List<String> ids = new ArrayList<>();
+		String idAbs = null;
+		try {
+			dbm.executeQuery("SELECT idBrokenInterval FROM BrokenInterval");
+			ResultSet result = dbm.getResultSet();
+			while(result.next()) {
+				String id = result.getString("idBrokenInterval");
+				ids.add(id);
+			}
+			Random random = new Random();
+			int idAbsence = random.nextInt(1024);
+			idAbs = String.valueOf(idAbsence).toString();
+			boolean isUnique = false;
+			while(!isUnique) {
+				if(!ids.contains(idAbs))
+					isUnique = true;
+				else {
+					idAbsence = random.nextInt(1024);
+					idAbs = String.valueOf(idAbsence).toString();
+				}
+			}
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+		return idAbs;
+	}
+	public void insertBrokenStartDay(Vehicle v) {
+		String id = this.getNewBrokenId();
+		LocalDate date = LocalDate.now();
+		if(id != null) {
+			String query = "INSERT INTO BrokenInterval (idBrokenInterval, StartDay, EndDay, Vehicle_idVehicle) "+
+					"VALUES (?, ?, ?, ?)";
+			try {
+				PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
+				preparedStmt.setString(1, id);
+				preparedStmt.setString(2, date.format(DateTimeFormatter.ISO_LOCAL_DATE));
+				preparedStmt.setString(3, "1970-01-01");
+				preparedStmt.setString(4, v.getId());
+				preparedStmt.execute();
+			} catch (SQLException exc) {
+				// manca la logica per avvisare l'utente che la query non ha avuto successo
+				// probabilmente sarebbe meglio inserire un valore di ritorno per verificare il successo
+				exc.printStackTrace();
+			}
+		} else {
+			// manca la logica per avvisare l'utente che la query non ha avuto successo
+		}
+	}
+	private String getBrokenId(Vehicle v) {
+		String id = null;
+		try {
+			dbm.executeQuery("SELECT idBrokenInterval FROM BrokenInterval "+
+					"WHERE Vehicle_idVehicle="+v.getId()+" AND endDay='1970-01-01'");
+			ResultSet result = dbm.getResultSet();
+			id = result.getString("idBrokenInterval");
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+		return id;
+	}
+	public void insertBrokenEndDay(Vehicle v) {
+		String id = this.getBrokenId(v);
+		LocalDate date = LocalDate.now();
+		if(id != null) {
+			dbm.executeQuery("UPDATE BrokenInterval SET endDay="+date.format(DateTimeFormatter.ISO_LOCAL_DATE)+
+					" WHERE idBrokenInterval="+id + "AND Vehicle_idVehicle="+v.getId());
+		} else {
+			// manca la logica per avvisare l'utente che la query non ha avuto successo
+		}
 	}
 }
