@@ -36,7 +36,7 @@ public class DBHelper {
 		return instance;
 	}
 
-	public static ArrayList<Employee> getAllEmployees(String clause){
+	public ArrayList<Employee> getAllEmployees(String clause){
 		ArrayList<Employee> employees = new ArrayList<>();
 		try {
 			dbm.executeQuery("SELECT * FROM employee WHERE "+clause);
@@ -116,7 +116,6 @@ public class DBHelper {
 		}
 		catch(SQLException exc) {
 			exc.printStackTrace();
-			return null;
 		}
 		ObservableList<EmployeeDataModel> dataEmployees = FXCollections.observableArrayList(employees);
 		return dataEmployees;
@@ -208,7 +207,7 @@ public class DBHelper {
 				v.setPlate(result.getString("Plate"));
 				v.setPlacesForDisable(result.getInt("PlacesForDisabled"));
 				v.setSeats(result.getInt("Seats"));
-				v.setStandingPlaces(result.getInt("StandingSeats"));
+				v.setStandingPlaces(result.getInt("StandingPlaces"));
 				v.setStatus(StatusVehicle.valueOf(result.getString("Status")));
 				vehicles.add(new VehicleDataModel(v, "In circolazione"));
 			}
@@ -236,7 +235,7 @@ public class DBHelper {
 				v.setPlate(result.getString("Plate"));
 				v.setPlacesForDisable(result.getInt("PlacesForDisabled"));
 				v.setSeats(result.getInt("Seats"));
-				v.setStandingPlaces(result.getInt("StandingSeats"));
+				v.setStandingPlaces(result.getInt("StandingPlaces"));
 				v.setStatus(StatusVehicle.valueOf(result.getString("Status")));
 				// vehicles.add(new VehicleDataModel(v, "In circolazione"));
 				vehicles.add(v);
@@ -260,7 +259,7 @@ public class DBHelper {
 				v.setPlate(result.getString("Plate"));
 				v.setPlacesForDisable(result.getInt("PlacesForDisabled"));
 				v.setSeats(result.getInt("Seats"));
-				v.setStandingPlaces(result.getInt("StandingSeats"));
+				v.setStandingPlaces(result.getInt("StandingPlaces"));
 				v.setStatus(StatusVehicle.valueOf(result.getString("Status")));
 				vehicles.add(new VehicleDataModel(v, "In circolazione"));
 			}
@@ -284,7 +283,7 @@ public class DBHelper {
 
 	public void insertVehicle(Vehicle v) throws SQLException {
 		// the mysql insert statement
-		String query = "insert into vehicle (idVehicle, Brand, Status, Seats, StandingSeats, PlacesForDisabled, Plate)"
+		String query = "insert into vehicle (idVehicle, Brand, Status, Seats, StandingPlaces, PlacesForDisabled, Plate)"
 				+ " values (?, ?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
@@ -584,4 +583,10 @@ public class DBHelper {
 		}
 		return array;
 	}
+	//this method returns 1 if the query success
+	public int removeEmployee(Employee e) {
+		int result = dbm.executeUpdate("DELETE FROM tcp.employee WHERE idEmployee="+e.getId());
+		return result; 
+	}
+	
 }
