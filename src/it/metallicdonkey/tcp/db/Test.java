@@ -13,16 +13,16 @@ public class Test {
 		DBHelper db = DBHelper.getInstance();
 //
 //		Vehicle v = new Vehicle();
-//		
+//
 //		v.setId("2587");
 //		int result = db.removeVehicle(v);
 //		System.out.println(result);
-		
+
 //		Line l = new Line();
 //		l.setName("101");
 //		int result = db.removeLine(l);
 //		System.out.println(result);
-		
+
 //		ArrayList<Location> locations = db.getAllFreeLocations();
 //		Iterator<Location> it = locations.iterator();
 //		while(it.hasNext()) {
@@ -32,7 +32,7 @@ public class Test {
 //		Location l = db.getLocation(v);
 //		System.out.println(l.getId_Location());
 
-/*
+
 //		ArrayList<Employee> employees = new ArrayList<>();
 		Iterator<Employee> it;
 		Iterator<AbsenceInterval> it2;
@@ -174,6 +174,7 @@ public class Test {
 				System.out.println(bro.toString()+ "\n");
 			}
 		}
+/*
 		if(db.getAllEmployees() == null) {
 			System.out.println("No Data");
 		}

@@ -360,54 +360,23 @@ public class DBHelper {
 		ObservableList<LineDataModel> dataLines = FXCollections.observableArrayList();
 		return dataLines;
 	}
-	private String getNewAbsenceId() {
-		// TODO: WTF? Qual è il motivo? L'ID viene generato automaticamente
-		List<String> ids = new ArrayList<>();
-		String idAbs = null;
-		try {
-			dbm.executeQuery("SELECT idAbsenceInterval FROM AbsenceInterval");
-			ResultSet result = dbm.getResultSet();
-			while(result.next()) {
-				String id = result.getString("idAbsenceInterval");
-				ids.add(id);
-			}
-			Random random = new Random();
-			int idAbsence = random.nextInt(1024);
-			idAbs = String.valueOf(idAbsence).toString();
-			boolean isUnique = false;
-			while(!isUnique) {
-				if(!ids.contains(idAbs))
-					isUnique = true;
-				else {
-					idAbsence = random.nextInt(1024);
-					idAbs = String.valueOf(idAbsence).toString();
-				}
-			}
-		} catch (SQLException exc) {
-			exc.printStackTrace();
-		}
-		return idAbs;
-	}
 	public void insertAbsenceStartDay(Employee e) throws SQLException {
 		LocalDate date = LocalDate.now();
-		String id = this.getNewAbsenceId();
+		// String id = this.getNewAbsenceId();
 		int updated = -1;
-		if(id != null) {
-			String query = "INSERT INTO tcp.absenceInterval (idAbsenceInterval, StartDay, EndDay, Employee_idEmployee) "+
-					"VALUES (?, ?, ?, ?)";
-			String query2 = "UPDATE tcp.employee SET Status=\"ABSENT\" WHERE idEmployee=\""+e.getId() + "\"";
-			e.setStatus(StatusEmployee.ABSENT);
-			updated = dbm.executeUpdate(query2);
-			if(updated < 1)
-				throw new SQLException();
-			PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
-			preparedStmt.setString(1, id);
-			preparedStmt.setString(2, date.format(DateTimeFormatter.ISO_LOCAL_DATE));
-			preparedStmt.setString(3, "1970-01-01");
-			preparedStmt.setString(4, e.getId());
-			preparedStmt.execute();
-		} else
+		String query = "INSERT INTO tcp.absenceInterval (StartDay, EndDay, Employee_idEmployee) "+
+				"VALUES (?, ?, ?)";
+		String query2 = "UPDATE tcp.employee SET Status=\"ABSENT\" WHERE idEmployee=\""+e.getId() + "\"";
+		e.setStatus(StatusEmployee.ABSENT);
+		updated = dbm.executeUpdate(query2);
+		if(updated < 1)
 			throw new SQLException();
+		PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
+		// preparedStmt.setString(1, id);
+		preparedStmt.setString(1, date.format(DateTimeFormatter.ISO_LOCAL_DATE));
+		preparedStmt.setString(2, "1970-01-01");
+		preparedStmt.setString(3, e.getId());
+		preparedStmt.execute();
 	}
 	private String getAbsenceId(Employee e) {
 		String id = null;
@@ -437,53 +406,23 @@ public class DBHelper {
 		} else
 			throw new SQLException();
 	}
-	private String getNewBrokenId() {
-		List<String> ids = new ArrayList<>();
-		String idAbs = null;
-		try {
-			dbm.executeQuery("SELECT idBrokenInterval FROM BrokenInterval");
-			ResultSet result = dbm.getResultSet();
-			while(result.next()) {
-				String id = result.getString("idBrokenInterval");
-				ids.add(id);
-			}
-			Random random = new Random();
-			int idAbsence = random.nextInt(1024);
-			idAbs = String.valueOf(idAbsence).toString();
-			boolean isUnique = false;
-			while(!isUnique) {
-				if(!ids.contains(idAbs))
-					isUnique = true;
-				else {
-					idAbsence = random.nextInt(1024);
-					idAbs = String.valueOf(idAbsence).toString();
-				}
-			}
-		} catch (SQLException exc) {
-			exc.printStackTrace();
-		}
-		return idAbs;
-	}
 	public void insertBrokenStartDay(Vehicle v) throws SQLException {
-		String id = this.getNewBrokenId();
+		// String id = this.getNewBrokenId();
 		LocalDate date = LocalDate.now();
 		int updated = -1;
-		if(id != null) {
-			String query2 = "UPDATE vehicle SET Status=\"BROKEN\" WHERE idVehicle=\""+v.getId()+"\"";
-			updated = dbm.executeUpdate(query2);
-			String query = "INSERT INTO BrokenInterval (idBrokenInterval, StartDay, EndDay, Vehicle_idVehicle) "+
-					"VALUES (?, ?, ?, ?)";
-			if (updated < 1)
-				throw new SQLException();
-			PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
-			preparedStmt.setString(1, id);
-			preparedStmt.setString(2, date.format(DateTimeFormatter.ISO_LOCAL_DATE));
-			preparedStmt.setString(3, "1970-01-01");
-			preparedStmt.setString(4, v.getId());
-			preparedStmt.execute();
-			v.setStatus(StatusVehicle.BROKEN);
-		} else
+		String query2 = "UPDATE vehicle SET Status=\"BROKEN\" WHERE idVehicle=\""+v.getId()+"\"";
+		updated = dbm.executeUpdate(query2);
+		String query = "INSERT INTO BrokenInterval (StartDay, EndDay, Vehicle_idVehicle) "+
+				"VALUES (?, ?, ?)";
+		if (updated < 1)
 			throw new SQLException();
+		PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
+		// preparedStmt.setString(1, id);
+		preparedStmt.setString(1, date.format(DateTimeFormatter.ISO_LOCAL_DATE));
+		preparedStmt.setString(2, "1970-01-01");
+		preparedStmt.setString(3, v.getId());
+		preparedStmt.execute();
+		v.setStatus(StatusVehicle.BROKEN);
 	}
 	private String getBrokenId(Vehicle v) {
 		String id = null;
