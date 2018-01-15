@@ -1,20 +1,31 @@
 package it.metallicdonkey.tcp.administrativeArea;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.login.Home;
+import it.metallicdonkey.tcp.vehicleArea.ChangeLineCtrl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class ListSearchLineCtrl {
@@ -33,7 +44,7 @@ public class ListSearchLineCtrl {
 	private TableColumn<LineDataModel, String> editColumn;
 	@FXML
 	private TableColumn<LineDataModel, String> removeColumn;
-	
+	public static LineDataModel selectedLine;
 	
 	final ObservableList<LineDataModel> data = FXCollections.observableArrayList(
 	    new LineDataModel("101", "Stazione Centrale", "Stadio"),
@@ -79,73 +90,113 @@ public class ListSearchLineCtrl {
   	
   	// Add actions!
   	
-    editColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+		editColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
-    Callback<TableColumn<LineDataModel, String>, TableCell<LineDataModel, String>> cellFactory
-            = //
-            new Callback<TableColumn<LineDataModel, String>, TableCell<LineDataModel, String>>() {
-        @Override
-        public TableCell<LineDataModel, String> call(final TableColumn<LineDataModel, String> param) {
-            final TableCell<LineDataModel, String> cell = new TableCell<LineDataModel, String>() {
 
-                final Button btn = new Button("Modifica");
 
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        btn.setOnAction(event -> {
-                            LineDataModel line = getTableView().getItems().get(getIndex());
-                            System.out.println(line.getName());
-                        });
-                        setGraphic(btn);
-                        setText(null);
-                    }
-                }
-            };
-            return cell;
-        }
-    };
 
-    editColumn.setCellFactory(cellFactory);
-    
-    // Action: remove 
-    
-    removeColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+		Callback<TableColumn<LineDataModel, String>, TableCell<LineDataModel, String>> cellFactory
+		= //
+		new Callback<TableColumn<LineDataModel, String>, TableCell<LineDataModel, String>>() {
+			@Override
+			public TableCell<LineDataModel, String> call(final TableColumn<LineDataModel, String> param) {
+				final TableCell<LineDataModel, String> cell = new TableCell<LineDataModel, String>() {
 
-    Callback<TableColumn<LineDataModel, String>, TableCell<LineDataModel, String>> cellFactory2
-            = //
-            new Callback<TableColumn<LineDataModel, String>, TableCell<LineDataModel, String>>() {
-        @Override
-        public TableCell<LineDataModel, String> call(final TableColumn<LineDataModel, String> param) {
-            final TableCell<LineDataModel, String> cell = new TableCell<LineDataModel, String>() {
+					Image ive = new Image(getClass().getResourceAsStream("../icons/ve.png"));
+					ImageView ve = new ImageView(ive);
+					final Button btn1 = new Button("", ve);
 
-                final Button btn = new Button("Rimuovi");
+					@Override
+					public void updateItem(String item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+							setText(null);
+						} else {
+							btn1.setOnAction(event -> {
+								LineDataModel line = getTableView().getItems().get(getIndex());
+								ListSearchLineCtrl.selectedLine = line;
+								FXMLLoader loader = new FXMLLoader();
+								loader.setLocation(App.class.getResource("vehicleArea/ChangeLineScreen.fxml"));                           
+								AnchorPane personalInfo;
+								try {
+									personalInfo = (AnchorPane) loader.load();
 
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        btn.setOnAction(event -> {
-                            LineDataModel line = getTableView().getItems().get(getIndex());
-                            System.out.println(line.getName());
-                        });
-                        setGraphic(btn);
-                        setText(null);
-                    }
-                }
-            };
-            return cell;
-        }
-    };
+									Scene scene = new Scene(personalInfo);
+									Stage stage = mainApp.getPrimaryStage();
+									stage.setScene(scene);
+									ChangeLineCtrl lsvCtrl = loader.getController();
+									lsvCtrl.setMainApp(mainApp);
 
-    removeColumn.setCellFactory(cellFactory2);
+
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+							});
+							btn1.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1px");
+							ve.setFitWidth(43.5);
+							ve.setFitHeight(24.0);
+							setGraphic(btn1);
+							setText(null);
+						}
+					}
+				};
+				return cell;
+			}
+		};
+
+		editColumn.setCellFactory(cellFactory);
+
+		// Action: remove 
+
+		removeColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+		final ListSearchLineCtrl lsvc = this;
+
+		Callback<TableColumn<LineDataModel, String>, TableCell<LineDataModel, String>> cellFactory2
+		= //
+		new Callback<TableColumn<LineDataModel, String>, TableCell<LineDataModel, String>>() {
+			@Override
+			public TableCell<LineDataModel, String> call(final TableColumn<LineDataModel, String> param) {
+				final TableCell<LineDataModel, String> cell = new TableCell<LineDataModel, String>() {
+
+					Image irv = new Image(getClass().getResourceAsStream("../icons/rv.png"));
+					ImageView rv = new ImageView(irv);
+					final Button btn3 = new Button("", rv);
+					@Override
+					public void updateItem(String item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+							setText(null);
+						} else {
+							btn3.setOnAction(event -> {
+								LineDataModel line = getTableView().getItems().get(getIndex());
+								Alert alert = new Alert(AlertType.CONFIRMATION);
+								alert.setTitle("Confirmation Dialog");
+								alert.setHeaderText("Sei sicuro di voler eliminare il veicolo?");
+								alert.setContentText("Il veicolo con matricola " + line.getName() + " verrà eliminato. Questa operazione è irreversibile.");
+
+								Optional<ButtonType> result = alert.showAndWait();
+								if (result.get() == ButtonType.OK){
+									// TODO: implementare cancellazione su db
+									data.remove(line);
+									lsvc.initialize();
+								} 
+							});
+							btn3.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1px");
+							rv.setFitWidth(24.0);
+							rv.setFitHeight(24.0);
+							setGraphic(btn3);
+							setText(null);
+						}
+					}
+				};
+				return cell;
+			}
+		};
+
+		removeColumn.setCellFactory(cellFactory2);
+
 
   }
   
