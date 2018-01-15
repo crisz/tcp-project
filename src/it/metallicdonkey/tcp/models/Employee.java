@@ -24,6 +24,7 @@ public class Employee {
 	private StatusEmployee status;
 	private Role role;
 	private Workshift workshift;
+	private String password;
 	private ArrayList<AbsenceInterval> absenceIntervals;
 	public Workshift getWorkshift() {
 		return workshift;
@@ -94,5 +95,11 @@ public class Employee {
 	}
 	public void setAbsenceIntervals(ArrayList<AbsenceInterval> absenceIntervals) {
 		this.absenceIntervals = absenceIntervals;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
