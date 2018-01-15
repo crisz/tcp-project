@@ -18,6 +18,8 @@ import it.metallicdonkey.tcp.models.*;
 import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class DBHelper {
 	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
@@ -321,19 +323,30 @@ public class DBHelper {
 			String query = "INSERT INTO absenceInterval (idAbsenceInterval, StartDay, EndDay, Employee_idEmployee) "+
 					"VALUES (?, ?, ?, ?)";
 			try {
+				String query2 = "UPDATE employee SET Status=ABSENT WHERE idEmployee="+e.getId();
 				PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
 				preparedStmt.setString(1, id);
 				preparedStmt.setString(2, date.format(DateTimeFormatter.ISO_LOCAL_DATE));
 				preparedStmt.setString(3, "1970-01-01");
 				preparedStmt.setString(4, e.getId());
 				preparedStmt.execute();
+				dbm.executeQuery(query2);
 			} catch (SQLException exc) {
-				// manca la logica per avvisare l'utente che la query non ha avuto successo
-				// probabilmente sarebbe meglio inserire un valore di ritorno per verificare il successo
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.initOwner(null);
+		        alert.setTitle("Attenzione");
+		        alert.setHeaderText("Problemi nella connessione");
+		        alert.setContentText("I dati non sono stati alterati, riprovare più tardi.");
+		        alert.showAndWait();
 				exc.printStackTrace();
 			}
 		} else {
-			// manca la logica per avvisare l'utente che la query non ha avuto successo
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(null);
+	        alert.setTitle("Attenzione");
+	        alert.setHeaderText("Problemi nella connessione");
+	        alert.setContentText("I dati non sono stati alterati, riprovare più tardi.");
+	        alert.showAndWait();
 		}
 
 	}
@@ -355,8 +368,14 @@ public class DBHelper {
 		if(id != null) {
 			dbm.executeQuery("UPDATE AbsenceInterval SET endDay="+date.format(DateTimeFormatter.ISO_LOCAL_DATE)+
 					" WHERE idAbsenceInterval="+id+" AND Employee_idEmployee="+e.getId());
+			dbm.executeQuery("UPDATE Employee SET Statur=AVAILABLE WHERE idEmploee="+e.getId());
 		} else {
-			// manca la logica per avvisare l'utente che la query non ha avuto successo
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(null);
+	        alert.setTitle("Attenzione");
+	        alert.setHeaderText("Problemi nella connessione");
+	        alert.setContentText("I dati non sono stati alterati, riprovare più tardi.");
+	        alert.showAndWait();
 		}
 	}
 	private String getNewBrokenId() {
@@ -393,19 +412,30 @@ public class DBHelper {
 			String query = "INSERT INTO BrokenInterval (idBrokenInterval, StartDay, EndDay, Vehicle_idVehicle) "+
 					"VALUES (?, ?, ?, ?)";
 			try {
+				String query2 = "UPDATE vehiclee SET Status=BROKEN WHERE idVehicle="+v.getId();
 				PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
 				preparedStmt.setString(1, id);
 				preparedStmt.setString(2, date.format(DateTimeFormatter.ISO_LOCAL_DATE));
 				preparedStmt.setString(3, "1970-01-01");
 				preparedStmt.setString(4, v.getId());
 				preparedStmt.execute();
+				dbm.executeQuery(query2);
 			} catch (SQLException exc) {
-				// manca la logica per avvisare l'utente che la query non ha avuto successo
-				// probabilmente sarebbe meglio inserire un valore di ritorno per verificare il successo
-				exc.printStackTrace();
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.initOwner(null);
+		        alert.setTitle("Attenzione");
+		        alert.setHeaderText("Problemi nella connessione");
+		        alert.setContentText("I dati non sono stati alterati, riprovare più tardi.");
+		        alert.showAndWait();
+		        exc.printStackTrace();
 			}
 		} else {
-			// manca la logica per avvisare l'utente che la query non ha avuto successo
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(null);
+	        alert.setTitle("Attenzione");
+	        alert.setHeaderText("Problemi nella connessione");
+	        alert.setContentText("I dati non sono stati alterati, riprovare più tardi.");
+	        alert.showAndWait();
 		}
 	}
 	private String getBrokenId(Vehicle v) {
@@ -426,8 +456,14 @@ public class DBHelper {
 		if(id != null) {
 			dbm.executeQuery("UPDATE BrokenInterval SET endDay="+date.format(DateTimeFormatter.ISO_LOCAL_DATE)+
 					" WHERE idBrokenInterval="+id + "AND Vehicle_idVehicle="+v.getId());
+			dbm.executeQuery("UPDATE vehicle SET Status=AVAILABLE WHERE idVehicle="+v.getId());
 		} else {
-			// manca la logica per avvisare l'utente che la query non ha avuto successo
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(null);
+	        alert.setTitle("Attenzione");
+	        alert.setHeaderText("Problemi nella connessione");
+	        alert.setContentText("I dati non sono stati alterati, riprovare più tardi.");
+	        alert.showAndWait();
 		}
 	}
 }
