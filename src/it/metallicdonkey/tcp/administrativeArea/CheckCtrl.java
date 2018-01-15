@@ -71,6 +71,28 @@ public class CheckCtrl {
 	public CheckCtrl() throws SQLException {
 	// TODO: Sostituire i 4 ObservabileList qua sottocon i dati scaricati dal db (check giorno precedente + guasti e assenti)
 
+
+	}
+
+	
+	private void filter() {
+		this.empM = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.MATTINA && e.getEmployee().getRole() == Role.Autista);
+		this.empP = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.POMERIGGIO && e.getEmployee().getRole() == Role.Autista);
+		this.empS = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.SERA && e.getEmployee().getRole() == Role.Autista);
+	}
+
+  @FXML
+  private void initialize() throws SQLException {
+		this.dataVehicles = DBHelper.getInstance().getAllVehicles();
+
+System.out.println(dataVehicles);
+		this.dataEmployees = DBHelper.getInstance().getAllEmployees();
+		this.filter();
+		System.out.println("tutti gli impiegati");
+		for(int i=0; i<dataEmployees.size(); i++) {
+			System.out.println("Impeigati, tutti: " + dataEmployees.get(i).getEmployee().getWorkshift().name() + " - " + dataEmployees.get(i).getEmployee().getRole().name() );
+		}
+
 		this.dataLines = FXCollections.observableArrayList(
 		    new LineDataModel("101", "Stazione Centrale", "Stadio"),
 		    new LineDataModel("102", "Piazzale Giotto", "Stazione Centrale"),
@@ -79,32 +101,13 @@ public class CheckCtrl {
 		    new LineDataModel("534", "Piazzale Giotto", "Mondello")
 		);
 
-		this.dataVehicles = DBHelper.getInstance().getAllVehicles();
-System.out.println(dataVehicles);
-		this.dataEmployees = DBHelper.getInstance().getAllEmployees();
-		System.out.println("tutti gli impiegati");
-		for(int i=0; i<dataEmployees.size(); i++) {
-			System.out.println("Impeigati, tutti: " + dataEmployees.get(i).getEmployee().getWorkshift().name());
-		}
-		this.empM = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.MATTINA && e.getEmployee().getRole() == Role.Autista);
-		this.empP = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.POMERIGGIO && e.getEmployee().getRole() == Role.Autista);
-		this.empS = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.SERA && e.getEmployee().getRole() == Role.Autista);
-	  
-		for(int i=0; i<empM.size(); i++) {
-			System.out.println("Impeigati, mattina: " + empM.get(i).getEmployee().getWorkshift().name());
+for(int i=0; i<empM.size(); i++) {
+			System.out.println("Impeigati, mattina: " + empM.get(i).getEmployee().getWorkshift().name() +" "+empM.get(i).getEmployee().getFirstName() + empM.get(i).getEmployee().getId());
 		}
 		this.dataCheck = FXCollections.observableArrayList(
-		    new CheckDataModel(
-		    		new EmployeeDataModel("0186121", "Pietro","Gambadilegno"),
-		    		DBHelper.getInstance().getAllVehicles().get(0),
-		    		new LineDataModel("806","Politeama","Mondello")
-		    	)
 		);
-	}
-
-
-  @FXML
-  private void initialize() {
+		
+		// fine costruttore
   	// Initialization data
     nameColumn.setCellValueFactory(
         new PropertyValueFactory<LineDataModel, String>("name"));
@@ -122,7 +125,8 @@ System.out.println(dataVehicles);
 
     nomeECognome.setCellValueFactory(
         new PropertyValueFactory<EmployeeDataModel, String>("nomeECognome"));
-    this.employees.setItems(new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.MATTINA));
+   
+    this.employees.setItems(empM);
 
     checkEmployee.setCellValueFactory(
         new PropertyValueFactory<CheckDataModel, String>("employee"));
@@ -194,7 +198,7 @@ System.out.println(dataVehicles);
 	  	CheckDataModel c = this.check.getSelectionModel().getSelectedItem();
 	  	EmployeeDataModel e = c.getEmployeeModel();
 	  	VehicleDataModel v = c.getVehicleModel();
-	  	dataCheck.remove(c);
+	  	
 	  	dataEmployees.add(e);
 	  	dataVehicles.add(v);
   	} catch(NullPointerException e) {
