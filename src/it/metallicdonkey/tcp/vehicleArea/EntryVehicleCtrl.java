@@ -67,7 +67,12 @@ public class EntryVehicleCtrl {
 	    alert.showAndWait();
 	    return;
 		}
-
+		
+		v.setStatus(StatusVehicle.AVAILABLE);
+		System.out.println("Brand: "+v.getBrand());
+		DBHelper.getInstance().removeVehicle(v);
+		System.out.println("Inserting "+v);
+		DBHelper.getInstance().insertVehicle(v);
 		String result = "L'ingresso del veicolo " + vehicleField.getText() + " è avvenuto con successo. La postazione assegnata è: " + location;
 		resultLabel.setText(result);
 		

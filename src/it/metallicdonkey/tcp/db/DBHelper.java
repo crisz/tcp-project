@@ -204,6 +204,7 @@ public class DBHelper {
 			while(result.next()) {
 				Vehicle v= new Vehicle();
 				v.setId(result.getString("idVehicle"));
+				v.setBrand(result.getString("Brand"));
 				v.setPlate(result.getString("Plate"));
 				v.setPlacesForDisable(result.getInt("PlacesForDisabled"));
 				v.setSeats(result.getInt("Seats"));
@@ -232,6 +233,7 @@ public class DBHelper {
 			while(result.next()) {
 				Vehicle v= new Vehicle();
 				v.setId(result.getString("idVehicle"));
+				v.setBrand(result.getString("Brand"));
 				v.setPlate(result.getString("Plate"));
 				v.setPlacesForDisable(result.getInt("PlacesForDisabled"));
 				v.setSeats(result.getInt("Seats"));
