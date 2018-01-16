@@ -11,6 +11,28 @@ import java.util.Iterator;
 public class Test {
 	public static void main(String[] args) throws SQLException {
 		DBHelper db = DBHelper.getInstance();
+//
+//		Vehicle v = new Vehicle();
+//
+//		v.setId("2587");
+//		int result = db.removeVehicle(v);
+//		System.out.println(result);
+
+//		Line l = new Line();
+//		l.setName("101");
+//		int result = db.removeLine(l);
+//		System.out.println(result);
+
+//		ArrayList<Location> locations = db.getAllFreeLocations();
+//		Iterator<Location> it = locations.iterator();
+//		while(it.hasNext()) {
+//			Location l = it.next();
+//			System.out.println(l.getId_Location()+" "+ l.getId_Vehicle());
+//		}
+//		Location l = db.getLocation(v);
+//		System.out.println(l.getId_Location());
+
+
 //		ArrayList<Employee> employees = new ArrayList<>();
 		Iterator<Employee> it;
 		Iterator<AbsenceInterval> it2;
@@ -30,16 +52,20 @@ public class Test {
 		ArrayList<AbsenceInterval> absenceIntervals = new ArrayList<>();
 		ArrayList<BrokenInterval> brokenIntervals = new ArrayList<>();
 
-		employee.setId("0641144");
-		employee.setFirstName("Mario");
-		employee.setLastName("Rossi");
-		employee.setBirthDate(LocalDate.parse("1961-02-15", DateTimeFormatter.ISO_LOCAL_DATE));
-		employee.setWorkshift(Workshift.MATTINA);
+		employee.setId("0781457");
+		employee.setFirstName("Paolo");
+		employee.setLastName("Neri");
+		employee.setBirthDate(LocalDate.parse("1983-12-11", DateTimeFormatter.ISO_LOCAL_DATE));
+		employee.setWorkshift(Workshift.POMERIGGIO);
 		employee.setSalary(3000.0);
-		employee.setEmail("mariorossi@mail.it");
+		employee.setEmail("paoloneri@mail.it");
 		employee.setRole(Role.Autista);
+		employee.setAddress("Corso Tukory 26");
+		employee.setSalary(2500.0);
+		employee.setStatus(StatusEmployee.AVAILABLE);
+		employee.setPassword("paoloneri");
 
-		vehicle.setId("1235");
+		vehicle.setId("1234");
 		vehicle.setBrand("Fiat");
 		vehicle.setPlacesForDisable(1);
 		vehicle.setPlate("AF124CB");
@@ -47,66 +73,129 @@ public class Test {
 		vehicle.setStandingPlaces(25);
 		vehicle.setStatus(StatusVehicle.AVAILABLE);
 
-		db.insertEmployee(employee);
-		db.insertVehicle(vehicle);
-
-		db.insertAbsenceStartDay(employee);
 		employees = db.getAllEmployeesArray();
 		it = employees.iterator();
 		while(it.hasNext()) {
 			employee2 = it.next();
-			System.out.println(employee2.toString());
+			System.out.println(employee2.toString() + "\n");
 			absenceIntervals = db.getAbsenceInterval(employee2);
 			it2 = absenceIntervals.iterator();
 			while(it2.hasNext()) {
 				abs = it2.next();
-				System.out.println(abs.toString());
+				System.out.println(abs.toString() + "\n");
 			}
 		}
 
-		db.insertAbsenceEndDay(employee);
+		try {
+			db.insertAbsenceStartDay(employee);
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+
 		employees = db.getAllEmployeesArray();
 		it = employees.iterator();
 		while(it.hasNext()) {
 			employee2 = it.next();
-			System.out.println(employee2.toString());
+			System.out.println(employee2.toString() + "\n");
 			absenceIntervals = db.getAbsenceInterval(employee2);
 			it2 = absenceIntervals.iterator();
 			while(it2.hasNext()) {
 				abs = it2.next();
-				System.out.println(abs.toString());
+				System.out.println(abs.toString() + "\n");
 			}
 		}
 
-		db.insertBrokenStartDay(vehicle);
+		try {
+			db.insertAbsenceEndDay(employee);
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+
+		employees = db.getAllEmployeesArray();
+		it = employees.iterator();
+		while(it.hasNext()) {
+			employee2 = it.next();
+			System.out.println(employee2.toString() + "\n");
+			absenceIntervals = db.getAbsenceInterval(employee2);
+			it2 = absenceIntervals.iterator();
+			while(it2.hasNext()) {
+				abs = it2.next();
+				System.out.println(abs.toString() + "\n");
+			}
+		}
+
 		vehicles = db.getAllVehiclesArray();
 		it3 = vehicles.iterator();
 		while(it3.hasNext()) {
 			vehicle2 = it3.next();
-			System.out.println(vehicle2.toString());
+			System.out.println(vehicle2.toString()+ "\n");
 			brokenIntervals = db.getBrokenInterval(vehicle2);
 			it4 = brokenIntervals.iterator();
 			while(it4.hasNext()) {
 				bro = it4.next();
-				System.out.println(bro.toString());
+				System.out.println(bro.toString()+ "\n");
 			}
 		}
-		db.insertBrokenEndDay(vehicle);
+
+		try {
+			db.insertBrokenStartDay(vehicle);
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+
 		vehicles = db.getAllVehiclesArray();
 		it3 = vehicles.iterator();
 		while(it3.hasNext()) {
 			vehicle2 = it3.next();
-			System.out.println(vehicle2.toString());
+			System.out.println(vehicle2.toString()+ "\n");
 			brokenIntervals = db.getBrokenInterval(vehicle2);
 			it4 = brokenIntervals.iterator();
 			while(it4.hasNext()) {
 				bro = it4.next();
-				System.out.println(bro.toString());
+				System.out.println(bro.toString()+ "\n");
 			}
 		}
-		/*if(db.getAllEmployees() == null) {
+
+		try {
+			db.insertBrokenEndDay(vehicle);
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+
+		vehicles = db.getAllVehiclesArray();
+		it3 = vehicles.iterator();
+		while(it3.hasNext()) {
+			vehicle2 = it3.next();
+			System.out.println(vehicle2.toString()+ "\n");
+			brokenIntervals = db.getBrokenInterval(vehicle2);
+			it4 = brokenIntervals.iterator();
+			while(it4.hasNext()) {
+				bro = it4.next();
+				System.out.println(bro.toString()+ "\n");
+			}
+		}
+/*
+		if(db.getAllEmployees() == null) {
 			System.out.println("No Data");
-		}*/
+		}
+
+		Vehicle v = new Vehicle();
+
+		v.setId("12345");
+		int result = db.removeVehicle(v);
+		System.out.println(result);
+
+		Line l = new Line();
+		l.setName("101");
+		int result = db.removeLine(l);
+		System.out.println(result);
+*/
+//		ArrayList<Location> locations = db.getAllFreeLocations();
+//		Iterator<Location> it = locations.iterator();
+//		while(it.hasNext()) {
+//			Location l = it.next();
+//			System.out.println(l.getId_Location()+" "+ l.getId_Vehicle());
+//		}
 
 	}
 }

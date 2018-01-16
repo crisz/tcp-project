@@ -7,6 +7,9 @@ public class Location {
 		this.setId_Vehicle(vehicle);
 		this.setId_Location(location);
 	}
+	public Location() {
+		
+	}
 	public String getId_Vehicle() {
 		return id_Vehicle;
 	}
