@@ -553,4 +553,22 @@ public class DBHelper {
 		ArrayList<Location> locations = this.getLocations("Vehicle_idVehicle='"+v.getId()+"'");
 		return locations.get(0);
 	}
+	public void setLocation(Vehicle v) throws SQLException {
+		ArrayList<Location> locations = this.getAllFreeLocations();
+		Location location = locations.get(0);
+		int updated = -1;
+		updated = dbm.executeUpdate("UPDATE tcp.location SET Vehicle_idVehicle='"+v.getId()+"' "+
+		"WHERE idPlace='"+location.getId_Location()+"'");
+		if(updated < 1)
+			throw new SQLException();
+		location.setId_Vehicle(v.getId());
+	}
+	public void freeLocation(Vehicle v) throws SQLException {
+		Location l= this.getLocation(v);
+		int updated = -1;
+		updated = dbm.executeUpdate("UPDATE tcp.location SET Vehicle_idVehicle=null WHERE idPlace='"+
+				l.getId_Location()+"'");
+		if(updated < 1)
+			throw new SQLException();
+	}
 }
