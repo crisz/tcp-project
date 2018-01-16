@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="676.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.administrativeArea.CheckResultCtrl">
    <children>
-      <Pane layoutX="2.0" prefHeight="676.0" prefWidth="880.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane layoutX="2.0" onDragDetected="#printCheck" prefHeight="676.0" prefWidth="880.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button layoutX="48.0" layoutY="603.0" mnemonicParsing="false" onAction="#goHome" prefHeight="26.0" prefWidth="121.0" text="Indietro" />
             <Button layoutX="691.0" layoutY="616.0" mnemonicParsing="false" onAction="#goHome" prefHeight="26.0" prefWidth="121.0" text="Home" />
@@ -21,7 +21,7 @@
                   <TableColumn fx:id="checkLineM" prefWidth="293.0086975097656" text="Linea" />
                </columns>
             </TableView>
-            <Button layoutX="691.0" layoutY="344.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="121.0" text="Stampa" />
+            <Button layoutX="691.0" layoutY="344.0" mnemonicParsing="false" onAction="#printCheck" prefHeight="26.0" prefWidth="121.0" text="Stampa" />
             <TableView fx:id="checkP" layoutX="27.0" layoutY="263.0" prefHeight="187.0" prefWidth="622.0">
                <columns>
                   <TableColumn fx:id="checkEmployeeP" prefWidth="168.6260986328125" text="Impiegato" />

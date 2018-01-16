@@ -15,7 +15,7 @@ public class EmployeeDataModel {
 	private final SimpleStringProperty role;
 	private final SimpleDoubleProperty salary;
 	
-	public EmployeeDataModel(String id, String nome, String cognome) {
+	private EmployeeDataModel(String id, String nome, String cognome) {
 		this.id = new SimpleStringProperty(id);
 		this.nome = new SimpleStringProperty(nome);
 		this.cognome = new SimpleStringProperty(cognome);

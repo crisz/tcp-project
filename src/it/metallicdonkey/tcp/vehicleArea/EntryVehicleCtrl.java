@@ -31,6 +31,15 @@ public class EntryVehicleCtrl {
 
 	@FXML
 	private void submitVehicle() throws SQLException {
+		if(vehicleField.getText().trim().equals("")) {
+			Alert alert = new Alert(AlertType.WARNING);
+	    alert.initOwner(mainApp.getPrimaryStage());
+	    alert.setTitle("Avviso");
+	    alert.setHeaderText("Il campo è vuoto!");
+	    alert.setContentText("Inserisci una matricola e ritenta.");
+	    alert.showAndWait();
+	    return;
+		}
 		ArrayList<Location> al = DBHelper.getInstance().getAllFreeLocations();
 		
 		System.out.println("al");

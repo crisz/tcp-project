@@ -8,6 +8,9 @@ import it.metallicdonkey.tcp.HRArea.EmployeeDataModel;
 import it.metallicdonkey.tcp.db.DBHelper;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.Role;
+import it.metallicdonkey.tcp.models.Line;
+import it.metallicdonkey.tcp.models.Match;
+import it.metallicdonkey.tcp.models.Stop;
 import it.metallicdonkey.tcp.models.Workshift;
 import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;
 import javafx.collections.FXCollections;
@@ -34,7 +37,7 @@ public class CheckCtrl {
 	@FXML
 	private TableView<EmployeeDataModel> employees;
 	@FXML
-	private TableView<CheckDataModel> check;
+	private TableView<MatchDataModel> check;
 	@FXML
 	private TableColumn<LineDataModel, String> nameColumn;
 	@FXML
@@ -48,21 +51,21 @@ public class CheckCtrl {
 	@FXML
 	private TableColumn<EmployeeDataModel, String> nomeECognome;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkEmployee;
+	private TableColumn<MatchDataModel, String> checkEmployee;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkVehicle;
+	private TableColumn<MatchDataModel, String> checkVehicle;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkLine;
+	private TableColumn<MatchDataModel, String> checkLine;
 	@FXML
 	private Label workshiftLabel;
 	@FXML
 	private Button nextButton;
 	private int turno = 0;
-	private ObservableList<CheckDataModel> check1, check2;
+	private ObservableList<MatchDataModel> check1, check2;
 	ObservableList<LineDataModel> dataLines;
 	ObservableList<VehicleDataModel> dataVehicles;
 	ObservableList<EmployeeDataModel> dataEmployees;
-	ObservableList<CheckDataModel> dataCheck;
+	ObservableList<MatchDataModel> dataCheck;
 
 	FilteredList<EmployeeDataModel> empM;
 	FilteredList<EmployeeDataModel> empP;
@@ -92,13 +95,13 @@ System.out.println(dataVehicles);
 		for(int i=0; i<dataEmployees.size(); i++) {
 			System.out.println("Impeigati, tutti: " + dataEmployees.get(i).getEmployee().getWorkshift().name() + " - " + dataEmployees.get(i).getEmployee().getRole().name() );
 		}
+		Line l = new Line();
+		l.setName("101");
+		l.setStartTerminal(new Stop("Stazione Centrale"));
+		l.setEndTerminal(new Stop("Stadio"));
 
 		this.dataLines = FXCollections.observableArrayList(
-		    new LineDataModel("101", "Stazione Centrale", "Stadio"),
-		    new LineDataModel("102", "Piazzale Giotto", "Stazione Centrale"),
-		    new LineDataModel("806", "Politeama", "Mondello"),
-		    new LineDataModel("108", "Politeama", "Ospedale Civico"),
-		    new LineDataModel("534", "Piazzale Giotto", "Mondello")
+		    new LineDataModel(l)
 		);
 
 for(int i=0; i<empM.size(); i++) {
@@ -129,11 +132,11 @@ for(int i=0; i<empM.size(); i++) {
     this.employees.setItems(empM);
 
     checkEmployee.setCellValueFactory(
-        new PropertyValueFactory<CheckDataModel, String>("employee"));
+        new PropertyValueFactory<MatchDataModel, String>("employee"));
     checkVehicle.setCellValueFactory(
-        new PropertyValueFactory<CheckDataModel, String>("vehicle"));
+        new PropertyValueFactory<MatchDataModel, String>("vehicle"));
     checkLine.setCellValueFactory(
-        new PropertyValueFactory<CheckDataModel, String>("line"));
+        new PropertyValueFactory<MatchDataModel, String>("line"));
     this.check.setItems(dataCheck);
   }
 
@@ -179,7 +182,9 @@ for(int i=0; i<empM.size(); i++) {
     	EmployeeDataModel e = this.employees.getSelectionModel().getSelectedItem();
     	VehicleDataModel v = this.vehicles.getSelectionModel().getSelectedItem();
     	LineDataModel l = this.lines.getSelectionModel().getSelectedItem();
-    	dataCheck.add(new CheckDataModel(e, v, l));
+    	Match m = new Match(e.getEmployee(), l.getLine(), v.getVehicle());
+    	
+    	dataCheck.add(new MatchDataModel(m));
     	dataEmployees.remove(e);
     	dataVehicles.remove(v);
   	} catch(NullPointerException e) {
@@ -195,7 +200,7 @@ for(int i=0; i<empM.size(); i++) {
   @FXML
   public void removeBind() {
   	try {
-	  	CheckDataModel c = this.check.getSelectionModel().getSelectedItem();
+	  	MatchDataModel c = this.check.getSelectionModel().getSelectedItem();
 	  	EmployeeDataModel e = c.getEmployeeModel();
 	  	VehicleDataModel v = c.getVehicleModel();
 	  	

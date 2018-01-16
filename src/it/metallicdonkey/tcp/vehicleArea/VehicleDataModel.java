@@ -27,8 +27,7 @@ public class VehicleDataModel {
   	this.location = new SimpleStringProperty(location);
   }
 
-  
-
+ 
 	public String getStatus() {
 		return this.status.get();
 	}

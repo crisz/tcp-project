@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.login.Home;
+import it.metallicdonkey.tcp.models.Check;
+import it.metallicdonkey.tcp.models.Workshift;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -14,80 +16,80 @@ public class CheckResultCtrl {
 	private App mainApp;
 
 	@FXML
-	private TableView<CheckDataModel> checkM;
+	private TableView<MatchDataModel> checkM;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkMEmployee;
+	private TableColumn<MatchDataModel, String> checkMEmployee;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkMVehicle;
+	private TableColumn<MatchDataModel, String> checkMVehicle;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkMLine;
+	private TableColumn<MatchDataModel, String> checkMLine;
 	
 	@FXML
-	private TableView<CheckDataModel> checkP;
+	private TableView<MatchDataModel> checkP;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkPEmployee;
+	private TableColumn<MatchDataModel, String> checkPEmployee;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkPVehicle;
+	private TableColumn<MatchDataModel, String> checkPVehicle;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkPLine;
+	private TableColumn<MatchDataModel, String> checkPLine;
 	
 	@FXML
-	private TableView<CheckDataModel> checkS;
+	private TableView<MatchDataModel> checkS;
 
 	@FXML
-	private TableColumn<CheckDataModel, String> checkEmployeeM;
+	private TableColumn<MatchDataModel, String> checkEmployeeM;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkVehicleM;
+	private TableColumn<MatchDataModel, String> checkVehicleM;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkLineM;
+	private TableColumn<MatchDataModel, String> checkLineM;
 	
 	@FXML
-	private TableColumn<CheckDataModel, String> checkEmployeeP;
+	private TableColumn<MatchDataModel, String> checkEmployeeP;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkVehicleP;
+	private TableColumn<MatchDataModel, String> checkVehicleP;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkLineP;
+	private TableColumn<MatchDataModel, String> checkLineP;
 	
 	@FXML
-	private TableColumn<CheckDataModel, String> checkEmployeeS;
+	private TableColumn<MatchDataModel, String> checkEmployeeS;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkVehicleS;
+	private TableColumn<MatchDataModel, String> checkVehicleS;
 	@FXML
-	private TableColumn<CheckDataModel, String> checkLineS;
+	private TableColumn<MatchDataModel, String> checkLineS;
 	
 	
 	private int turno = 0;
 	
-	private ObservableList<CheckDataModel> checkMData;
-	private ObservableList<CheckDataModel> checkPData;
-	private ObservableList<CheckDataModel> checkSData;
+	private ObservableList<MatchDataModel> checkMData;
+	private ObservableList<MatchDataModel> checkPData;
+	private ObservableList<MatchDataModel> checkSData;
 	
   @FXML
   private void initialize() {
 
     
     checkEmployeeM.setCellValueFactory(
-        new PropertyValueFactory<CheckDataModel, String>("employee"));
+        new PropertyValueFactory<MatchDataModel, String>("employee"));
     checkVehicleM.setCellValueFactory(
-        new PropertyValueFactory<CheckDataModel, String>("vehicle"));
+        new PropertyValueFactory<MatchDataModel, String>("vehicle"));
     checkLineM.setCellValueFactory(
-        new PropertyValueFactory<CheckDataModel, String>("line"));
+        new PropertyValueFactory<MatchDataModel, String>("line"));
     
     
     checkEmployeeP.setCellValueFactory(
-        new PropertyValueFactory<CheckDataModel, String>("employee"));
+        new PropertyValueFactory<MatchDataModel, String>("employee"));
     checkVehicleP.setCellValueFactory(
-        new PropertyValueFactory<CheckDataModel, String>("vehicle"));
+        new PropertyValueFactory<MatchDataModel, String>("vehicle"));
     checkLineP.setCellValueFactory(
-        new PropertyValueFactory<CheckDataModel, String>("line"));
+        new PropertyValueFactory<MatchDataModel, String>("line"));
     
     
     checkEmployeeS.setCellValueFactory(
-        new PropertyValueFactory<CheckDataModel, String>("employee"));
+        new PropertyValueFactory<MatchDataModel, String>("employee"));
     checkVehicleS.setCellValueFactory(
-        new PropertyValueFactory<CheckDataModel, String>("vehicle"));
+        new PropertyValueFactory<MatchDataModel, String>("vehicle"));
     checkLineS.setCellValueFactory(
-        new PropertyValueFactory<CheckDataModel, String>("line"));
+        new PropertyValueFactory<MatchDataModel, String>("line"));
     
   }
   
@@ -96,8 +98,32 @@ public class CheckResultCtrl {
   	Home.getHome(null).goHome(this.mainApp);
   }
   
+  @FXML
+  public void printCheck() {
+  	Check c1 = new Check();
+  	c1.setWorkshift(Workshift.MATTINA);
+  	for(int i=0; i<checkMData.size(); i++) {
+  		c1.addMatch(checkMData.get(i).getMatch());
+  	}
+  	Check c2 = new Check();
+  	c2.setWorkshift(Workshift.POMERIGGIO);
+  	for(int i=0; i<checkPData.size(); i++) {
+  		c2.addMatch(checkPData.get(i).getMatch());
+  	}
+  	Check c3 = new Check();
+  	c3.setWorkshift(Workshift.SERA);
+  	for(int i=0; i<checkSData.size(); i++) {
+  		c3.addMatch(checkSData.get(i).getMatch());
+  	}
+  	
+  	System.out.println("Sto stampando i check");
+  	System.out.println("Check 3 ha "+c3.getMatches().size()+" entry");
+  	PDFCheck cpdf = new PDFCheck();
+  	cpdf.print(c1, c2, c3);
+  	
+  }
   
-  public void setData(ObservableList<CheckDataModel> check1, ObservableList<CheckDataModel> check2, ObservableList<CheckDataModel> check3) {
+  public void setData(ObservableList<MatchDataModel> check1, ObservableList<MatchDataModel> check2, ObservableList<MatchDataModel> check3) {
   	this.checkMData = check1;
   	this.checkPData = check2;
   	this.checkSData = check3;

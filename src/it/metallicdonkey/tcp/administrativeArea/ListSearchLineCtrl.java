@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.login.Home;
+import it.metallicdonkey.tcp.models.Line;
+import it.metallicdonkey.tcp.models.Stop;
 import it.metallicdonkey.tcp.vehicleArea.ChangeLineCtrl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,16 +48,18 @@ public class ListSearchLineCtrl {
 	private TableColumn<LineDataModel, String> removeColumn;
 	public static LineDataModel selectedLine;
 	
-	final ObservableList<LineDataModel> data = FXCollections.observableArrayList(
-	    new LineDataModel("101", "Stazione Centrale", "Stadio"),
-	    new LineDataModel("102", "Piazzale Giotto", "Stazione Centrale"),
-	    new LineDataModel("806", "Politeama", "Mondello"),
-	    new LineDataModel("108", "Politeama", "Ospedale Civico"),
-	    new LineDataModel("534", "Piazzale Giotto", "Mondello")
-	);
+	ObservableList<LineDataModel> data;
 	
   @FXML
   private void initialize() {
+		Line l = new Line();
+		l.setName("101");
+		l.setStartTerminal(new Stop("Stazione Centrale"));
+		l.setEndTerminal(new Stop("Stadio"));
+
+		data =  FXCollections.observableArrayList(
+		    new LineDataModel(l)
+		);
   	// Initialization data
     nameColumn.setCellValueFactory(
         new PropertyValueFactory<LineDataModel, String>("name"));

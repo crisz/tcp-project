@@ -6,6 +6,7 @@ import java.time.LocalDate;
 //import com.mysql.jdbc.Driver;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.administrativeArea.PDFCheck;
 import it.metallicdonkey.tcp.models.Employee;
 import it.metallicdonkey.tcp.models.StatusEmployee;
 import it.metallicdonkey.tcp.models.Workshift;
@@ -30,6 +31,7 @@ public class LoginCtrl {
 
   @FXML
   private void submitLogin() throws IOException {
+
   	/* Qua viene effettuato il login **/
 		Session.employee = new Employee();
 		Employee e = Session.employee;
