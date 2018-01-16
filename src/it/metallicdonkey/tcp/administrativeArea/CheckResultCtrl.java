@@ -1,6 +1,10 @@
 package it.metallicdonkey.tcp.administrativeArea;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.login.Home;
@@ -8,8 +12,10 @@ import it.metallicdonkey.tcp.models.Check;
 import it.metallicdonkey.tcp.models.Workshift;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class CheckResultCtrl {
@@ -99,7 +105,7 @@ public class CheckResultCtrl {
   }
   
   @FXML
-  public void printCheck() {
+  public void printCheck() throws IOException {
   	Check c1 = new Check();
   	c1.setWorkshift(Workshift.MATTINA);
   	for(int i=0; i<checkMData.size(); i++) {
@@ -119,8 +125,17 @@ public class CheckResultCtrl {
   	System.out.println("Sto stampando i check");
   	System.out.println("Check 3 ha "+c3.getMatches().size()+" entry");
   	PDFCheck cpdf = new PDFCheck();
-  	cpdf.print(c1, c2, c3);
+  	String path = cpdf.print(c1, c2, c3);
+  	File a = new File(path);
   	
+  	String absolute = a.getCanonicalPath();
+  	
+		Alert alert = new Alert(AlertType.INFORMATION);
+    alert.initOwner(mainApp.getPrimaryStage());
+    alert.setTitle("Avviso");
+    alert.setHeaderText("PDF Generato con successo!");
+    alert.setContentText("Lo puoi trovare all'indirizzo "+absolute+".");
+    alert.showAndWait();
   }
   
   public void setData(ObservableList<MatchDataModel> check1, ObservableList<MatchDataModel> check2, ObservableList<MatchDataModel> check3) {

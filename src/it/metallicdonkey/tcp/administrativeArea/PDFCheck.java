@@ -11,17 +11,20 @@ import it.metallicdonkey.tcp.models.Match;
 
 public class PDFCheck {
 
-  public void print(Check morning, Check afternoon, Check evening) {
+  public String print(Check morning, Check afternoon, Check evening) {
     System.out.println("INizio stampa");
     Document output = null;
+
+    LocalDate d = LocalDate.now();
+    String path = "./check-"+d.getDayOfMonth()+"-"+d.getMonth()+"-"+d.getYear()+".pdf";
+    
     try {
       // text file to convert to pdf as args[0]
       // letter 8.5x11
       //    see com.lowagie.text.PageSize for a complete list of page-size constants.
       output = new Document(PageSize.LETTER, 40, 40, 40, 40);
       // pdf file as args[1]
-      LocalDate d = LocalDate.now();
-      PdfWriter.getInstance(output, new FileOutputStream("./check-"+d.getDayOfMonth()+"-"+d.getMonth()+"-"+d.getYear()+".pdf"));
+      PdfWriter.getInstance(output, new FileOutputStream(path));
 
       output.open();
       output.addAuthor("TCP Project");
@@ -84,7 +87,8 @@ public class PDFCheck {
     }
     catch (Exception e) {
       e.printStackTrace();
-      System.exit(1);
     }
+
+    return path;
   }
 }
