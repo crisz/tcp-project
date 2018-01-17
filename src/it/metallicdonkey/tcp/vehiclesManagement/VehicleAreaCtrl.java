@@ -9,7 +9,6 @@ import it.metallicdonkey.tcp.employeesManagement.PersonalInfoCtrl;
 import it.metallicdonkey.tcp.linesManagement.AddLineCtrl;
 import it.metallicdonkey.tcp.linesManagement.CheckCtrl;
 import it.metallicdonkey.tcp.linesManagement.ListSearchLineCtrl;
-import it.metallicdonkey.tcp.linesManagement.ListSearchVehicleCtrl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
