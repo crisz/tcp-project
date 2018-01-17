@@ -1,8 +1,8 @@
 package it.metallicdonkey.tcp.linesManagement;
 
-import it.metallicdonkey.tcp.EmployeesManagement.EmployeeDataModel;
+import it.metallicdonkey.tcp.employeesManagement.EmployeeDataModel;
 import it.metallicdonkey.tcp.models.Match;
-import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;
+import it.metallicdonkey.tcp.vehiclesManagement.VehicleDataModel;
 import javafx.beans.property.SimpleStringProperty;
 
 public class MatchDataModel {

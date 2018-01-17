@@ -1,4 +1,4 @@
-package it.metallicdonkey.tcp.EmployeesManagement;
+package it.metallicdonkey.tcp.employeesManagement;
 
 
 import java.io.IOException;

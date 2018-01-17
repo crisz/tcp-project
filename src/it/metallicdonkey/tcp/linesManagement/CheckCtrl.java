@@ -4,16 +4,16 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.EmployeesManagement.EmployeeDataModel;
 import it.metallicdonkey.tcp.db.DBHelperEmployee;
 import it.metallicdonkey.tcp.db.DBHelperVehicle;
+import it.metallicdonkey.tcp.employeesManagement.EmployeeDataModel;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.models.Match;
 import it.metallicdonkey.tcp.models.Stop;
 import it.metallicdonkey.tcp.models.Workshift;
-import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;
+import it.metallicdonkey.tcp.vehiclesManagement.VehicleDataModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;

@@ -1,4 +1,4 @@
-package it.metallicdonkey.tcp.vehicleArea;
+package it.metallicdonkey.tcp.vehiclesManagement;
 
 import it.metallicdonkey.tcp.models.Vehicle;
 import javafx.beans.property.SimpleIntegerProperty;

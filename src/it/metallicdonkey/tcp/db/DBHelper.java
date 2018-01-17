@@ -14,11 +14,11 @@ import java.util.Random;
 
 import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
 
-import it.metallicdonkey.tcp.EmployeesManagement.EmployeeDataModel;
+import it.metallicdonkey.tcp.employeesManagement.EmployeeDataModel;
 import it.metallicdonkey.tcp.linesManagement.LineDataModel;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.*;
-import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;
+import it.metallicdonkey.tcp.vehiclesManagement.VehicleDataModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;

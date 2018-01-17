@@ -3,9 +3,9 @@ package it.metallicdonkey.tcp.login;
 import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.EmployeesManagement.HRAreaCtrl;
+import it.metallicdonkey.tcp.employeesManagement.HRAreaCtrl;
 import it.metallicdonkey.tcp.linesManagement.AdministrativeAreaCtrl;
-import it.metallicdonkey.tcp.vehicleArea.VehicleAreaCtrl;
+import it.metallicdonkey.tcp.vehiclesManagement.VehicleAreaCtrl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
