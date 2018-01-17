@@ -5,16 +5,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.db.DBHelper;
+import it.metallicdonkey.tcp.db.DBHelperDeposit;
+import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.Location;
 import it.metallicdonkey.tcp.models.StatusVehicle;
 import it.metallicdonkey.tcp.models.Vehicle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 
 public class EntryVehicleCtrl {
 	private App mainApp;
@@ -40,7 +41,7 @@ public class EntryVehicleCtrl {
 	    alert.showAndWait();
 	    return;
 		}
-		ArrayList<Location> al = DBHelper.getInstance().getAllFreeLocations();
+		ArrayList<Location> al = DBHelperDeposit.getInstance().getAllFreeLocations();
 		
 		System.out.println("al");
 
@@ -49,7 +50,7 @@ public class EntryVehicleCtrl {
 		int location = l.getId_Location();
 		
 		Vehicle v = null;
-		ArrayList<Vehicle> av = DBHelper.getInstance().getAllVehiclesArray();
+		ArrayList<Vehicle> av = DBHelperVehicle.getInstance().getAllVehiclesArray();
 		
 		System.out.println(av);
 		for(int i=0; i<av.size(); i++) {
@@ -79,9 +80,9 @@ public class EntryVehicleCtrl {
 		
 		v.setStatus(StatusVehicle.AVAILABLE);
 		System.out.println("Brand: "+v.getBrand());
-		DBHelper.getInstance().removeVehicle(v);
+		DBHelperVehicle.getInstance().removeVehicle(v);
 		System.out.println("Inserting "+v);
-		DBHelper.getInstance().insertVehicle(v);
+		DBHelperVehicle.getInstance().insertVehicle(v);
 		String result = "L'ingresso del veicolo " + vehicleField.getText() + " è avvenuto con successo. La postazione assegnata è: " + location;
 		resultLabel.setText(result);
 		

@@ -5,7 +5,8 @@ import java.sql.SQLException;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.HRArea.EmployeeDataModel;
-import it.metallicdonkey.tcp.db.DBHelper;
+import it.metallicdonkey.tcp.db.DBHelperEmployee;
+import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.Line;
@@ -86,10 +87,10 @@ public class CheckCtrl {
 
   @FXML
   private void initialize() throws SQLException {
-		this.dataVehicles = DBHelper.getInstance().getAllVehicles();
+		this.dataVehicles = DBHelperVehicle.getInstance().getAllVehicles();
 
 System.out.println(dataVehicles);
-		this.dataEmployees = DBHelper.getInstance().getAllEmployees();
+		this.dataEmployees = DBHelperEmployee.getInstance().getAllEmployees();
 		this.filter();
 		System.out.println("tutti gli impiegati");
 		for(int i=0; i<dataEmployees.size(); i++) {

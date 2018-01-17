@@ -5,9 +5,8 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.db.DBHelper;
+import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.login.Home;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -57,7 +56,7 @@ public class ListSearchVehicleCtrl {
 	ObservableList<VehicleDataModel> data;
 	
 	public ListSearchVehicleCtrl() throws SQLException {
-		this.data = DBHelper.getInstance().getAllVehicles();
+		this.data = DBHelperVehicle.getInstance().getAllVehicles();
 		System.out.println("Data loaded");
 		System.out.println(data);
 	}

@@ -1,17 +1,9 @@
 package it.metallicdonkey.tcp.db;
 
-import it.metallicdonkey.tcp.login.Role;
-import it.metallicdonkey.tcp.models.*;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Test {
 	public static void main(String[] args) throws SQLException {
-		DBHelper db = DBHelper.getInstance();
-//
 //		Vehicle v = new Vehicle();
 //
 //		v.setId("2587");
@@ -196,28 +188,29 @@ public class Test {
 //			Location l = it.next();
 //			System.out.println(l.getId_Location()+" "+ l.getId_Vehicle());
 //		}
-		Vehicle vehicle = new Vehicle();
-		vehicle.setId("1234");
-		vehicle.setBrand("Fiat");
-		vehicle.setPlacesForDisable(1);
-		vehicle.setPlate("AF124CB");
-		vehicle.setSeats(50);
-		vehicle.setStandingPlaces(25);
-		vehicle.setStatus(StatusVehicle.AVAILABLE);
-		try {
-			db.setLocation(vehicle);
-			System.out.println("Ha funzionato");
-		} catch (SQLException exc) {
-			System.out.println("Non è stato possibile inserire il veicolo "+vehicle.getId()+" in una postazione");
-			exc.printStackTrace();
-		}
-		try {
-			db.freeLocation(vehicle);
-			System.out.println("Ha funzionato");
-		} catch (SQLException exc) {
-			System.out.println("Non è stato possibile liberare la postazione occupata dal veicolo "+
-					vehicle.getId());
-			exc.printStackTrace();
-		}
+//		Vehicle vehicle = new Vehicle();
+//		vehicle.setId("1234");
+//		vehicle.setBrand("Fiat");
+//		vehicle.setPlacesForDisable(1);
+//		vehicle.setPlate("AF124CB");
+//		vehicle.setSeats(50);
+//		vehicle.setStandingPlaces(25);
+//		vehicle.setStatus(StatusVehicle.AVAILABLE);
+//		try {
+//			db.setLocation(vehicle);
+//			System.out.println("Ha funzionato");
+//		} catch (SQLException exc) {
+//			System.out.println("Non è stato possibile inserire il veicolo "+vehicle.getId()+" in una postazione");
+//			exc.printStackTrace();
+//		}
+//		try {
+//			db.freeLocation(vehicle);
+//			System.out.println("Ha funzionato");
+//		} catch (SQLException exc) {
+//			System.out.println("Non è stato possibile liberare la postazione occupata dal veicolo "+
+//					vehicle.getId());
+//			exc.printStackTrace();
+//		}
+//	}
 	}
 }

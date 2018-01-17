@@ -8,11 +8,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.db.DBHelper;
+import it.metallicdonkey.tcp.db.DBHelperEmployee;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.Employee;
-import it.metallicdonkey.tcp.models.StatusEmployee;
 import it.metallicdonkey.tcp.models.Workshift;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -78,7 +77,7 @@ public class AddEmployeeCtrl {
 			error.showAndWait();
 		} else {
 			try {
-				DBHelper.getInstance().insertEmployee(getNewEmployee());
+				DBHelperEmployee.getInstance().insertEmployee(getNewEmployee());
 //				Alert alert = new Alert(AlertType.NONE);
 //		    alert.initOwner(mainApp.getPrimaryStage());
 //		    alert.setTitle("Avviso");

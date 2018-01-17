@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.db.DBHelper;
+import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.StatusVehicle;
 import it.metallicdonkey.tcp.models.Vehicle;
@@ -54,7 +54,7 @@ public class AddVehicleCtrl {
 		} else {
 			Vehicle v = getNewVehicle();
 			try {
-				DBHelper.getInstance().insertVehicle(v);
+				DBHelperVehicle.getInstance().insertVehicle(v);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

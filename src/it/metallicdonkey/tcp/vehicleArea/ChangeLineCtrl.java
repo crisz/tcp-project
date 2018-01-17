@@ -12,7 +12,6 @@ import it.metallicdonkey.tcp.administrativeArea.ListSearchLineCtrl;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.models.Stop;
-import it.metallicdonkey.tcp.models.Vehicle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

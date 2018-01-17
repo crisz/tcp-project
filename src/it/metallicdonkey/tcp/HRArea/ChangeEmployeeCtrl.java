@@ -2,16 +2,14 @@ package it.metallicdonkey.tcp.HRArea;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.db.DBHelper;
+import it.metallicdonkey.tcp.db.DBHelperEmployee;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.Employee;
-import it.metallicdonkey.tcp.models.StatusEmployee;
 import it.metallicdonkey.tcp.models.Workshift;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -84,8 +82,8 @@ public class ChangeEmployeeCtrl {
 			error.showAndWait();
 		} else {
 			try {
-				DBHelper.getInstance().removeEmployee(employee.getEmployee());
-				DBHelper.getInstance().insertEmployee(getNewEmployee());
+				DBHelperEmployee.getInstance().removeEmployee(employee.getEmployee());
+				DBHelperEmployee.getInstance().insertEmployee(getNewEmployee());
 				Alert alert = new Alert(AlertType.INFORMATION);
 		    alert.initOwner(mainApp.getPrimaryStage());
 		    alert.setTitle("Avviso");
