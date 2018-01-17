@@ -1,4 +1,4 @@
-package it.metallicdonkey.tcp.administrativeArea;
+package it.metallicdonkey.tcp.linesManagement;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -7,7 +7,6 @@ import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.models.Stop;
-import it.metallicdonkey.tcp.vehicleArea.ChangeLineCtrl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;

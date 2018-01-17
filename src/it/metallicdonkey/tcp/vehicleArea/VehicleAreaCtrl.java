@@ -3,9 +3,13 @@ package it.metallicdonkey.tcp.vehicleArea;
 import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.administrativeArea.CheckCtrl;
-import it.metallicdonkey.tcp.administrativeArea.ListSearchLineCtrl;
-import it.metallicdonkey.tcp.employeeArea.PersonalInfoCtrl;
+import it.metallicdonkey.tcp.EmployeesManagement.PersonalInfoCtrl;
+import it.metallicdonkey.tcp.depositManagement.EntryVehicleCtrl;
+import it.metallicdonkey.tcp.depositManagement.ExitVehicleCtrl;
+import it.metallicdonkey.tcp.linesManagement.AddLineCtrl;
+import it.metallicdonkey.tcp.linesManagement.CheckCtrl;
+import it.metallicdonkey.tcp.linesManagement.ListSearchLineCtrl;
+import it.metallicdonkey.tcp.linesManagement.ListSearchVehicleCtrl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

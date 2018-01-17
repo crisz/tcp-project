@@ -1,4 +1,4 @@
-package it.metallicdonkey.tcp.vehicleArea;
+package it.metallicdonkey.tcp.linesManagement;
 
 
 import java.io.IOException;
@@ -7,8 +7,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.administrativeArea.LineDataModel;
-import it.metallicdonkey.tcp.administrativeArea.ListSearchLineCtrl;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.models.Stop;

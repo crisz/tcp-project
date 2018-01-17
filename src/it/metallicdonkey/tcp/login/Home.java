@@ -3,8 +3,8 @@ package it.metallicdonkey.tcp.login;
 import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.HRArea.HRAreaCtrl;
-import it.metallicdonkey.tcp.administrativeArea.AdministrativeAreaCtrl;
+import it.metallicdonkey.tcp.EmployeesManagement.HRAreaCtrl;
+import it.metallicdonkey.tcp.linesManagement.AdministrativeAreaCtrl;
 import it.metallicdonkey.tcp.vehicleArea.VehicleAreaCtrl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

@@ -1,4 +1,4 @@
-package it.metallicdonkey.tcp.vehicleArea;
+package it.metallicdonkey.tcp.depositManagement;
 
 import java.io.IOException;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package it.metallicdonkey.tcp.HRArea;
+package it.metallicdonkey.tcp.EmployeesManagement;
 
 import java.io.IOException;
 

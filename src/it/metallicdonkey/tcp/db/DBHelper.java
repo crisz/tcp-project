@@ -14,8 +14,8 @@ import java.util.Random;
 
 import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
 
-import it.metallicdonkey.tcp.administrativeArea.LineDataModel;
-import it.metallicdonkey.tcp.HRArea.EmployeeDataModel;
+import it.metallicdonkey.tcp.EmployeesManagement.EmployeeDataModel;
+import it.metallicdonkey.tcp.linesManagement.LineDataModel;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.*;
 import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;

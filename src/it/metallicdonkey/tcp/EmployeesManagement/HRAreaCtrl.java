@@ -1,12 +1,11 @@
-package it.metallicdonkey.tcp.HRArea;
+package it.metallicdonkey.tcp.EmployeesManagement;
 
 import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.administrativeArea.CheckCtrl;
-import it.metallicdonkey.tcp.administrativeArea.ListSearchLineCtrl;
-import it.metallicdonkey.tcp.employeeArea.PersonalInfoCtrl;
-import it.metallicdonkey.tcp.vehicleArea.AddLineCtrl;
+import it.metallicdonkey.tcp.linesManagement.AddLineCtrl;
+import it.metallicdonkey.tcp.linesManagement.CheckCtrl;
+import it.metallicdonkey.tcp.linesManagement.ListSearchLineCtrl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

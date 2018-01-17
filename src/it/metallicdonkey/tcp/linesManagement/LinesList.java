@@ -1,4 +1,4 @@
-package it.metallicdonkey.tcp.administrativeArea;
+package it.metallicdonkey.tcp.linesManagement;
 
 import java.util.LinkedList;
 

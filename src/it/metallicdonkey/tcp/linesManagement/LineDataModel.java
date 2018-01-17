@@ -1,4 +1,4 @@
-package it.metallicdonkey.tcp.administrativeArea;
+package it.metallicdonkey.tcp.linesManagement;
 
 import it.metallicdonkey.tcp.models.Line;
 import javafx.beans.property.SimpleStringProperty;

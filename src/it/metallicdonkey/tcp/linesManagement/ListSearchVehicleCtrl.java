@@ -1,4 +1,4 @@
-package it.metallicdonkey.tcp.vehicleArea;
+package it.metallicdonkey.tcp.linesManagement;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -7,6 +7,8 @@ import java.util.Optional;
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.login.Home;
+import it.metallicdonkey.tcp.vehicleArea.ChangeVehicleCtrl;
+import it.metallicdonkey.tcp.vehicleArea.VehicleDataModel;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
