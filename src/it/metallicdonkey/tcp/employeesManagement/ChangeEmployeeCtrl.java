@@ -117,7 +117,7 @@ public class ChangeEmployeeCtrl {
 		e.setLastName(cognome.getText());
 		e.setBirthDate(datanascita.getValue());
 		e.setAddress(indirizzo.getText());
-		e.setId(matricola.getText());
+		e.setId(employee.getId());
 		e.setSalary(Double.parseDouble(stipendio.getText()));
 		e.setEmail(email.getText());
 		e.setRole(Role.valueOf(ruolo.getValueFactory().getValue().replace(" ", "_")));
