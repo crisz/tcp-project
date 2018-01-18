@@ -90,17 +90,11 @@ public class DBHelperCheck {
 	 * @throws SQLException
 	 */
 	public void removeLastChecks() throws SQLException{
-		// get the yesterday date
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DATE, -1);
-		Date yesterday = new Date(cal.getTimeInMillis());
-		System.out.println("YESTERDAY: " + yesterday);
-		
 		// Remove first all the matches related to Checks of the day before
-		String removeMatchesQuery = "DELETE FROM tcp.match WHERE Check_Date ='" + yesterday +"'";
+		String removeMatchesQuery = "DELETE FROM tcp.match";
 		dbm.executeUpdate(removeMatchesQuery);
 		
-		String removeChecksQuery = "DELETE FROM tcp.check WHERE Date = '" + yesterday +"'";
+		String removeChecksQuery = "DELETE FROM tcp.check";
 		dbm.executeUpdate(removeChecksQuery);
 	}
 }

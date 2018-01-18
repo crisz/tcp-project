@@ -115,7 +115,7 @@ public class ListSearchEmployeeCtrl {
 								AnchorPane personalInfo;
 								try {
 									personalInfo = (AnchorPane) loader.load();
-
+									
 									Scene scene = new Scene(personalInfo);
 									Stage stage = mainApp.getPrimaryStage();
 									stage.setScene(scene);
@@ -186,7 +186,6 @@ public class ListSearchEmployeeCtrl {
 										button.setGraphic(nimv);
 										employees.getColumns().get(0).setVisible(false);
 										employees.getColumns().get(0).setVisible(true);
-
 									}
 
 								}
