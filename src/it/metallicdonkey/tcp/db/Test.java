@@ -1,9 +1,17 @@
 package it.metallicdonkey.tcp.db;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import it.metallicdonkey.tcp.models.Employee;
+import it.metallicdonkey.tcp.models.Payment;
 
 public class Test {
 	public static void main(String[] args) throws SQLException {
+		DBHelperEmployee db = DBHelperEmployee.getInstance();
 //		Vehicle v = new Vehicle();
 //
 //		v.setId("2587");
@@ -212,5 +220,25 @@ public class Test {
 //			exc.printStackTrace();
 //		}
 //	}
+//		Payment payment = new Payment();
+//		payment.setDate(LocalDate.parse("2018-01-18", DateTimeFormatter.ISO_LOCAL_DATE));
+//		payment.setNetSalary(2000.25);
+//		payment.setIdEmployee("0781457");
+//		Employee e = new Employee();
+//		e.setId("0641143");
+//		e.setPassword("password");
+//		Employee result = db.login(e);
+//		System.out.println(result.getId());
+//		db.insertPayment(payment, e);
+		
+//		
+//		System.out.println(payment.getIdEmployee()+"\n"+payment.getNetSalary()+"\n"+payment.getDate());
+//		ArrayList<Payment> payments = new ArrayList<>();
+//		payments = db.getPayments(e);
+//		Iterator<Payment> it = payments.iterator();
+//		while(it.hasNext()) {
+//			Payment p = it.next();
+//			System.out.println(p.getIdEmployee());
+//		}
 	}
 }

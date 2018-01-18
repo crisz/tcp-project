@@ -11,6 +11,7 @@ import it.metallicdonkey.tcp.employeesManagement.EmployeeDataModel;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.AbsenceInterval;
 import it.metallicdonkey.tcp.models.Employee;
+import it.metallicdonkey.tcp.models.Payment;
 import it.metallicdonkey.tcp.models.StatusEmployee;
 import it.metallicdonkey.tcp.models.Workshift;
 import javafx.collections.FXCollections;
@@ -54,10 +55,7 @@ public class DBHelperEmployee {
 				e.setSalary(result.getDouble("Salary"));
 				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
 				e.setRole(Role.valueOf(result.getString("Role")));
-
 				String w = result.getString("Workshift");
-				System.out.println("wwww");
-				System.out.println(w);
 				if(w.equals("MORNING"))
 					e.setWorkshift(Workshift.MATTINA);
 				if(w.equals("AFTERNOON"))
@@ -97,10 +95,7 @@ public class DBHelperEmployee {
 				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
 				e.setRole(Role.valueOf(result.getString("Role")));
 				String w = result.getString("Workshift");
-				System.out.println("wwww");
-				System.out.println(w);
 				if(w.equals("MORNING")) {
-					System.out.println("Questo impiegato è di mattina");
 					e.setWorkshift(Workshift.MATTINA);
 				}
 				else if(w.equals("AFTERNOON"))
@@ -145,10 +140,7 @@ public class DBHelperEmployee {
 				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
 				e.setRole(Role.valueOf(result.getString("Role")));
 				String w = result.getString("Workshift");
-				System.out.println("wwww");
-				System.out.println(w);
 				if(w.equals("MORNING")) {
-					System.out.println("Questo impiegato è di mattina");
 					e.setWorkshift(Workshift.MATTINA);
 				}
 				else if(w.equals("AFTERNOON"))
@@ -272,4 +264,42 @@ public class DBHelperEmployee {
 		return result;
 	}
 	
+	public void insertPayment(Payment p, Employee e) throws SQLException {
+		String query = " INSERT INTO tcp.payment (Date, NetSalary, Employee_idEmployee)" + " values (?, ?, ?)";
+		
+		// create the mysql insert preparedstatement
+		PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
+		preparedStmt.setString (1, p.getDate().getYear()+"-"+p.getDate().getMonthValue()+"-"+p.getDate().getDayOfMonth());
+		preparedStmt.setDouble (2, p.getNetSalary());
+		preparedStmt.setString (3, e.getId());
+		// execute the preparedstatement
+		preparedStmt.execute();
+		
+	}
+	
+	public ArrayList<Payment> getPayments(Employee e){
+		ArrayList<Payment> payments = new ArrayList<>();
+		try {
+			dbm.executeQuery("SELECT * FROM tcp.payment WHERE Employee_idEmployee = '"+e.getId()+"' ORDER BY Date DESC LIMIT 6");
+			ResultSet result = dbm.getResultSet();
+			
+			while(result.next()) {
+				Payment p = new Payment();
+				p.setDate(result.getDate("Date").toLocalDate());
+				p.setNetSalary(result.getDouble("NetSalary"));
+				p.setIdEmployee(result.getString("Employee_idEmployee"));
+				
+				payments.add(p);
+			}
+		}
+		catch(SQLException exc){
+			exc.printStackTrace();
+		}
+		return payments;
+	}	
+	
+	public Employee login(Employee e) {
+		ArrayList<Employee> employees = this.getAllEmployees("idEmployee = '"+e.getId()+"' AND Password = '"+e.getPassword()+"'");
+		return employees.get(0);
+	}
 }
