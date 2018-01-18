@@ -46,7 +46,7 @@ public class AddVehicleCtrl {
 	}
 
 	@FXML
-	private void submitVehicle() {
+	public void submitVehicle() {
 		
 		Alert error = check();
 		if (error != null) {

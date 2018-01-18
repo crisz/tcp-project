@@ -6,12 +6,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.vehiclesManagement.AddVehicleCtrl">
+<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.vehiclesManagement.ChangeVehicleCtrl">
    <children>
       <Pane layoutX="-14.0" prefHeight="500.0" prefWidth="870.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button layoutX="68.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" text="Indietro" />
-            <Button layoutX="776.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" text="Home" />
+            <Button layoutX="68.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" prefHeight="27.0" prefWidth="126.0" text="Indietro" />
+            <Button layoutX="701.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" prefHeight="27.0" prefWidth="126.0" text="Home" />
             <Label layoutX="80.0" layoutY="102.0" text="Matricola" />
             <Label layoutX="68.0" layoutY="162.0" text="Posti a sedere" />
             <Label layoutX="71.0" layoutY="218.0" text="Posti disabili" />
@@ -22,7 +22,7 @@
             <TextField fx:id="targa" layoutX="627.0" layoutY="158.0" />
             <TextField fx:id="postiInPiedi" layoutX="627.0" layoutY="214.0" />
             <Label layoutX="501.0" layoutY="218.0" text="Posti in piedi" />
-            <Button fx:id="inviaButton" layoutX="415.0" layoutY="460.0" mnemonicParsing="false" onAction="#submitVehicle" text="Invia" />
+            <Button fx:id="inviaButton" layoutX="329.0" layoutY="460.0" mnemonicParsing="false" onAction="#change" prefHeight="27.0" prefWidth="213.0" text="Modifica" />
             <Label layoutX="513.0" layoutY="102.0" text="Modello" />
             <TextField fx:id="modello" layoutX="627.0" layoutY="98.0" />
          </children>
