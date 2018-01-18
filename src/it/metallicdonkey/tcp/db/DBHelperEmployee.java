@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.sql.Date;
 
 import it.metallicdonkey.tcp.employeesManagement.EmployeeDataModel;
 import it.metallicdonkey.tcp.login.Role;
@@ -270,6 +271,23 @@ public class DBHelperEmployee {
 	public int removeEmployee(Employee e) {
 		int result = dbm.executeUpdate("DELETE FROM tcp.employee WHERE idEmployee='"+e.getId()+"'");
 		return result;
+	}
+	
+	public void updateEmployee(Employee e) throws SQLException{
+		String query = "UPDATE tcp.employee SET " +
+				"`First Name` = '" + e.getFirstName()+"', "+
+				"`Last Name` = '" + e.getLastName() +"', "+
+				"BirthDate = '" + new Date(e.getBirthDate().toEpochDay()) +"', "+
+				"Workshift = '" + workshiftToEnglish(e.getWorkshift())+"', "+
+				"Salary = " + e.getSalary()+", "+
+				"Email = '" + e.getEmail()+"', "+
+				"Role = '" + e.getRole().name()+"', "+
+				"Status = '" + e.getStatus().name()+"', "+
+				"Address = '" + e.getAddress()+"', "+
+				"Password = '" + e.getPassword()+"' "+
+				"WHERE idEmployee = '" + e.getId()+"';";
+		System.out.println(query);
+		dbm.executeUpdate(query);
 	}
 	
 }

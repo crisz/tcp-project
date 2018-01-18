@@ -10,6 +10,7 @@ import it.metallicdonkey.tcp.db.DBHelperEmployee;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.Employee;
+import it.metallicdonkey.tcp.models.StatusEmployee;
 import it.metallicdonkey.tcp.models.Workshift;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -82,26 +83,28 @@ public class ChangeEmployeeCtrl {
 			error.showAndWait();
 		} else {
 			try {
-				DBHelperEmployee.getInstance().removeEmployee(employee.getEmployee());
-				DBHelperEmployee.getInstance().insertEmployee(getNewEmployee());
+				DBHelperEmployee.getInstance().updateEmployee(getNewEmployee());
+				
 				Alert alert = new Alert(AlertType.INFORMATION);
-		    alert.initOwner(mainApp.getPrimaryStage());
-		    alert.setTitle("Avviso");
-		    alert.setHeaderText("Inserimento avvenuto con successo!");
+			    alert.initOwner(mainApp.getPrimaryStage());
+			    alert.setTitle("Avviso");
+			    alert.setHeaderText("Inserimento avvenuto con successo!");
 				alert.show();
-			} catch (SQLException e) {
+			} 
+			catch (SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
-		    alert.initOwner(mainApp.getPrimaryStage());
-		    alert.setTitle("Avviso");
-		    alert.setHeaderText("Inserimento fallito!");
-		    alert.setContentText("Controlla la connessione e riprova");
-		    alert.showAndWait();
-		    e.printStackTrace();
+			    alert.initOwner(mainApp.getPrimaryStage());
+			    alert.setTitle("Avviso");
+			    alert.setHeaderText("Inserimento fallito!");
+			    alert.setContentText("Controlla la connessione e riprova");
+			    alert.showAndWait();
+			    e.printStackTrace();
 			}
 			String result = "L'impiegato con matricola " + matricola.getText() + " é stato inserito con successo";
 			System.out.println(result);
 		}
 	}
+	
 	
 	/*
 	 * This method return the employee created with the values inserted by the user
@@ -117,8 +120,9 @@ public class ChangeEmployeeCtrl {
 		e.setId(matricola.getText());
 		e.setSalary(Double.parseDouble(stipendio.getText()));
 		e.setEmail(email.getText());
-		e.setRole(Role.valueOf(this.ruolo.getValue().replace(" ", "_")));
+		e.setRole(Role.valueOf(ruolo.getValueFactory().getValue().replace(" ", "_")));
 		e.setWorkshift(Workshift.valueOf(this.turno.getValue().toUpperCase()));
+		e.setStatus(StatusEmployee.AVAILABLE);
 		return e;
 	}
 	
