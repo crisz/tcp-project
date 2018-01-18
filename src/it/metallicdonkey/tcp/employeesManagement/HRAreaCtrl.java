@@ -61,8 +61,8 @@ public class HRAreaCtrl {
 		AddLineCtrl lsvCtrl = loader.getController();
 		lsvCtrl.setMainApp(mainApp);
 	}
-	
-	
+
+
 	@FXML
 	private void showSearchLine() throws IOException {
 		System.out.println("Showing search info line...");
@@ -123,8 +123,20 @@ public class HRAreaCtrl {
 		PaySalaryCtrl cCtrl = loader.getController();
 		cCtrl.setMainApp(mainApp);
 	}
+	@FXML
+	  private void logout() throws IOException {
+		  System.out.println("logging out...");
+		  FXMLLoader loader = new FXMLLoader();
+		  loader.setLocation(App.class.getResource("login/LoginScreen.fxml"));
+		  AnchorPane login = (AnchorPane) loader.load();
+		  System.out.println("Resource done!");
+		  Scene scene = new Scene(login);
+		  System.out.println(scene);
+		  System.out.println(login);
+		  Stage stage = mainApp.getPrimaryStage();
+		  stage.setScene(scene);
+	  }
 	public void setMainApp(App mainApp) {
 		this.mainApp = mainApp;
 	}
-		
 }

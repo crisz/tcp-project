@@ -18,19 +18,19 @@ import javafx.stage.Stage;
 
 public class VehicleAreaCtrl {
 	private App mainApp;
-	
+
   @FXML
   private void initialize() {
   }
- 
-  @FXML 
+
+  @FXML
   private void showPersonalInfo() throws IOException {
   	System.out.println("Showing personal info...");
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(App.class.getResource("employeesManagement/PersonalInfoScreen.fxml"));
     AnchorPane personalInfo = (AnchorPane) loader.load();
     System.out.println("Resource done!");
-    
+
 		Scene scene = new Scene(personalInfo);
 		System.out.println(scene);
 		System.out.println(personalInfo);
@@ -39,7 +39,7 @@ public class VehicleAreaCtrl {
     PersonalInfoCtrl lsvCtrl = loader.getController();
     lsvCtrl.setMainApp(mainApp);
   }
-  
+
   @FXML
   private void showAddVehicle() throws IOException {
   	System.out.println("Showing personal info...");
@@ -47,7 +47,7 @@ public class VehicleAreaCtrl {
     loader.setLocation(App.class.getResource("vehiclesManagement/AddVehicleScreen.fxml"));
     AnchorPane personalInfo = (AnchorPane) loader.load();
     System.out.println("Resource done!");
-	    
+
 		Scene scene = new Scene(personalInfo);
 		System.out.println(scene);
 		System.out.println(personalInfo);
@@ -56,7 +56,7 @@ public class VehicleAreaCtrl {
     AddVehicleCtrl lsvCtrl = loader.getController();
     lsvCtrl.setMainApp(mainApp);
 	  }
-  
+
   @FXML
   private void showAddLine() throws IOException {
   	System.out.println("Showing personal info...");
@@ -64,7 +64,7 @@ public class VehicleAreaCtrl {
     loader.setLocation(App.class.getResource("linesManagement/AddLineScreen.fxml"));
     AnchorPane personalInfo = (AnchorPane) loader.load();
     System.out.println("Resource done!");
-	    
+
 		Scene scene = new Scene(personalInfo);
 		System.out.println(scene);
 		System.out.println(personalInfo);
@@ -73,14 +73,14 @@ public class VehicleAreaCtrl {
     AddLineCtrl lsvCtrl = loader.getController();
     lsvCtrl.setMainApp(mainApp);
 	  }
-  @FXML 
+  @FXML
   private void showSearchLine() throws IOException {
   	System.out.println("Showing search info line...");
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(App.class.getResource("linesManagement/ListSearchLineScreen.fxml"));
     AnchorPane lsl = (AnchorPane) loader.load();
     System.out.println("Resource done!");
-    
+
 		Scene scene = new Scene(lsl);
 		System.out.println(scene);
 		System.out.println(mainApp);
@@ -89,7 +89,7 @@ public class VehicleAreaCtrl {
     ListSearchLineCtrl lslCtrl = loader.getController();
     lslCtrl.setMainApp(mainApp);
   }
-  
+
   @FXML
   private void showSearchVehicle() throws IOException {
   	System.out.println("Showing search info vehicle...");
@@ -97,7 +97,7 @@ public class VehicleAreaCtrl {
     loader.setLocation(App.class.getResource("vehiclesManagement/ListSearchVehicleScreen.fxml"));
     AnchorPane lsv = (AnchorPane) loader.load();
     System.out.println("Resource done!");
-    
+
 		Scene scene = new Scene(lsv);
 		System.out.println(scene);
 		System.out.println(mainApp);
@@ -106,7 +106,7 @@ public class VehicleAreaCtrl {
     ListSearchVehicleCtrl lsvCtrl = loader.getController();
     lsvCtrl.setMainApp(mainApp);
   }
-  
+
   @FXML
   private void showCheck() throws IOException {
   	System.out.println("Showing check...");
@@ -114,7 +114,7 @@ public class VehicleAreaCtrl {
     loader.setLocation(App.class.getResource("linesManagement/CheckScreen.fxml"));
     AnchorPane check = (AnchorPane) loader.load();
     System.out.println("Resource done!");
-    
+
 		Scene scene = new Scene(check);
 		System.out.println(scene);
 		System.out.println(mainApp);
@@ -123,14 +123,14 @@ public class VehicleAreaCtrl {
     CheckCtrl lsvCtrl = loader.getController();
     lsvCtrl.setMainApp(mainApp);
   }
-  
+
   @FXML
   private void showEntryVehicle() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(App.class.getResource("depositManagement/EntryVehicleScreen.fxml"));
     AnchorPane check = (AnchorPane) loader.load();
     System.out.println("Resource done!");
-    
+
 		Scene scene = new Scene(check);
 		System.out.println(scene);
 		System.out.println(mainApp);
@@ -139,14 +139,14 @@ public class VehicleAreaCtrl {
     EntryVehicleCtrl lsvCtrl = loader.getController();
     lsvCtrl.setMainApp(mainApp);
   }
-  
+
   @FXML
   private void showExitVehicle() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(App.class.getResource("depositManagement/ExitVehicleScreen.fxml"));
     AnchorPane check = (AnchorPane) loader.load();
     System.out.println("Resource done!");
-    
+
 		Scene scene = new Scene(check);
 		System.out.println(scene);
 		System.out.println(mainApp);
@@ -155,7 +155,19 @@ public class VehicleAreaCtrl {
     ExitVehicleCtrl lsvCtrl = loader.getController();
     lsvCtrl.setMainApp(mainApp);
   }
-  
+  @FXML
+  private void logout() throws IOException {
+	  System.out.println("logging out...");
+	  FXMLLoader loader = new FXMLLoader();
+	  loader.setLocation(App.class.getResource("login/LoginScreen.fxml"));
+	  AnchorPane login = (AnchorPane) loader.load();
+	  System.out.println("Resource done!");
+	  Scene scene = new Scene(login);
+	  System.out.println(scene);
+	  System.out.println(login);
+	  Stage stage = mainApp.getPrimaryStage();
+	  stage.setScene(scene);
+  }
   public void setMainApp(App mainApp) {
     this.mainApp = mainApp;
   }

@@ -115,7 +115,7 @@ public class ListSearchEmployeeCtrl {
 								AnchorPane personalInfo;
 								try {
 									personalInfo = (AnchorPane) loader.load();
-
+									
 									Scene scene = new Scene(personalInfo);
 									Stage stage = mainApp.getPrimaryStage();
 									stage.setScene(scene);
@@ -186,15 +186,14 @@ public class ListSearchEmployeeCtrl {
 										button.setGraphic(nimv);
 										employees.getColumns().get(0).setVisible(false);
 										employees.getColumns().get(0).setVisible(true);
-
 									}
 
 								}
 								else {
 									Alert alert = new Alert(AlertType.CONFIRMATION);
 									alert.setTitle("Confirmation Dialog");
-									alert.setHeaderText("Sei sicuro di voler segnalare il veicolo come funzionante?");
-									alert.setContentText("Il veicolo con matricola " + employee.getId() + " verrà segnalato come funzionante e sarà utilizzabile.");
+									alert.setHeaderText("Sei sicuro di voler rendere disponibile l'impiegato?");
+									alert.setContentText("L'impiegato con matricola " + employee.getId() + " verrà segnalato come disponibile.");
 
 									Optional<ButtonType> result = alert.showAndWait();
 									if (result.get() == ButtonType.OK){
@@ -253,8 +252,8 @@ public class ListSearchEmployeeCtrl {
 								EmployeeDataModel employee = getTableView().getItems().get(getIndex());
 								Alert alert = new Alert(AlertType.CONFIRMATION);
 								alert.setTitle("Confirmation Dialog");
-								alert.setHeaderText("Sei sicuro di voler eliminare il veicolo?");
-								alert.setContentText("Il veicolo con matricola " + employee.getId() + " verrà eliminato. Questa operazione è irreversibile.");
+								alert.setHeaderText("Sei sicuro di voler eliminare l'impiegato?");
+								alert.setContentText("L'impiegato con matricola " + employee.getId() + " verrà eliminato. Questa operazione è irreversibile.");
 
 								Optional<ButtonType> result = alert.showAndWait();
 								if (result.get() == ButtonType.OK){
