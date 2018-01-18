@@ -1,5 +1,6 @@
 package it.metallicdonkey.tcp.db;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,8 +66,9 @@ public class DBHelperCheck {
 			c.setWorkshift(Workshift.valueOf(resultSet.getString(2)));
 			
 			// get the yesterday date
-			Calendar yesterday = Calendar.getInstance();
-			yesterday.add(Calendar.DATE, -1);
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, -1);
+			Date yesterday = new Date(cal.getTimeInMillis());
 			
 			// get all the related matches
 			query = "SELECT * FROM tcp.match () " + "WHERE Check_Date == " + yesterday + " ;";
@@ -89,8 +91,9 @@ public class DBHelperCheck {
 	 */
 	public void removeLastChecks() throws SQLException{
 		// get the yesterday date
-		Calendar yesterday = Calendar.getInstance();
-		yesterday.add(Calendar.DATE, -1);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -1);
+		Date yesterday = new Date(cal.getTimeInMillis());
 		
 		String query = "REMOVE FROM tcp.check () WHERE Date == " + yesterday;
 		dbm.executeQuery(query);
