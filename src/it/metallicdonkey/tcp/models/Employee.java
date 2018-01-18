@@ -26,6 +26,13 @@ public class Employee {
 	private Workshift workshift;
 	private String password;
 	private ArrayList<AbsenceInterval> absenceIntervals;
+	private ArrayList<Payment> payments;
+	public ArrayList<Payment> getPayments() {
+		return payments;
+	}
+	public void setPayments(ArrayList<Payment> payments) {
+		this.payments = payments;
+	}
 	public Workshift getWorkshift() {
 		return workshift;
 	}

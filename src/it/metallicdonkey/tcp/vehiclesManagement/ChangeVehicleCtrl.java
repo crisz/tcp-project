@@ -19,25 +19,25 @@ public class ChangeVehicleCtrl extends AddVehicleCtrl{
 
 	@FXML
 	private TextField matricola;
-	
+
 	@FXML
 	private TextField postiASedere;
-	
+
 	@FXML
 	private TextField postiDisabili;
-	
+
 	@FXML
 	private TextField targa;
-	
+
 	@FXML
 	private TextField postiInPiedi;
-	
+
 	@FXML
 	private Button inviaButton;
 
 	@FXML
 	private TextField modello;
-	
+
 	private VehicleDataModel vehicle;
 
 	@FXML
@@ -47,6 +47,7 @@ public class ChangeVehicleCtrl extends AddVehicleCtrl{
 		this.postiASedere.setText(this.vehicle.getSeats());
 		this.postiDisabili.setText(this.vehicle.getHSeats());
 		this.postiInPiedi.setText(this.vehicle.getSSeats());
+		this.targa.setText(this.vehicle.getVehicle().getPlate());
 		this.modello.setText("Modello");
 		// TODO: Aggiugnere targa in VehicleDataModel
 		this.matricola.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent; -fx-background-color: #F4F4F4");
@@ -61,13 +62,13 @@ public class ChangeVehicleCtrl extends AddVehicleCtrl{
 		this.targa.setEditable(false);
 		this.modello.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
 		this.modello.setEditable(false);
-		
+
 	}
-	
+
 	@FXML
 	private void change() {
 		this.matricola.setStyle(null);
-		this.matricola.setEditable(true);
+		this.matricola.setEditable(false);
 		this.postiASedere.setStyle(null);
 		this.postiASedere.setEditable(true);
 		this.postiDisabili.setStyle(null);
@@ -78,34 +79,32 @@ public class ChangeVehicleCtrl extends AddVehicleCtrl{
 		this.targa.setEditable(true);
 		this.modello.setStyle(null);
 		this.modello.setEditable(true);
-		
+
 		if(this.inviaButton.getText().equals("Invia")) {
 			submitVehicle();
 		}
-		
+
 		this.inviaButton.setText("Invia");
 	}
 
 	@FXML
 	public void submitVehicle() {
-		
+
 		Alert error = check();
 		if (error != null) {
 			error.showAndWait();
 		} else {
 			Vehicle v = getNewVehicle();
 			try {
-				DBHelperVehicle.getInstance().removeVehicle(v);
-				DBHelperVehicle.getInstance().insertVehicle(v);
+				DBHelperVehicle.getInstance().updateVehicle(v);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			String result = "Il veicolo " + v.getId() + " é stato inserito con successo";
 			System.out.println(result);
 		}
 	}
-	
+
 	private Vehicle getNewVehicle() {
 		Vehicle v = new Vehicle();
 		v.setBrand(modello.getText());
@@ -117,13 +116,13 @@ public class ChangeVehicleCtrl extends AddVehicleCtrl{
 		v.setStatus(StatusVehicle.AVAILABLE);
 		return v;
 	}
-	
+
 	private Alert check() {
 		Alert alert = new Alert(AlertType.WARNING);
 	    alert.initOwner(mainApp.getPrimaryStage());
 	    alert.setTitle("Avviso");
 	    alert.setHeaderText("Inserimento fallito!");
-	    
+
 		// Check matricola
 	    if (matricola.getText().equals("")) {
 	    	alert.setContentText("Inserisci una matricola");
@@ -149,7 +148,7 @@ public class ChangeVehicleCtrl extends AddVehicleCtrl{
 	    	alert.setContentText("Inserisci il numero di posti in piedi");
 	    	return alert;
 	    }
-	    
+
 	    // Check if values are numeric or not
 	    else {
 	    	int numPostiASedere = -1;
@@ -165,7 +164,7 @@ public class ChangeVehicleCtrl extends AddVehicleCtrl{
 	    		return alert;
 	    	}
 	    }
-	    
+
 	    // Data is ok
 	    return null;
 	}
