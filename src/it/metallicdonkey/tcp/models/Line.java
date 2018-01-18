@@ -8,6 +8,7 @@ public class Line {
 	private Stop endTerminal;
 	private ArrayList<Stop> goingStops;
 	private ArrayList<Stop> returnStops;
+	private int priority;
 	public Line(String name, Stop startTerminal, Stop endTerminal, ArrayList<Stop> goingStops, ArrayList<Stop> returnStops) {
 		this.setName(name);
 		this.setGoingStops(goingStops);
@@ -46,5 +47,11 @@ public class Line {
 	}
 	public void setReturnStops(ArrayList<Stop> returnStops) {
 		this.returnStops = returnStops;
+	}
+	public int getPriority() {
+		return priority;
+	}
+	public void setPriority(int priority) {
+		this.priority = priority;
 	}
 }

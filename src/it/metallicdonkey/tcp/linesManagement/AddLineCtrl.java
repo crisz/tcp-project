@@ -2,11 +2,14 @@ package it.metallicdonkey.tcp.linesManagement;
 
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.db.DBHelperLine;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.models.Stop;
@@ -82,25 +85,33 @@ public class AddLineCtrl {
 	private Line getNewLine() {
 		Line l = new Line();
 		l.setName(name.getText());
-		l.setGoingStops((ArrayList<Stop>) Arrays.asList(stops.toArray(new Stop[stops.size()])));
+		l.setPriority(Integer.parseInt(priority.getText()));
 		l.setStartTerminal(stops.get(0));
-		l.setEndTerminal(stops.get(stops.size()-1));
 		
-		ArrayList<Stop> reverseList = new ArrayList<>();
-		reverseList.addAll(l.getGoingStops());
-		Collections.reverse(reverseList);
-		l.setReturnStops(reverseList);
+		ArrayList<Stop> going = new ArrayList<>();
+		for(int i=1; i<stops.size()/2; i++)
+			going.add(stops.get(i));
+		l.setGoingStops(going);
+		
+		l.setEndTerminal(stops.get(stops.size()/2));
+
+		ArrayList<Stop> ret = new ArrayList<>();
+		for(int i=(stops.size()/2)+1; i<stops.size(); i++)
+			ret.add(stops.get(i));
+		l.setReturnStops(ret);
+		
 		return l;
 	}
 
 	@FXML
-	private void submitVehicle() {
+	private void submitVehicle() throws SQLException {
 		
 		Alert error = check();
 		if(error != null) {
 			error.showAndWait();
 		} else {
 			Line outputLine = getNewLine();
+			DBHelperLine.getInstance().insertLine(outputLine);
 			String result = "La linea " + outputLine.getName() + " é stata inserita con successo";
 			System.out.println(result);
 		}
