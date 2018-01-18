@@ -111,7 +111,7 @@ public class ListSearchEmployeeCtrl {
 								EmployeeDataModel employee = getTableView().getItems().get(getIndex());
 								ListSearchEmployeeCtrl.selectedEmployee = employee;
 								FXMLLoader loader = new FXMLLoader();
-								loader.setLocation(App.class.getResource("HRArea/ChangeEmployeeScreen.fxml"));                           
+								loader.setLocation(App.class.getResource("employeesManagement/ChangeEmployeeScreen.fxml"));                           
 								AnchorPane personalInfo;
 								try {
 									personalInfo = (AnchorPane) loader.load();

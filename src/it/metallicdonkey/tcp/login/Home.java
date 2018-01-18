@@ -3,7 +3,7 @@ package it.metallicdonkey.tcp.login;
 import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.employeesManagement.HRAreaCtrl;
+import it.metallicdonkey.tcp.employeesManagement.EmployeeAreaCtrl;
 import it.metallicdonkey.tcp.linesManagement.AdministrativeAreaCtrl;
 import it.metallicdonkey.tcp.vehiclesManagement.VehicleAreaCtrl;
 import javafx.fxml.FXMLLoader;
@@ -36,15 +36,15 @@ public class Home {
 		switch(role) {
 			case Autista:
 			case Impiegato:
-	      loader.setLocation(App.class.getResource("employeeArea/EmployeeAreaScreen.fxml"));
+	      loader.setLocation(App.class.getResource("employeesManagement/employeeAreaScreen.fxml"));
 	      AnchorPane adminScreen = (AnchorPane) loader.load();
 	  		scene = new Scene(adminScreen);
 	      mainApp.getPrimaryStage().setScene(scene);
 	      AdministrativeAreaCtrl adminCtrl = loader.getController();
 	      adminCtrl.setMainApp(mainApp);
 			break;
-			case Addetto_ai_mezzi:;
-	      loader.setLocation(App.class.getResource("vehicleArea/VehicleAreaScreen.fxml"));
+			case Addetto_ai_mezzi:
+	      loader.setLocation(App.class.getResource("vehiclesManagement/vehicleAreaScreen.fxml"));
 	      AnchorPane vehicleScreen = (AnchorPane) loader.load();
 	  		scene = new Scene(vehicleScreen);
 	      mainApp.getPrimaryStage().setScene(scene);
@@ -52,12 +52,12 @@ public class Home {
 	      vehicleCtrl.setMainApp(mainApp);
 			break;
 			
-			case Addetto_agli_impiegati:;
-		      loader.setLocation(App.class.getResource("HRArea/HRAreaScreen.fxml"));
+			case Addetto_agli_impiegati:
+		      loader.setLocation(App.class.getResource("employeesManagement/HRAreaScreen.fxml"));
 		      AnchorPane anchorPane = (AnchorPane) loader.load();
 		  		scene = new Scene(anchorPane);
 		      mainApp.getPrimaryStage().setScene(scene);
-		      HRAreaCtrl ctrl = loader.getController();
+		      EmployeeAreaCtrl ctrl = loader.getController();
 		      ctrl.setMainApp(mainApp);
 				break;
 			default:

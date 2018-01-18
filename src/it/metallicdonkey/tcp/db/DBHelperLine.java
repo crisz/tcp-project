@@ -55,11 +55,11 @@ public class DBHelperLine {
 		Stop stop = new Stop();
 		try {
 			if(first == true) {
-				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, lines_has_stop ls, line l " +
+				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, line_has_stop ls, line l " +
 						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
 						" AND l.idLine=ls.Line_idLine AND ls.type=FIRST");
 			} else {
-				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, lines_has_stop ls, line l " +
+				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, line_has_stop ls, line l " +
 						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
 						" AND l.idLine=ls.Line_idLine AND ls.type=END");
 			}

@@ -21,7 +21,7 @@ public class EmployeeAreaCtrl {
   private void showPersonalInfo() throws IOException {
   	System.out.println("Showing personal info...");
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(App.class.getResource("employeeArea/PersonalInfoScreen.fxml"));
+    loader.setLocation(App.class.getResource("employeesManagement/PersonalInfoScreen.fxml"));
     AnchorPane personalInfo = (AnchorPane) loader.load();
     System.out.println("Resource done!");
     

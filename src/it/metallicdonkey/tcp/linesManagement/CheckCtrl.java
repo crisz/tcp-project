@@ -155,7 +155,7 @@ public class CheckCtrl {
   		System.out.println(dataCheck);
 
   		FXMLLoader loader = new FXMLLoader();
-  		loader.setLocation(App.class.getResource("administrativeArea/CheckResultScreen.fxml"));
+  		loader.setLocation(App.class.getResource("linesManagement/CheckResultScreen.fxml"));
       AnchorPane resultScreen = (AnchorPane) loader.load();
   		Scene scene = new Scene(resultScreen);
       mainApp.getPrimaryStage().setScene(scene);

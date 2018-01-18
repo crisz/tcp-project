@@ -120,7 +120,7 @@ public class ListSearchLineCtrl {
 								LineDataModel line = getTableView().getItems().get(getIndex());
 								ListSearchLineCtrl.selectedLine = line;
 								FXMLLoader loader = new FXMLLoader();
-								loader.setLocation(App.class.getResource("vehicleArea/ChangeLineScreen.fxml"));                           
+								loader.setLocation(App.class.getResource("linesManagement/ChangeLineScreen.fxml"));                           
 								AnchorPane personalInfo;
 								try {
 									personalInfo = (AnchorPane) loader.load();

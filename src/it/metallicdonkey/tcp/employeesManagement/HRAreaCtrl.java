@@ -21,7 +21,7 @@ public class HRAreaCtrl {
 	private void showPersonalInfo() throws IOException {
 		System.out.println("Showing personal info...");
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(App.class.getResource("employeeArea/PersonalInfoScreen.fxml"));
+		loader.setLocation(App.class.getResource("employeesManagement/PersonalInfoScreen.fxml"));
 		AnchorPane personalInfo = (AnchorPane) loader.load();
 		System.out.println("Resource done!");
 		Scene scene = new Scene(personalInfo);
@@ -36,7 +36,7 @@ public class HRAreaCtrl {
 	private void showAddEmployee() throws IOException {
 		//System.out.println("Showing personal info...");
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(App.class.getResource("HRArea/AddEmployeeScreen.fxml"));
+		loader.setLocation(App.class.getResource("employeesManagement/AddEmployeeScreen.fxml"));
 		AnchorPane personalInfo = (AnchorPane) loader.load();
 		System.out.println("Resource done!");
 		Scene scene = new Scene(personalInfo);
@@ -50,7 +50,7 @@ public class HRAreaCtrl {
 	@FXML
 	private void showAddLine() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(App.class.getResource("vehicleArea/AddLineScreen.fxml"));
+		loader.setLocation(App.class.getResource("linesManagement/AddLineScreen.fxml"));
 		AnchorPane personalInfo = (AnchorPane) loader.load();
 		System.out.println("Resource done!");
 		Scene scene = new Scene(personalInfo);
@@ -67,7 +67,7 @@ public class HRAreaCtrl {
 	private void showSearchLine() throws IOException {
 		System.out.println("Showing search info line...");
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(App.class.getResource("administrativeArea/ListSearchLineScreen.fxml"));
+		loader.setLocation(App.class.getResource("linesManagement/ListSearchLineScreen.fxml"));
 		AnchorPane lsl = (AnchorPane) loader.load();
 		System.out.println("Resource done!");
 		Scene scene = new Scene(lsl);
@@ -82,7 +82,7 @@ public class HRAreaCtrl {
 	private void showSearchEmployee() throws IOException {
 		System.out.println("Showing search info employee...");
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(App.class.getResource("HRArea/ListSearchEmployeeScreen.fxml"));
+		loader.setLocation(App.class.getResource("employeesManagement/ListSearchEmployeeScreen.fxml"));
 		AnchorPane lsl = (AnchorPane) loader.load();
 		System.out.println("Resource done!");
 		Scene scene = new Scene(lsl);
@@ -97,7 +97,7 @@ public class HRAreaCtrl {
 	private void showCheck() throws IOException {
 		System.out.println("Showing check...");
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(App.class.getResource("administrativeArea/CheckScreen.fxml"));
+		loader.setLocation(App.class.getResource("linesManagement/CheckScreen.fxml"));
 		AnchorPane lsl = (AnchorPane) loader.load();
 		System.out.println("Resource done!");
 		Scene scene = new Scene(lsl);
@@ -112,7 +112,7 @@ public class HRAreaCtrl {
 	private void showPaySalary() throws IOException {
 		System.out.println("Showing pay salary...");
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(App.class.getResource("HRArea/PaySalaryScreen.fxml"));
+		loader.setLocation(App.class.getResource("employeesManagement/PaySalaryScreen.fxml"));
 		AnchorPane lsl = (AnchorPane) loader.load();
 		System.out.println("Resource done!");
 		Scene scene = new Scene(lsl);

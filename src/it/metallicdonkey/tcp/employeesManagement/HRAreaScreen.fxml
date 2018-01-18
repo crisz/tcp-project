@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.HRArea.HRAreaCtrl">
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.employeesManagement.HRAreaCtrl">
    <children>
       <Pane prefHeight="500.0" prefWidth="870.0" style="-fx-background-color: #d3d8d8;">
          <children>

@@ -124,7 +124,7 @@ public class ListSearchVehicleCtrl {
 								VehicleDataModel vehicle = getTableView().getItems().get(getIndex());
 								ListSearchVehicleCtrl.selectedVehicle = vehicle;
 								FXMLLoader loader = new FXMLLoader();
-								loader.setLocation(App.class.getResource("vehicleArea/ChangeVehicleScreen.fxml"));                           
+								loader.setLocation(App.class.getResource("vehiclesManagement/ChangeVehicleScreen.fxml"));                           
 								AnchorPane personalInfo;
 								try {
 									personalInfo = (AnchorPane) loader.load();
