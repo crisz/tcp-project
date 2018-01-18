@@ -52,8 +52,7 @@ public class LoginCtrl {
 		  e.setStatus(StatusEmployee.AVAILABLE);
 		  e.setRole(Role.Autista);
 		  e.setWorkshift(Workshift.MATTINA);
-		  Home home = Home.getHome(Role.Addetto_agli_impiegati);
-		  home.goHome(mainApp);
+		  Home.getHome(Role.Addetto_agli_impiegati).goHome(mainApp);
 	  } else {
 		  try {
 				DBHelperEmployee dbm = DBHelperEmployee.getInstance();

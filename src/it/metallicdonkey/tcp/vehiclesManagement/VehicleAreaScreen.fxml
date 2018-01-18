@@ -108,7 +108,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="TOP" layoutX="773.0" layoutY="15.0" mnemonicParsing="false" onAction="#logout" prefHeight="17.0" prefWidth="64.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Logout" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="757.0" layoutY="12.0" mnemonicParsing="false" onAction="#logout" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Logout" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>

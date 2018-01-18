@@ -184,7 +184,7 @@ public class DBHelperEmployee {
 		preparedStmt.setString (2, e.getFirstName());
 		preparedStmt.setString (3, e.getLastName());
 		preparedStmt.setString (4, e.getBirthDate().getYear()+"-"+e.getBirthDate().getMonthValue()+"-"+e.getBirthDate().getDayOfMonth());
-		preparedStmt.setString (5, this.workshiftToEnglish(e.getWorkshift()));
+		preparedStmt.setString (5, workshiftToEnglish(e.getWorkshift()));
 		preparedStmt.setDouble (6, e.getSalary());
 		preparedStmt.setString (7, e.getEmail());
 		preparedStmt.setString (8, e.getRole().name());

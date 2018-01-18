@@ -6,6 +6,7 @@ import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.linesManagement.AddLineCtrl;
 import it.metallicdonkey.tcp.linesManagement.CheckCtrl;
 import it.metallicdonkey.tcp.linesManagement.ListSearchLineCtrl;
+import it.metallicdonkey.tcp.login.LoginCtrl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -135,6 +136,8 @@ public class HRAreaCtrl {
 		  System.out.println(login);
 		  Stage stage = mainApp.getPrimaryStage();
 		  stage.setScene(scene);
+		  LoginCtrl loginCtrl = loader.getController();
+		  loginCtrl.setMainApp(this.mainApp);
 	  }
 	public void setMainApp(App mainApp) {
 		this.mainApp = mainApp;
