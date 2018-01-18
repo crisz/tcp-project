@@ -32,7 +32,7 @@ public class DBHelperVehicle {
 	}
 	
 	public Vehicle getVehicleById(String id) throws SQLException {
-		return getAllVehiclesArray("id == '" + id + "'").get(0);
+		return getAllVehiclesArray("idVehicle = '" + id + "'").get(0);
 	}
 	
 	public ArrayList<Vehicle> getAllVehiclesArray(String clause) throws SQLException {

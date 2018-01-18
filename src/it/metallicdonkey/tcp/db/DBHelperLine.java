@@ -32,7 +32,7 @@ public class DBHelperLine {
 	}
 
 	public Line getLineById(String id) throws SQLException {
-		return getAllLinesArray("id == '" + id + "'").get(0);
+		return getAllLinesArray("idLine = '" + id + "'").get(0);
 	}
 
 	public ArrayList<Line> getAllLinesArray(String clause) throws SQLException{

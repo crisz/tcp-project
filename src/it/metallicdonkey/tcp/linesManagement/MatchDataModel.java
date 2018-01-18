@@ -13,7 +13,6 @@ public class MatchDataModel {
 	private LineDataModel l;
 	private VehicleDataModel v;
 	private Match match;
-	// Da aggiungere veicolo
 	
 	private MatchDataModel(EmployeeDataModel impiegato, VehicleDataModel mezzo, LineDataModel linea) {
 		this.e = impiegato;

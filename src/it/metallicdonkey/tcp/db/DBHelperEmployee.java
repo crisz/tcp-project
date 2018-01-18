@@ -119,7 +119,13 @@ public class DBHelperEmployee {
 	}
 	
 	public Employee getEmployeeById(String id) throws SQLException {
-		return getAllEmployees("id == '" + id + "'").get(0);
+		System.out.println("Getting the employee with id " + id);
+		ArrayList<Employee> ar = getAllEmployees("idEmployee = '" + id + "'");
+		if(ar.size() == 0) {
+			// TODO: come dovremmo comportarci se l'impiegato non esiste?
+			return new Employee();
+		}
+		else return ar.get(0);
 	}
 	
 	public ArrayList<Employee> getAllEmployeesArray() {

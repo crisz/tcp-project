@@ -49,13 +49,22 @@ public class DBHelperCheck {
 		}
 	}
 	
+	private String workshiftToItalian(String s) {
+		if(s.equals("Morning"))
+			return "MATTINA";
+		if(s.equals("Afternoon"))
+			return "POMERIGGIO";
+		else
+			return "SERA";
+	}
+	
 	/**
 	 * 
 	 * @return the 3 checks for MORNING, AFTERNOON AND EVENING of the day before
 	 * @throws SQLException
-	 */
+	 */	
 	public List<Check> getLastChecks() throws SQLException {
-		String query = "SELECT * FROM tcp.check () ORDER BY Date DESC LIMIT 3";
+		String query = "SELECT * FROM tcp.check ORDER BY Date DESC LIMIT 3";
 		ResultSet resultSet = dbm.executeQuery(query);
 		
 		List<Check> checks = new ArrayList<>(3); 
@@ -63,7 +72,7 @@ public class DBHelperCheck {
 		while(resultSet.next()) {
 			Check c = new Check();
 			
-			c.setWorkshift(Workshift.valueOf(resultSet.getString(2)));
+			c.setWorkshift(Workshift.valueOf(workshiftToItalian(resultSet.getString(2))));
 			
 			// get the yesterday date
 			Calendar cal = Calendar.getInstance();
@@ -71,13 +80,13 @@ public class DBHelperCheck {
 			Date yesterday = new Date(cal.getTimeInMillis());
 			
 			// get all the related matches
-			query = "SELECT * FROM tcp.match () " + "WHERE Check_Date == " + yesterday + " ;";
+			query = "SELECT * FROM tcp.match;";
 			ResultSet resultSet2 = dbm.executeQuery(query);
 			while(resultSet2.next()) {
 				Match m = new Match();
-				m.setEmployee(DBHelperEmployee.getInstance().getEmployeeById(resultSet2.getString(1)));
-				m.setVehicle(DBHelperVehicle.getInstance().getVehicleById(resultSet2.getString(2)));
-				m.setLine(DBHelperLine.getInstance().getLineById(resultSet2.getString(3)));
+				m.setEmployee(DBHelperEmployee.getInstance().getEmployeeById(resultSet2.getString(2)));
+				m.setVehicle(DBHelperVehicle.getInstance().getVehicleById(resultSet2.getString(3)));
+				m.setLine(DBHelperLine.getInstance().getLineById(resultSet2.getString(4)));
 				c.addMatch(m);
 			}
 			checks.add(c);
