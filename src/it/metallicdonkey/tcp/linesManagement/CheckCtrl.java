@@ -255,8 +255,10 @@ public class CheckCtrl {
 	  	
 	  	dataEmployees.add(e);
 	  	dataVehicles.add(v);
-  	} catch(NullPointerException e) {
-			Alert alert = new Alert(AlertType.WARNING);
+	  	check.getItems().remove(c);
+  	} 
+  	catch(NullPointerException e) {
+		Alert alert = new Alert(AlertType.WARNING);
 	    alert.initOwner(mainApp.getPrimaryStage());
 	    alert.setTitle("Error");
 	    alert.setHeaderText("Impossibile rimuovere l'abbinamento");
