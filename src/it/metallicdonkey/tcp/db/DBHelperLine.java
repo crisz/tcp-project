@@ -56,15 +56,27 @@ public class DBHelperLine {
 		try {
 			if(first == true) {
 				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, line_has_stop ls, line l " +
-						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
-						" AND l.idLine=ls.Line_idLine AND ls.type=FIRST");
+						"WHERE s.idStop=ls.Stop_idStop AND l.idLine='" + line.getName() +
+						"' AND l.idLine=ls.Line_idLine AND ls.type='FIRST'");
 			} else {
 				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, line_has_stop ls, line l " +
-						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
-						" AND l.idLine=ls.Line_idLine AND ls.type=END");
+						"WHERE s.idStop=ls.Stop_idStop AND l.idLine='" + line.getName() +
+						"' AND l.idLine=ls.Line_idLine AND ls.type='END'");
 			}
 			ResultSet result = dbm.getResultSet();
-			stop.setAddress(result.getString("Address"));
+			/**************
+			 * CONTROLLO DA FARE
+			 * ATTENZIONE
+			 */
+			if(!result.next()) {
+				Stop s = new Stop();
+				s.setAddress("Via vattelappesca 12");
+				return s;
+			}
+			/**
+			 * AGGIUSTARE
+			 */
+			stop.setAddress(result.getString("s.Address"));
 		} catch(SQLException exc) {
 			exc.printStackTrace();
 		}
@@ -74,19 +86,19 @@ public class DBHelperLine {
 		ArrayList<Stop> stops = new ArrayList<>();
 		try {
 			if(going == true) {
-				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, lines_has_stop ls, line l " +
-						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
-						" AND l.idLine=ls.Line_idLine AND ls.type=GOING");
+				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, line_has_stop ls, line l " +
+						"WHERE s.idStop=ls.Stop_idStop AND l.idLine='" + line.getName() +
+						"' AND l.idLine=ls.Line_idLine AND ls.type='GOING'");
 			} else {
-				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, lines_has_stop ls, line l " +
+				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, line_has_stop ls, line l " +
 						"WHERE s.idStop=ls.Stop_idStop AND l.idLine=" + line.getName() +
-						" AND l.idLine=ls.Line_idLine AND ls.type=RETURN");
+						" AND l.idLine=ls.Line_idLine AND ls.type='RETURN'");
 			}
 			ResultSet resultSet = dbm.getResultSet();
 			resultSet.beforeFirst();
 			while(resultSet.next()) {
 				Stop stop = new Stop();
-				stop.setAddress(resultSet.getString("Address"));
+				stop.setAddress(resultSet.getString("s.Address"));
 				stops.add(stop);
 			}
 		} catch (SQLException exc) {
@@ -101,6 +113,7 @@ public class DBHelperLine {
 			ResultSet resultSet = dbm.getResultSet();
 			resultSet.beforeFirst();
 			while(resultSet.next()) {
+				System.out.println("Line!");
 				Line line = new Line();
 				line.setName(resultSet.getString("idLine"));
 				line.setStartTerminal(this.getTerminal(line, true));
@@ -112,7 +125,7 @@ public class DBHelperLine {
 		} catch(SQLException exc) {
 			exc.printStackTrace();
 		}
-		ObservableList<LineDataModel> dataLines = FXCollections.observableArrayList();
+		ObservableList<LineDataModel> dataLines = FXCollections.observableArrayList(lines);
 		return dataLines;
 	}
 	
