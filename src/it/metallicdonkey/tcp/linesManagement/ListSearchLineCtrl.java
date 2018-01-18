@@ -1,9 +1,11 @@
 package it.metallicdonkey.tcp.linesManagement;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.db.DBHelperLine;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.models.Stop;
@@ -47,18 +49,12 @@ public class ListSearchLineCtrl {
 	private TableColumn<LineDataModel, String> removeColumn;
 	public static LineDataModel selectedLine;
 	
+	
 	ObservableList<LineDataModel> data;
 	
   @FXML
-  private void initialize() {
-		Line l = new Line();
-		l.setName("101");
-		l.setStartTerminal(new Stop("Stazione Centrale"));
-		l.setEndTerminal(new Stop("Stadio"));
-
-		data =  FXCollections.observableArrayList(
-		    new LineDataModel(l)
-		);
+  private void initialize() throws SQLException {
+		data = DBHelperLine.getInstance().getAllLines();
   	// Initialization data
     nameColumn.setCellValueFactory(
         new PropertyValueFactory<LineDataModel, String>("name"));
@@ -183,7 +179,12 @@ public class ListSearchLineCtrl {
 								if (result.get() == ButtonType.OK){
 									// TODO: implementare cancellazione su db
 									data.remove(line);
-									lsvc.initialize();
+									try {
+										lsvc.initialize();
+									} catch (SQLException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 								} 
 							});
 							btn3.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1px");

@@ -2,11 +2,13 @@ package it.metallicdonkey.tcp.linesManagement;
 
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.db.DBHelperLine;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.models.Stop;
@@ -48,12 +50,34 @@ public class ChangeLineCtrl {
 	LineDataModel line;
 	
 	@FXML
-	private void initialize() {
+	private void initialize() throws SQLException {
 		stops = FXCollections.observableArrayList();
 		line = ListSearchLineCtrl.selectedLine;
 		
+		ArrayList<Stop> stopsGoing = DBHelperLine.getInstance().getStops(line.getLine(), true);
+		ArrayList<Stop> stopsReturn = DBHelperLine.getInstance().getStops(line.getLine(), false);
 		
+		System.out.println(stopsGoing);
 		
+		for(int i=0; i<stopsGoing.size(); i++) {
+			stops.add(stopsGoing.get(i));
+		}
+		for(int i=0; i<stopsReturn.size(); i++) {
+			stops.add(stopsReturn.get(i));
+		}
+		
+		this.stopsList.setItems(stops);
+		
+		this.name.setText(line.getName());
+		/*
+		 * TODO: Da aggiustare
+		 */
+		this.priority.setText("10");
+		
+		this.priority.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent; -fx-background-color: #F4F4F4");
+		this.priority.setEditable(false);
+		this.priority.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
+		this.priority.setEditable(false);
 	}
 	
 	
