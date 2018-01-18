@@ -117,6 +117,9 @@ public class DBHelperEmployee {
 		return dataEmployees;
 	}
 	
+	public Employee getEmployeeById(String id) throws SQLException {
+		return getAllEmployees("id == '" + id + "'").get(0);
+	}
 	
 	public ArrayList<Employee> getAllEmployeesArray() {
 		ArrayList<Employee> employees = new ArrayList<>();
@@ -184,7 +187,7 @@ public class DBHelperEmployee {
 
 	}
 	
-	public String workshiftToEnglish(Workshift w) {
+	public static String workshiftToEnglish(Workshift w) {
 		switch(w) {
 		case MATTINA:
 			return "MORNING";

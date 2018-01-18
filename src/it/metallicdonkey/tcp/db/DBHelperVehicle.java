@@ -31,6 +31,40 @@ public class DBHelperVehicle {
 		return instance;
 	}
 	
+	public Vehicle getVehicleById(String id) throws SQLException {
+		return getAllVehiclesArray("id == '" + id + "'").get(0);
+	}
+	
+	public ArrayList<Vehicle> getAllVehiclesArray(String clause) throws SQLException {
+		ArrayList<Vehicle> vehicles= new ArrayList<>();
+		clause = (clause == null)? "TRUE":clause;
+
+		dbm.executeQuery("SELECT * FROM vehicle WHERE " + clause);
+		// verify if the query returned an empty table
+//		if(!dbm.getResultSet().next()) {
+//			return null;
+//		}
+		// if the query table returned contains something
+		ResultSet result = dbm.getResultSet();
+		result.beforeFirst();
+		while(result.next()) {
+			Vehicle v= new Vehicle();
+			v.setId(result.getString("idVehicle"));
+			v.setBrand(result.getString("Brand"));
+			v.setPlate(result.getString("Plate"));
+			v.setPlacesForDisable(result.getInt("PlacesForDisabled"));
+			v.setSeats(result.getInt("Seats"));
+			v.setStandingPlaces(result.getInt("StandingPlaces"));
+			v.setStatus(StatusVehicle.valueOf(result.getString("Status")));
+			// vehicles.add(new VehicleDataModel(v, "In circolazione"));
+			vehicles.add(v);
+		}
+		// ObservableList<VehicleDataModel> dataVehicles = FXCollections.observableArrayList(vehicles);
+		return vehicles;
+	}
+	
+
+	
 	public ObservableList<VehicleDataModel> getAllVehicles() {
 		ArrayList<VehicleDataModel> vehicles= new ArrayList<>();
 		try {

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperEmployee;
+import it.metallicdonkey.tcp.db.DBHelperLine;
 import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.employeesManagement.EmployeeDataModel;
 import it.metallicdonkey.tcp.login.Home;
@@ -88,28 +89,16 @@ public class CheckCtrl {
   @FXML
   private void initialize() throws SQLException {
 		this.dataVehicles = DBHelperVehicle.getInstance().getAllVehicles();
-
-System.out.println(dataVehicles);
 		this.dataEmployees = DBHelperEmployee.getInstance().getAllEmployees();
 		this.filter();
 		System.out.println("tutti gli impiegati");
 		for(int i=0; i<dataEmployees.size(); i++) {
 			System.out.println("Impeigati, tutti: " + dataEmployees.get(i).getEmployee().getWorkshift().name() + " - " + dataEmployees.get(i).getEmployee().getRole().name() );
 		}
-		Line l = new Line();
-		l.setName("101");
-		l.setStartTerminal(new Stop("Stazione Centrale"));
-		l.setEndTerminal(new Stop("Stadio"));
 
-		this.dataLines = FXCollections.observableArrayList(
-		    new LineDataModel(l)
-		);
+		this.dataLines = DBHelperLine.getInstance().getAllLines();
 
-for(int i=0; i<empM.size(); i++) {
-			System.out.println("Impeigati, mattina: " + empM.get(i).getEmployee().getWorkshift().name() +" "+empM.get(i).getEmployee().getFirstName() + empM.get(i).getEmployee().getId());
-		}
-		this.dataCheck = FXCollections.observableArrayList(
-		);
+		this.dataCheck = FXCollections.observableArrayList();
 		
 		// fine costruttore
   	// Initialization data

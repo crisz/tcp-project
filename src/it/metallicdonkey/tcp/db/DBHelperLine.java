@@ -26,6 +26,29 @@ public class DBHelperLine {
 		return instance;
 	
 	}
+
+	public Line getLineById(String id) throws SQLException {
+		return getAllLinesArray("id == '" + id + "'").get(0);
+	}
+	
+	public ArrayList<Line> getAllLinesArray(String clause) throws SQLException{
+		ArrayList<Line> lines = new ArrayList<>();
+		
+		clause = (clause == null)? "TRUE":clause;
+		
+		dbm.executeQuery("SELECT * FROM line WHERE " + clause);
+		ResultSet resultSet = dbm.getResultSet();
+		while(resultSet.next()) {
+			Line line = new Line();
+			line.setName(resultSet.getString("idLine"));
+			line.setStartTerminal(this.getTerminal(line, true));
+			line.setEndTerminal(this.getTerminal(line, false));
+			line.setGoingStops(this.getStops(line, true));
+			line.setReturnStops(this.getStops(line, false));
+			lines.add(line);
+		}
+		return lines;
+	}
 	
 //bisogna vedere come identificare un capolinea rispetto alle normali fermate
 	public Stop getTerminal(Line line, boolean first) {

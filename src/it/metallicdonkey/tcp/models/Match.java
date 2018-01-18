@@ -9,6 +9,9 @@ public class Match {
 		this.setLine(line);
 		this.setVehicle(vehicle);
 	}
+	public Match() {
+		// TODO Auto-generated constructor stub
+	}
 	public Employee getEmployee() {
 		return employee;
 	}
