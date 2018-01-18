@@ -23,7 +23,7 @@ public class DBHelperEmployee {
 	private DBHelperEmployee() throws SQLException {
 		dbm.connect();
 	}
-	
+
 	public static DBHelperEmployee getInstance() throws SQLException {
 		if(instance != null) {
 			return instance;
@@ -31,7 +31,20 @@ public class DBHelperEmployee {
 		instance = new DBHelperEmployee();
 		return instance;
 	}
-	
+	public Employee login(String id, String password) {
+		Employee employee = new Employee();
+		try {
+			employee = this.getEmployeeById(id);
+			System.out.println(employee.getPassword());
+			System.out.println(password);
+			if( !(employee.getPassword().equals(password))) {
+				return null;
+			}
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+		return employee;
+	}
 	public ArrayList<Employee> getAllEmployees(String clause){
 		ArrayList<Employee> employees = new ArrayList<>();
 		try {
@@ -54,7 +67,7 @@ public class DBHelperEmployee {
 				e.setSalary(result.getDouble("Salary"));
 				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
 				e.setRole(Role.valueOf(result.getString("Role")));
-
+				e.setPassword(result.getString("Password"));
 				String w = result.getString("Workshift");
 				System.out.println("wwww");
 				System.out.println(w);
@@ -96,6 +109,7 @@ public class DBHelperEmployee {
 				e.setSalary(result.getDouble("Salary"));
 				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
 				e.setRole(Role.valueOf(result.getString("Role")));
+				e.setPassword(result.getString("Password"));
 				String w = result.getString("Workshift");
 				System.out.println("wwww");
 				System.out.println(w);
@@ -116,11 +130,11 @@ public class DBHelperEmployee {
 		ObservableList<EmployeeDataModel> dataEmployees = FXCollections.observableArrayList(employees);
 		return dataEmployees;
 	}
-	
+
 	public Employee getEmployeeById(String id) throws SQLException {
-		return getAllEmployees("id == '" + id + "'").get(0);
+		return getAllEmployees("idEmployee='" + id + "'").get(0);
 	}
-	
+
 	public ArrayList<Employee> getAllEmployeesArray() {
 		ArrayList<Employee> employees = new ArrayList<>();
 		try {
@@ -144,6 +158,7 @@ public class DBHelperEmployee {
 				e.setSalary(result.getDouble("Salary"));
 				e.setStatus(StatusEmployee.valueOf(result.getString("Status")));
 				e.setRole(Role.valueOf(result.getString("Role")));
+				e.setPassword(result.getString("Password"));
 				String w = result.getString("Workshift");
 				System.out.println("wwww");
 				System.out.println(w);
@@ -186,7 +201,7 @@ public class DBHelperEmployee {
 		preparedStmt.execute();
 
 	}
-	
+
 	public static String workshiftToEnglish(Workshift w) {
 		switch(w) {
 		case MATTINA:
@@ -198,7 +213,7 @@ public class DBHelperEmployee {
 		}
 		return "MORNING";
 	}
-	
+
 	public void insertAbsenceStartDay(Employee e) throws SQLException {
 		LocalDate date = LocalDate.now();
 		// String id = this.getNewAbsenceId();
@@ -245,7 +260,7 @@ public class DBHelperEmployee {
 		} else
 			throw new SQLException();
 	}
-	
+
 	public ArrayList<AbsenceInterval> getAbsenceInterval(Employee e) {
 		ArrayList<AbsenceInterval> array = new ArrayList<>();
 		try {
@@ -266,10 +281,10 @@ public class DBHelperEmployee {
 		}
 		return array;
 	}
-	
+
 	public int removeEmployee(Employee e) {
 		int result = dbm.executeUpdate("DELETE FROM tcp.employee WHERE idEmployee='"+e.getId()+"'");
 		return result;
 	}
-	
+
 }
