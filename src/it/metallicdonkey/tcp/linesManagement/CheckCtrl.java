@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.db.DBHelperCheck;
 import it.metallicdonkey.tcp.db.DBHelperEmployee;
 import it.metallicdonkey.tcp.db.DBHelperLine;
 import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.employeesManagement.EmployeeDataModel;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.Role;
+import it.metallicdonkey.tcp.models.Check;
 import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.models.Match;
 import it.metallicdonkey.tcp.models.Stop;
@@ -90,16 +92,15 @@ public class CheckCtrl {
   private void initialize() throws SQLException {
 		this.dataVehicles = DBHelperVehicle.getInstance().getAllVehicles();
 		this.dataEmployees = DBHelperEmployee.getInstance().getAllEmployees();
+		this.dataLines = DBHelperLine.getInstance().getAllLines();
+		this.dataCheck = FXCollections.observableArrayList();
+		
 		this.filter();
 		System.out.println("tutti gli impiegati");
 		for(int i=0; i<dataEmployees.size(); i++) {
 			System.out.println("Impeigati, tutti: " + dataEmployees.get(i).getEmployee().getWorkshift().name() + " - " + dataEmployees.get(i).getEmployee().getRole().name() );
 		}
 
-		this.dataLines = DBHelperLine.getInstance().getAllLines();
-
-		this.dataCheck = FXCollections.observableArrayList();
-		
 		// fine costruttore
   	// Initialization data
     nameColumn.setCellValueFactory(
@@ -137,33 +138,91 @@ public class CheckCtrl {
 
   @FXML
   public void nextWorkshift() throws IOException {
-  	this.turno++;
-
-  	if(turno==1) {
-    	this.employees.setItems(empP);
-
-  		this.workshiftLabel.setText("Pomeriggio");
-  		this.check1 = FXCollections.observableArrayList(dataCheck);
-  	} else if(turno==2) {
-    	this.employees.setItems(empS);
-    	this.workshiftLabel.setText("Sera");
-  		this.nextButton.setText("Fine");
-  		this.check2 = FXCollections.observableArrayList(dataCheck);
-  	} else {
-  		System.out.println(check1);
-  		System.out.println(check2);
-  		System.out.println(dataCheck);
-
+	  
+	  if(turno == 0) {	// MORNING turn
+		  this.employees.setItems(empP);
+		  this.workshiftLabel.setText("Pomeriggio");
+		  this.check1 = FXCollections.observableArrayList(dataCheck);
+		  // Clear dataCheck
+		  dataCheck.clear();
+		  this.turno++;
+	  }
+	  
+	  else if(turno == 1) {  // AFTERNOON turn
+		  this.employees.setItems(empS);
+		  this.workshiftLabel.setText("Sera");
+		  this.nextButton.setText("Fine");
+		  this.check2 = FXCollections.observableArrayList(dataCheck);
+		  // Clear dataCheck
+		  dataCheck.clear();
+		  this.turno++;
+	  }
+	  else {  // EVENING turn
+  		
+  		/*
+  		 * Save checks into the database
+  		 */
+  		
+  		// Create Check objects
+  		Check checkMattina = createCheck(Workshift.MATTINA);
+  		Check checkPomeriggio = createCheck(Workshift.POMERIGGIO);
+  		Check checkSera = createCheck(Workshift.SERA);
+  		
+  		try {
+  			// First remove the checks of the day before
+  			DBHelperCheck.getInstance().removeLastChecks();
+  			DBHelperCheck.getInstance().insertCheck(checkMattina);
+  			DBHelperCheck.getInstance().insertCheck(checkPomeriggio);
+  			DBHelperCheck.getInstance().insertCheck(checkSera);
+  		}
+  		catch (SQLException e) {
+  			e.printStackTrace();
+  			Alert alert = new Alert(AlertType.ERROR);
+  		    alert.initOwner(mainApp.getPrimaryStage());
+  		    alert.setTitle("Errore");
+  		    alert.setHeaderText("Salvataggio fallito!");
+  		    alert.setContentText("Non è stato possibile salvare i dati nel database");
+  		    alert.showAndWait();
+		}
+  		
   		FXMLLoader loader = new FXMLLoader();
   		loader.setLocation(App.class.getResource("linesManagement/CheckResultScreen.fxml"));
-      AnchorPane resultScreen = (AnchorPane) loader.load();
+  		AnchorPane resultScreen = (AnchorPane) loader.load();
   		Scene scene = new Scene(resultScreen);
-      mainApp.getPrimaryStage().setScene(scene);
-      CheckResultCtrl resultCtrl = loader.getController();
-      resultCtrl.setMainApp(mainApp);
-      resultCtrl.setData(check1, check2, dataCheck);
+  		mainApp.getPrimaryStage().setScene(scene);
+  		CheckResultCtrl resultCtrl = loader.getController();
+  		resultCtrl.setMainApp(mainApp);
+  		resultCtrl.setData(check1, check2, dataCheck);
   	}
 
+  }
+  
+  /*
+   * Creates a Check object for a workshift
+   */
+  private Check createCheck(Workshift workshift) {
+	  Check c = new Check();
+	  c.setWorkshift(workshift);
+	  
+	  ObservableList<MatchDataModel> source = null;
+	  switch (workshift) {
+	  	case MATTINA:
+	  		source = check1;
+	  		break;
+	  	case POMERIGGIO:
+	  		source = check2;
+	  		break;
+	  	case SERA:
+	  		source = dataCheck;
+	  		break;
+	  	default:
+	  		break;
+	  }
+	  
+	  for(int i=0; i< source.size(); i++) {
+		  c.addMatch(source.get(i).getMatch());
+	  }
+	  return c;
   }
 
   @FXML

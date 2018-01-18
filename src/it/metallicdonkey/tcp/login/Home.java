@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.employeesManagement.EmployeeAreaCtrl;
+import it.metallicdonkey.tcp.employeesManagement.HRAreaCtrl;
 import it.metallicdonkey.tcp.linesManagement.AdministrativeAreaCtrl;
 import it.metallicdonkey.tcp.vehiclesManagement.VehicleAreaCtrl;
 import javafx.fxml.FXMLLoader;
@@ -55,9 +56,9 @@ public class Home {
 			case Addetto_agli_impiegati:
 		      loader.setLocation(App.class.getResource("employeesManagement/HRAreaScreen.fxml"));
 		      AnchorPane anchorPane = (AnchorPane) loader.load();
-		  		scene = new Scene(anchorPane);
+		      scene = new Scene(anchorPane);
 		      mainApp.getPrimaryStage().setScene(scene);
-		      EmployeeAreaCtrl ctrl = loader.getController();
+		      HRAreaCtrl ctrl = loader.getController();
 		      ctrl.setMainApp(mainApp);
 				break;
 			default:

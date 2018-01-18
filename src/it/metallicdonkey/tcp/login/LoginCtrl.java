@@ -44,7 +44,7 @@ public class LoginCtrl {
 		e.setStatus(StatusEmployee.AVAILABLE);
 		e.setRole(Role.Autista);
 		e.setWorkshift(Workshift.MATTINA);
-		Home home = Home.getHome(Role.Addetto_ai_mezzi);
+		Home home = Home.getHome(Role.Addetto_agli_impiegati);
 		home.goHome(mainApp);
 
 //  	if(false) {

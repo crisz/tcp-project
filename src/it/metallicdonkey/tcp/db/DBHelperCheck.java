@@ -94,8 +94,13 @@ public class DBHelperCheck {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -1);
 		Date yesterday = new Date(cal.getTimeInMillis());
+		System.out.println("YESTERDAY: " + yesterday);
 		
-		String query = "REMOVE FROM tcp.check () WHERE Date == " + yesterday;
-		dbm.executeQuery(query);
+		// Remove first all the matches related to Checks of the day before
+		String removeMatchesQuery = "DELETE FROM tcp.match WHERE Check_Date ='" + yesterday +"'";
+		dbm.executeUpdate(removeMatchesQuery);
+		
+		String removeChecksQuery = "DELETE FROM tcp.check WHERE Date = '" + yesterday +"'";
+		dbm.executeUpdate(removeChecksQuery);
 	}
 }
