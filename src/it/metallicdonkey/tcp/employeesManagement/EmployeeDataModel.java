@@ -11,7 +11,7 @@ public class EmployeeDataModel {
 	private Employee employee;
 	private final SimpleStringProperty role;
 	private final SimpleDoubleProperty salary;
-	
+
 	private EmployeeDataModel(String id, String nome, String cognome) {
 		this.id = new SimpleStringProperty(id);
 		this.nome = new SimpleStringProperty(nome);
@@ -19,7 +19,7 @@ public class EmployeeDataModel {
 		this.role = null;
 		this.salary = null;
 	}
-	
+
 	public EmployeeDataModel(String id, String role, double salary) {
 		this.id = new SimpleStringProperty(id);
 		this.role = new SimpleStringProperty(role);
@@ -34,7 +34,7 @@ public class EmployeeDataModel {
 	}
 
 	public String getNomeECognome() {
-		return this.nome.get()+" "+this.cognome.get();
+		return this.getId()+" - "+this.nome.get()+" "+this.cognome.get();
 	}
 	public String getId() {
 		return this.id.get();
@@ -53,11 +53,11 @@ public class EmployeeDataModel {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
-	
+
 	public String getRole() {
 		return this.role.get();
 	}
-	
+
 	public double getSalary() {
 		return this.salary.get();
 }

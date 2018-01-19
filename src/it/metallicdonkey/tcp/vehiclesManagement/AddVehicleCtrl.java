@@ -19,25 +19,25 @@ public class AddVehicleCtrl {
 
 	@FXML
 	private TextField matricola;
-	
+
 	@FXML
 	private TextField postiASedere;
-	
+
 	@FXML
 	private TextField postiDisabili;
-	
+
 	@FXML
 	private TextField targa;
-	
+
 	@FXML
 	private TextField postiInPiedi;
-	
+
 	@FXML
 	private TextField modello;
-	
+
 	@FXML
 	private Button inviaButton;
-	
+
 
 	private VehicleDataModel vehicle;
 
@@ -47,7 +47,7 @@ public class AddVehicleCtrl {
 
 	@FXML
 	public void submitVehicle() {
-		
+
 		Alert error = check();
 		if (error != null) {
 			error.showAndWait();
@@ -55,15 +55,15 @@ public class AddVehicleCtrl {
 			Vehicle v = getNewVehicle();
 			try {
 				DBHelperVehicle.getInstance().insertVehicle(v);
+				String result = "Il veicolo " + v.getId() + " é stato inserito con successo";
+				System.out.println(result);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String result = "Il veicolo " + v.getId() + " é stato inserito con successo";
-			System.out.println(result);
 		}
 	}
-	
+
 	private Vehicle getNewVehicle() {
 		Vehicle v = new Vehicle();
 		v.setBrand(modello.getText());
@@ -75,13 +75,13 @@ public class AddVehicleCtrl {
 		v.setStatus(StatusVehicle.AVAILABLE);
 		return v;
 	}
-	
+
 	private Alert check() {
 		Alert alert = new Alert(AlertType.WARNING);
 	    alert.initOwner(mainApp.getPrimaryStage());
 	    alert.setTitle("Avviso");
 	    alert.setHeaderText("Inserimento fallito!");
-	    
+
 		// Check matricola
 	    if (matricola.getText().equals("")) {
 	    	alert.setContentText("Inserisci una matricola");
@@ -107,7 +107,12 @@ public class AddVehicleCtrl {
 	    	alert.setContentText("Inserisci il numero di posti in piedi");
 	    	return alert;
 	    }
-	    
+	    // Check idMatricola < 7 char
+	    if (matricola.getText().length() > 7) {
+	    	alert.setContentText("La matricola non deve superare i 7 caratteri");
+	    	return alert;
+	    }
+
 	    // Check if values are numeric or not
 	    else {
 	    	int numPostiASedere = -1;
@@ -123,7 +128,7 @@ public class AddVehicleCtrl {
 	    		return alert;
 	    	}
 	    }
-	    
+
 	    // Data is ok
 	    return null;
 	}

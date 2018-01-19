@@ -9,6 +9,9 @@ import it.metallicdonkey.tcp.employeesManagement.PersonalInfoCtrl;
 import it.metallicdonkey.tcp.linesManagement.AddLineCtrl;
 import it.metallicdonkey.tcp.linesManagement.CheckCtrl;
 import it.metallicdonkey.tcp.linesManagement.ListSearchLineCtrl;
+import it.metallicdonkey.tcp.login.Home;
+import it.metallicdonkey.tcp.login.LoginCtrl;
+import it.metallicdonkey.tcp.login.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -167,6 +170,10 @@ public class VehicleAreaCtrl {
 	  System.out.println(login);
 	  Stage stage = mainApp.getPrimaryStage();
 	  stage.setScene(scene);
+	  Session.employee = null;
+	  Home.getHome(null).destroyHome();
+	  LoginCtrl loginCtrl = loader.getController();
+	  loginCtrl.setMainApp(this.mainApp);
   }
   public void setMainApp(App mainApp) {
     this.mainApp = mainApp;

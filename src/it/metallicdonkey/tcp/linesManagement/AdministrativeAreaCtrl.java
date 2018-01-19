@@ -3,6 +3,9 @@ package it.metallicdonkey.tcp.linesManagement;
 import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.login.Home;
+import it.metallicdonkey.tcp.login.LoginCtrl;
+import it.metallicdonkey.tcp.login.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -43,6 +46,10 @@ public class AdministrativeAreaCtrl {
 	  System.out.println(login);
 	  Stage stage = mainApp.getPrimaryStage();
 	  stage.setScene(scene);
+	  Session.employee = null;
+	  Home.getHome(null).destroyHome();
+	  LoginCtrl loginCtrl = loader.getController();
+	  loginCtrl.setMainApp(this.mainApp);
   }
   public void setMainApp(App mainApp) {
     this.mainApp = mainApp;

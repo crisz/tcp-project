@@ -13,7 +13,7 @@ public class MatchDataModel {
 	private LineDataModel l;
 	private VehicleDataModel v;
 	private Match match;
-	
+
 	private MatchDataModel(EmployeeDataModel impiegato, VehicleDataModel mezzo, LineDataModel linea) {
 		this.e = impiegato;
 		this.v = mezzo;
@@ -27,7 +27,7 @@ public class MatchDataModel {
 		this.setMatch(m);
 	}
 	public String getEmployee() {
-		return this.employee.get();
+		return this.getEmployeeModel().getEmployee().getId()+" - "+this.employee.get();
 	}
 	public String getVehicle() {
 		return this.vehicle.get();

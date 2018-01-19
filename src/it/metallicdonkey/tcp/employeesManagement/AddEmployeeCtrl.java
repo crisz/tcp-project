@@ -56,18 +56,18 @@ public class AddEmployeeCtrl {
 		String[] workshiftEntries = {"Mattina", "Pomeriggio", "Sera"};
 		ObservableList<String> roles = FXCollections.observableArrayList(rolesEntries);
 		ObservableList<String> workshifts = FXCollections.observableArrayList(workshiftEntries);
-		
+
 		SpinnerValueFactory<String> valueFactory = new SpinnerValueFactory.ListSpinnerValueFactory<String>(roles);
 		SpinnerValueFactory<String> valueFactory2 = new SpinnerValueFactory.ListSpinnerValueFactory<String>(workshifts);
-		
-		
+
+
 		ruolo.setValueFactory(valueFactory);
 		turno.setValueFactory(valueFactory2);
-		
+
 		// Default value
 		ruolo.getValueFactory().setValue(rolesEntries[0]);
 		turno.getValueFactory().setValue(workshiftEntries[0]);
-		
+
 	}
 	@FXML
 	private void submitEmployee() {
@@ -83,7 +83,7 @@ public class AddEmployeeCtrl {
 //		    alert.setTitle("Avviso");
 //		    alert.setHeaderText("Inserimento avvenuto con successo!");
 //		    alert.showAndWait();
-				
+
 		    matricola.setText("");
 		    nome.setText("");
 		    cognome.setText("");
@@ -92,7 +92,7 @@ public class AddEmployeeCtrl {
 		    indirizzo.setText("");
 		    datanascita.setValue(LocalDate.of(1900, 1, 1));;
 		    stipendio.setText("");
-		    
+
 			} catch (SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 		    alert.initOwner(mainApp.getPrimaryStage());
@@ -105,12 +105,12 @@ public class AddEmployeeCtrl {
 			System.out.println(result);
 		}
 	}
-	
+
 	/*
 	 * This method return the employee created with the values inserted by the user
 	 * Make sure to call this methods after the check for the values
 	 */
-	
+
 	private Employee getNewEmployee() {
 		Employee e = new Employee();
 		e.setFirstName(nome.getText());
@@ -122,9 +122,10 @@ public class AddEmployeeCtrl {
 		e.setEmail(email.getText());
 		e.setRole(Role.valueOf(this.ruolo.getValue().replace(" ", "_")));
 		e.setWorkshift(Workshift.valueOf(this.turno.getValue().toUpperCase()));
+		e.setPassword(password.getText());
 		return e;
 	}
-	
+
 	/*
 	 * TODO ADD Maximum date selectable
 	 */
@@ -154,7 +155,7 @@ public class AddEmployeeCtrl {
 	    	alert.setContentText("Inserisci un indirizzo e-mail");
 	    	return alert;
 	    }
-	    
+
 	    // Check password
 	    if (password.getText().equals("")) {
 	    	alert.setContentText("Inserisci una password");
@@ -175,6 +176,11 @@ public class AddEmployeeCtrl {
 	    	alert.setContentText("Inserisci uno stipendio");
 	    	return alert;
 	    }
+	    // Check lunghezza matricola
+	    if (matricola.getText().length() > 10) {
+	    	alert.setContentText("La matricola non deve essere più lunga di 10 caratteri");
+	    	return alert;
+	    }
 	    else {
 	    	 //Check email pattern
 	    	String regex = "^[\\w\\d\\.]+@[\\w\\.]+\\.\\w+$";
@@ -184,7 +190,7 @@ public class AddEmployeeCtrl {
 		    	alert.setContentText("Inserisci un indirizzo email valido");
 		    	return alert;
 		    }
-		    // Numberical check for stipendio
+		    // Numerical check for stipendio
 	    	try {
 	    		Double.parseDouble(stipendio.getText());
 	    	}
@@ -193,7 +199,7 @@ public class AddEmployeeCtrl {
 		    	return alert;
 	    	}
 	    }
-	 
+
 	    // Data is ok
 	    return null;
 	}

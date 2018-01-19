@@ -140,7 +140,7 @@ public class DBHelperLine {
 		preparedStmt.setString(1, l.getName());
 		preparedStmt.setInt(2, l.getPriority());
 		preparedStmt.execute();
-		
+
 		// Create the stops in case they don't exist.
 		insertStop(l.getStartTerminal());
 		insertStop(l.getEndTerminal());
@@ -210,7 +210,13 @@ public class DBHelperLine {
 	}
 
 	public int removeLine(Line l) {
-		int result = dbm.executeUpdate("DELETE FROM tcp.line WHERE idLine='"+l.getName()+"'");
+		int removed1 = -1;
+		int result = -1;
+		removed1 = dbm.executeUpdate("DELETE FROM tcp.line_has_stop WHERE Line_idLine = '"+
+				l.getName()+"'");
+		if(removed1 < 0)
+			return -1;
+		result = dbm.executeUpdate("DELETE FROM tcp.line WHERE idLine='"+l.getName()+"'");
 		return result;
 	}
 }

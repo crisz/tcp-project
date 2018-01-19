@@ -17,6 +17,8 @@ import it.metallicdonkey.tcp.models.StatusEmployee;
 import it.metallicdonkey.tcp.models.Workshift;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class DBHelperEmployee {
 	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
@@ -196,7 +198,7 @@ public class DBHelperEmployee {
 		preparedStmt.setString (8, e.getRole().name());
 		preparedStmt.setString (9, "AVAILABLE");
 		preparedStmt.setString (10, e.getAddress());
-		preparedStmt.setString (11, "TCP_password");
+		preparedStmt.setString (11, e.getPassword());
 		// execute the preparedstatement
 		preparedStmt.execute();
 
@@ -245,7 +247,7 @@ public class DBHelperEmployee {
 		}
 		return id;
 	}
-	
+
 	/*
 	 * TODO Fix this method
 	 */
@@ -287,7 +289,16 @@ public class DBHelperEmployee {
 	}
 
 	public int removeEmployee(Employee e) {
-		int result = dbm.executeUpdate("DELETE FROM tcp.employee WHERE idEmployee='"+e.getId()+"'");
+		int removed1 = -1;
+		int removed2 = -1;
+		int result = -1;
+		removed1 = dbm.executeUpdate("DELETE FROM tcp.match WHERE Employee_idEmployee = '"+
+				e.getId()+"'");
+		removed2 = dbm.executeUpdate("DELETE FROM tcp.payment WHERE Employee_idEmployee = '"+
+				e.getId()+"'");
+		if(removed1 < 0 || removed2 < 0)
+			return -1;
+		result = dbm.executeUpdate("DELETE FROM tcp.employee WHERE idEmployee='"+e.getId()+"'");
 		return result;
 	}
 
@@ -325,11 +336,6 @@ public class DBHelperEmployee {
 		return payments;
 	}
 
-/*	public Employee login(Employee e) {
-		ArrayList<Employee> employees = this.getAllEmployees("idEmployee = '"+e.getId()+"' AND Password = '"+e.getPassword()+"'");
-		return employees.get(0);
-	}
-*/
 	public void updateEmployee(Employee e) throws SQLException{
 		String query = "UPDATE tcp.employee SET " +
 				"`First Name` = '" + e.getFirstName()+"', "+

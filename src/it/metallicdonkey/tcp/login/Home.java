@@ -30,7 +30,9 @@ public class Home {
 			return h;
 		}
 	}
-
+	public void destroyHome() {
+		this.home = null;
+	}
 	public void goHome(App mainApp) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		Scene scene;
@@ -38,12 +40,20 @@ public class Home {
 			case Autista:
 			case Impiegato:
 	      loader.setLocation(App.class.getResource("employeesManagement/employeeAreaScreen.fxml"));
-	      AnchorPane adminScreen = (AnchorPane) loader.load();
-	  		scene = new Scene(adminScreen);
+	      AnchorPane employeeScreen = (AnchorPane) loader.load();
+	  		scene = new Scene(employeeScreen);
 	      mainApp.getPrimaryStage().setScene(scene);
-	      AdministrativeAreaCtrl adminCtrl = loader.getController();
-	      adminCtrl.setMainApp(mainApp);
+	      EmployeeAreaCtrl employeeCtrl = loader.getController();
+	      employeeCtrl.setMainApp(mainApp);
 			break;
+			case Impiegato_amministrativo:
+				loader.setLocation(App.class.getResource("linesManagement/administrativeAreaScreen.fxml"));
+			      AnchorPane adminScreen = (AnchorPane) loader.load();
+			  		scene = new Scene(adminScreen);
+			      mainApp.getPrimaryStage().setScene(scene);
+			      EmployeeAreaCtrl adminCtrl = loader.getController();
+			      adminCtrl.setMainApp(mainApp);
+				break;
 			case Addetto_ai_mezzi:
 	      loader.setLocation(App.class.getResource("vehiclesManagement/vehicleAreaScreen.fxml"));
 	      AnchorPane vehicleScreen = (AnchorPane) loader.load();

@@ -235,7 +235,13 @@ public class DBHelperVehicle {
 	}
 
 	public int removeVehicle(Vehicle v) {
-		int result = dbm.executeUpdate("DELETE FROM tcp.vehicle WHERE idVehicle='"+v.getId()+"'");
+		int removed1 = -1;
+		int result = -1;
+		removed1 = dbm.executeUpdate("DELETE FROM tcp.match WHERE Vehicle_idVehicle = '"+
+				v.getId()+"'");
+		if(removed1 < 0)
+			return -1;
+		result = dbm.executeUpdate("DELETE FROM tcp.vehicle WHERE idVehicle='"+v.getId()+"'");
 		return result;
 	}
 	public void updateVehicle(Vehicle newV) throws SQLException {

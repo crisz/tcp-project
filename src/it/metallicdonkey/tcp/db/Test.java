@@ -15,7 +15,7 @@ public class Test {
 		DBHelperVehicle db = DBHelperVehicle.getInstance();
 		try {
 			Vehicle old = db.getVehicleById("2587");
-			old.setBrand("SO000CA");
+			old.setBrand("AL580WF");
 			db.updateVehicle(old);
 		} catch (SQLException exc) {
 			exc.printStackTrace();
