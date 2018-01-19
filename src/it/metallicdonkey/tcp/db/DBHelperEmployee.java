@@ -35,17 +35,13 @@ public class DBHelperEmployee {
 		instance = new DBHelperEmployee();
 		return instance;
 	}
-	public Employee login(String id, String password) {
+	public Employee login(String id, String password) throws SQLException {
 		Employee employee = new Employee();
-		try {
-			employee = this.getEmployeeById(id);
-			System.out.println(employee.getPassword());
-			System.out.println(password);
-			if( !(employee.getPassword().equals(password))) {
-				return null;
-			}
-		} catch (SQLException exc) {
-			exc.printStackTrace();
+		employee = this.getEmployeeById(id);
+		System.out.println(employee.getPassword());
+		System.out.println(password);
+		if( !(employee.getPassword().equals(password))) {
+			return null;
 		}
 		return employee;
 	}
