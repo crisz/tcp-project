@@ -99,9 +99,6 @@ public class ListSearchVehicleCtrl {
 
 		editColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
-
-
-
 		Callback<TableColumn<VehicleDataModel, String>, TableCell<VehicleDataModel, String>> cellFactory
 		= //
 		new Callback<TableColumn<VehicleDataModel, String>, TableCell<VehicleDataModel, String>>() {

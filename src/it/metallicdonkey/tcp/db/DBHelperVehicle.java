@@ -77,7 +77,8 @@ public class DBHelperVehicle {
 				v.setSeats(result.getInt("Seats"));
 				v.setStandingPlaces(result.getInt("StandingPlaces"));
 				v.setStatus(StatusVehicle.valueOf(result.getString("Status")));
-				vehicles.add(new VehicleDataModel(v, "In circolazione"));
+				
+				vehicles.add(new VehicleDataModel(v, statusVehicleToItalian(v.getStatus())));
 			}
 		}
 		catch(SQLException exc) {
@@ -86,6 +87,20 @@ public class DBHelperVehicle {
 		ObservableList<VehicleDataModel> dataVehicles = FXCollections.observableArrayList(vehicles);
 		return dataVehicles;
 	}
+	
+	private String statusVehicleToItalian(StatusVehicle status) {
+		switch (status) {
+		case ON_ACTION:
+			return "In circolazione";
+		case AVAILABLE:
+			return "In deposito";
+		case BROKEN:
+			return "Guasto";
+		default:
+			return "Invalid location";
+		}
+	}
+	
 	public ArrayList<Vehicle> getAllVehiclesArray() {
 		ArrayList<Vehicle> vehicles= new ArrayList<>();
 		try {
