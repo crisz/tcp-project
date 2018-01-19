@@ -54,31 +54,19 @@ public class LoginCtrl {
 		  e.setWorkshift(Workshift.MATTINA);
 		  Home.getHome(Role.Addetto_agli_impiegati).goHome(mainApp);
 	  } else {
-		  try {
-				DBHelperEmployee dbm = DBHelperEmployee.getInstance();
-				Employee employee = dbm.login(matricola.getText(), password.getText());
-				if(employee!=null) {
-					Home home = Home.getHome(employee.getRole());
-					home.goHome(mainApp);
-				} else if (employee == null) {
-					Alert alert = new Alert(AlertType.WARNING);
-		            alert.initOwner(null);
-		            alert.setTitle("Connection Information");
-		            alert.setHeaderText("Matricola e/o password errate");
-		            alert.setContentText("Controlla le credenziali inserite e riprova.");
-		            alert.showAndWait();
-		            // Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, exc);
-				}
-
-			} catch (SQLException exc) {
-				exc.printStackTrace();
+			DBHelperEmployee dbm = DBHelperEmployee.getInstance();
+			Employee employee = dbm.login(matricola.getText(), password.getText());
+			if(employee!=null) {
+				Home home = Home.getHome(employee.getRole());
+				home.goHome(mainApp);
+			} else if (employee == null) {
 				Alert alert = new Alert(AlertType.WARNING);
-	            alert.initOwner(null);
-	            alert.setTitle("Connection Information");
-	            alert.setHeaderText("Connessione Non Disponibile");
-	            alert.setContentText("Controlla la connessione e riprova.");
-	            alert.showAndWait();
-	            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, exc);
+		        alert.initOwner(null);
+		        alert.setTitle("Connection Information");
+		        alert.setHeaderText("Matricola e/o password errate");
+		        alert.setContentText("Controlla le credenziali inserite e riprova.");
+		        alert.showAndWait();
+		        // Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, exc);
 			}
 	  }
 
