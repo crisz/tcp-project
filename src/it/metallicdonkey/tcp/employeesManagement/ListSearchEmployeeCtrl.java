@@ -261,12 +261,7 @@ public class ListSearchEmployeeCtrl {
 
 								Optional<ButtonType> result = alert.showAndWait();
 								if (result.get() == ButtonType.OK){
-									try {
-										DBHelperEmployee.getInstance().removeEmployee(employee.getEmployee());
-									} catch (SQLException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
+									DBHelperEmployee.getInstance().removeEmployee(employee.getEmployee());
 									data.remove(employee);
 									lsvc.initialize();
 								} 

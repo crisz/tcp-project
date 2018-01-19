@@ -3,6 +3,7 @@ package it.metallicdonkey.tcp.linesManagement;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperCheck;
@@ -78,6 +79,9 @@ public class CheckCtrl {
 	FilteredList<EmployeeDataModel> empP;
 	FilteredList<EmployeeDataModel> empS;
 	
+	boolean oldChecksExists;
+	List<Check> oldChecks; 
+	
 	public CheckCtrl() throws SQLException {
 	// TODO: Sostituire i 4 ObservabileList qua sottocon i dati scaricati dal db (check giorno precedente + guasti e assenti)
 
@@ -101,23 +105,30 @@ public class CheckCtrl {
 		
 		String absentEmployees = "";
 		
-		ArrayList<Match> alm = DBHelperCheck.getInstance().getLastChecks().get(0).getMatches();
-		for(int i=0; i<alm.size(); i++) {
-			MatchDataModel mdm = new MatchDataModel(alm.get(i));
-			Employee emdm = mdm.getEmployeeModel().getEmployee();
-			if(emdm.getStatus() == StatusEmployee.ABSENT) {
-				absentEmployees += emdm.getId() + " - " + emdm.getFirstName() + " - " +emdm.getLastName() + "\n";
-				for(int j=0; j<dataEmployees.size(); j++) {
-					if(emdm.getId().equals(dataEmployees.get(j).getId())) {
-						dataEmployees.remove(j);
+		// Check if there are the last 3 checks in the db
+		oldChecks = DBHelperCheck.getInstance().getLastChecks();
+		oldChecksExists = (oldChecks.size() == 0)? false:true;
+		
+		if (oldChecksExists) {
+			
+			ArrayList<Match> alm = oldChecks.get(0).getMatches();
+			for(int i=0; i<alm.size(); i++) {
+				MatchDataModel mdm = new MatchDataModel(alm.get(i));
+				Employee emdm = mdm.getEmployeeModel().getEmployee();
+				if(emdm.getStatus() == StatusEmployee.ABSENT) {
+					absentEmployees += emdm.getId() + " - " + emdm.getFirstName() + " - " +emdm.getLastName() + "\n";
+					for(int j=0; j<dataEmployees.size(); j++) {
+						if(emdm.getId().equals(dataEmployees.get(j).getId())) {
+							dataEmployees.remove(j);
+						}
 					}
 				}
+				else {
+					dataCheck.add(mdm);
+				}	
 			}
-			else {
-				dataCheck.add(mdm);
-			}	
 		}
-		
+			
 		this.filter();
 
 		// fine costruttore
@@ -139,7 +150,7 @@ public class CheckCtrl {
     nomeECognome.setCellValueFactory(
         new PropertyValueFactory<EmployeeDataModel, String>("nomeECognome"));
 
-		if(absentEmployees.length()!=0 && !shown) {
+		if(absentEmployees.length()!=0 && !shown ) {
 			shown = true;
 			Alert alert = new Alert(AlertType.WARNING);
 	    alert.initOwner(null);
@@ -189,10 +200,13 @@ public class CheckCtrl {
 		  // Clear dataCheck
 		  dataCheck.clear();
 		  
-			ArrayList<Match> alm = DBHelperCheck.getInstance().getLastChecks().get(1).getMatches();
-			for(int i=0; i<alm.size(); i++) {
-				dataCheck.add(new MatchDataModel(alm.get(i)));
-			}
+		  if(oldChecksExists) {
+		  
+			  ArrayList<Match> alm = oldChecks.get(1).getMatches();
+			  for(int i=0; i<alm.size(); i++) {
+				  dataCheck.add(new MatchDataModel(alm.get(i)));
+			  }
+		  }
 		  this.turno++;
 	  }
 	  
@@ -203,11 +217,12 @@ public class CheckCtrl {
 		  this.check2 = FXCollections.observableArrayList(dataCheck);
 		  // Clear dataCheck
 		  dataCheck.clear();
-		  
-			ArrayList<Match> alm = DBHelperCheck.getInstance().getLastChecks().get(2).getMatches();
-			for(int i=0; i<alm.size(); i++) {
-				dataCheck.add(new MatchDataModel(alm.get(i)));
-			}
+		  if(oldChecksExists) {
+			  ArrayList<Match> alm = oldChecks.get(2).getMatches();
+			  for(int i=0; i<alm.size(); i++) {
+				  dataCheck.add(new MatchDataModel(alm.get(i)));
+			  }
+		  }
 		  this.turno++;
 	  }
 	  else {  // EVENING turn

@@ -3,6 +3,7 @@ package it.metallicdonkey.tcp.employeesManagement;
 import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.db.DBHelperEmployee;
 import it.metallicdonkey.tcp.login.Home;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,15 +36,13 @@ public class PaySalaryCtrl {
 	Label total;
 	private App mainApp;
 	private EmployeeDataModel employee;
-
-	final ObservableList<EmployeeDataModel> data = FXCollections.observableArrayList(
-		    new EmployeeDataModel("0643436", "Addetto la personale", 2500),
-		    new EmployeeDataModel("0641612", "Addetto ai mezzi", 2700),
-		    new EmployeeDataModel("0651713", "Autista", 1800),
-		    new EmployeeDataModel("0647813", "Addetto ai mezzi", 2700) );
+	ObservableList<EmployeeDataModel> data;
+	
 	@FXML
 	private void initialize() {
 		// Initialization data
+		data = DBHelperEmployee.getInstance().getAllEmployees();
+		
 		idColumn.setCellValueFactory(
 			new PropertyValueFactory<EmployeeDataModel, String>("id"));
 		roleColumn.setCellValueFactory(

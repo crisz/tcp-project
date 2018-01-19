@@ -24,11 +24,11 @@ public class DBHelperEmployee {
 	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
 	private static DBHelperEmployee instance;
 
-	private DBHelperEmployee() throws SQLException {
+	private DBHelperEmployee() {
 		dbm.connect();
 	}
 
-	public static DBHelperEmployee getInstance() throws SQLException {
+	public static DBHelperEmployee getInstance() {
 		if(instance != null) {
 			return instance;
 		}

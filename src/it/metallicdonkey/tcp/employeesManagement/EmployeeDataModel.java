@@ -5,10 +5,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class EmployeeDataModel {
+	private Employee employee;
 	private final SimpleStringProperty id;
 	private final SimpleStringProperty nome;
 	private final SimpleStringProperty cognome;
-	private Employee employee;
 	private final SimpleStringProperty role;
 	private final SimpleDoubleProperty salary;
 
@@ -29,7 +29,11 @@ public class EmployeeDataModel {
 	}
 
 	public EmployeeDataModel(Employee e) {
-		this(e.getId(), e.getFirstName(), e.getLastName());
+		this.id = new SimpleStringProperty(e.getId());
+		this.nome = new SimpleStringProperty(e.getFirstName());
+		this.cognome = new SimpleStringProperty(e.getLastName());
+		this.role = new SimpleStringProperty(e.getRole().name());
+		this.salary = new SimpleDoubleProperty(e.getSalary());
 		this.setEmployee(e);
 	}
 
@@ -60,5 +64,5 @@ public class EmployeeDataModel {
 
 	public double getSalary() {
 		return this.salary.get();
-}
+	}
 }
