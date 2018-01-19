@@ -34,18 +34,26 @@ public class EntryVehicleCtrl {
 	private void submitVehicle() throws SQLException {
 		if(vehicleField.getText().trim().equals("")) {
 			Alert alert = new Alert(AlertType.WARNING);
-	    alert.initOwner(mainApp.getPrimaryStage());
-	    alert.setTitle("Avviso");
-	    alert.setHeaderText("Il campo è vuoto!");
-	    alert.setContentText("Inserisci una matricola e ritenta.");
-	    alert.showAndWait();
-	    return;
+			alert.initOwner(mainApp.getPrimaryStage());
+			alert.setTitle("Avviso");
+			alert.setHeaderText("Il campo è vuoto!");
+			alert.setContentText("Inserisci una matricola e ritenta.");
+			alert.showAndWait();
+			return;
 		}
 		ArrayList<Location> al = DBHelperDeposit.getInstance().getAllFreeLocations();
 		
 		System.out.println("al");
 
-		System.out.println(al.size());
+		if(al.isEmpty()) {
+			Alert a = new Alert(AlertType.WARNING);
+			a.initOwner(mainApp.getPrimaryStage());
+			a.setTitle("Avviso");
+			a.setHeaderText("Il deposito è pieno");
+			a.setContentText("Non è possibile inserire il mezzo nel deposito");
+			a.showAndWait();
+			return;
+		}
 		Location l = al.get((int) Math.floor(Math.random() * al.size()));
 		int location = l.getId_Location();
 		
@@ -79,10 +87,15 @@ public class EntryVehicleCtrl {
 		}
 		
 		v.setStatus(StatusVehicle.AVAILABLE);
-		System.out.println("Brand: "+v.getBrand());
+		/*System.out.println("Brand: "+v.getBrand());
 		DBHelperVehicle.getInstance().removeVehicle(v);
 		System.out.println("Inserting "+v);
-		DBHelperVehicle.getInstance().insertVehicle(v);
+		DBHelperVehicle.getInstance().insertVehicle(v);*/
+		
+		// Save modifications into db
+		DBHelperVehicle.getInstance().updateVehicle(v);
+		DBHelperDeposit.getInstance().setLocation(v);
+		
 		String result = "L'ingresso del veicolo " + vehicleField.getText() + " è avvenuto con successo. La postazione assegnata è: " + location;
 		resultLabel.setText(result);
 		

@@ -248,6 +248,7 @@ public class DBHelperVehicle {
 		int updated = -1;
 		String query = "UPDATE tcp.vehicle SET "+
 				"Brand='"+newV.getBrand()+"', "+
+				"Status = '" + newV.getStatus().name() +"',"+
 				"Seats= "+newV.getSeats()+", "+
 				"StandingPlaces="+newV.getStandingPlaces()+", "+
 				"PlacesForDisabled="+newV.getPlacesForDisable()+", "+

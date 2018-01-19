@@ -65,7 +65,7 @@ public class DBHelperDeposit {
 	}
 	public Location getLocation(Vehicle v) {
 		ArrayList<Location> locations = this.getLocations("Vehicle_idVehicle='"+v.getId()+"'");
-		return locations.get(0);
+		return (locations.isEmpty())? null: locations.get(0);
 	}
 	public void setLocation(Vehicle v) throws SQLException {
 		ArrayList<Location> locations = this.getAllFreeLocations();
