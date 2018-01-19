@@ -67,7 +67,7 @@ public class DBHelperCheck {
 		String query = "SELECT * FROM tcp.check ORDER BY Date DESC LIMIT 3";
 		ResultSet resultSet = dbm.executeQuery(query);
 		
-		List<Check> checks = new ArrayList<>(3); 
+		List<Check> checks = new ArrayList<>(); 
 		
 		while(resultSet.next()) {
 			Check c = new Check();
