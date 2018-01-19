@@ -153,6 +153,7 @@ public class CheckCtrl {
 		for(int j=0;j<dataCheck.size(); j++) {
 			employeesInCheck.add(dataCheck.get(j).getEmployeeModel().getEmployee().getId());
 		}
+		
     
 		for(int i=0; i<empM.size(); i++) {
 			if(employeesInCheck.contains(empM.get(i).getId())) {
