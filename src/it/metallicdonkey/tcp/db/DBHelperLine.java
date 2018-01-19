@@ -138,11 +138,11 @@ public class DBHelperLine {
 
 		PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
 		preparedStmt.setString(1, l.getName());
-		preparedStmt.setInt(2, 10);
+		preparedStmt.setInt(2, l.getPriority());
 		preparedStmt.execute();
-
+		
+		// Create the stops in case they don't exist.
 		insertStop(l.getStartTerminal());
-
 		insertStop(l.getEndTerminal());
 
 		ArrayList<Stop> going = l.getGoingStops();
@@ -169,11 +169,11 @@ public class DBHelperLine {
 		ArrayList<Stop> ret = l.getReturnStops();
 
 		for(int i=0; i<going.size(); i++) {
-			insertLineHasStop(l.getName(), getIdStop(going.get(i).getAddress()), "STOP", ++sequence);
+			insertLineHasStop(l.getName(), getIdStop(going.get(i).getAddress()), "GOING", ++sequence);
 		}
 
 		for(int i=0; i<ret.size(); i++) {
-			insertLineHasStop(l.getName(), getIdStop(ret.get(i).getAddress()), "STOP", ++sequence);
+			insertLineHasStop(l.getName(), getIdStop(ret.get(i).getAddress()), "RETURN", ++sequence);
 		}
 
 		insertLineHasStop(l.getName(), getIdStop(l.getEndTerminal().getAddress()), "END", ++sequence);
@@ -201,7 +201,7 @@ public class DBHelperLine {
 
 	private void insertStop(Stop s) throws SQLException {
 		int id = this.getIdStop(s.getAddress());
-		if(id == -1) {
+		if(id == -1) {	// If it's a new Stop
 			String query = "INSERT INTO tcp.stop (Address) values (?)";
 			PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
 			preparedStmt.setString(1, s.getAddress());

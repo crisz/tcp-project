@@ -99,7 +99,6 @@ public class AddLineCtrl {
 		for(int i=(stops.size()/2)+1; i<stops.size(); i++)
 			ret.add(stops.get(i));
 		l.setReturnStops(ret);
-		
 		return l;
 	}
 
