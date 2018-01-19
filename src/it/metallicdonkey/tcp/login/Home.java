@@ -14,15 +14,15 @@ import javafx.scene.layout.AnchorPane;
 public class Home {
 	private Role role;
 	private static Home home;
-	
+
 	private Home(Role role) {
 		this.role = role;
 	}
-	
+
 	public static Home getHome(Role r) {
 		System.out.println("getHome called, home is:");
 		System.out.println(home);
-		if(home != null) { 
+		if(home != null) {
 			return home;
 		} else {
 			Home h = new Home(r);
@@ -52,18 +52,19 @@ public class Home {
 	      VehicleAreaCtrl vehicleCtrl = loader.getController();
 	      vehicleCtrl.setMainApp(mainApp);
 			break;
-			
+
 			case Addetto_agli_impiegati:
 		      loader.setLocation(App.class.getResource("employeesManagement/HRAreaScreen.fxml"));
 		      AnchorPane anchorPane = (AnchorPane) loader.load();
 		      scene = new Scene(anchorPane);
+		      System.out.println(mainApp.getPrimaryStage());
 		      mainApp.getPrimaryStage().setScene(scene);
 		      HRAreaCtrl ctrl = loader.getController();
 		      ctrl.setMainApp(mainApp);
 				break;
 			default:
 				System.out.println("No such role");
-			break;  
+			break;
 		}
 	}
 }

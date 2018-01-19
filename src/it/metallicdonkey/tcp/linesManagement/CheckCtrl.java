@@ -2,6 +2,7 @@ package it.metallicdonkey.tcp.linesManagement;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperCheck;
@@ -12,7 +13,11 @@ import it.metallicdonkey.tcp.employeesManagement.EmployeeDataModel;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.Check;
+import it.metallicdonkey.tcp.models.Employee;
+import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.models.Match;
+import it.metallicdonkey.tcp.models.StatusEmployee;
+import it.metallicdonkey.tcp.models.Stop;
 import it.metallicdonkey.tcp.models.Workshift;
 import it.metallicdonkey.tcp.vehiclesManagement.VehicleDataModel;
 import javafx.collections.FXCollections;
@@ -85,18 +90,35 @@ public class CheckCtrl {
 		this.empP = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.POMERIGGIO && e.getEmployee().getRole() == Role.Autista);
 		this.empS = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.SERA && e.getEmployee().getRole() == Role.Autista);
 	}
+	boolean shown = false;
 
   @FXML
   private void initialize() throws SQLException {
 		this.dataVehicles = DBHelperVehicle.getInstance().getAllVehicles();
 		this.dataEmployees = DBHelperEmployee.getInstance().getAllEmployees();
 		this.dataLines = DBHelperLine.getInstance().getAllLines();
-		this.dataCheck = FXCollections.observableArrayList();
-		this.filter();
-		System.out.println("tutti gli impiegati");
-		for(int i=0; i<dataEmployees.size(); i++) {
-			System.out.println("Impeigati, tutti: " + dataEmployees.get(i).getEmployee().getWorkshift().name() + " - " + dataEmployees.get(i).getEmployee().getRole().name() );
+		this.dataCheck = FXCollections.observableArrayList();		
+		
+		String absentEmployees = "";
+		
+		ArrayList<Match> alm = DBHelperCheck.getInstance().getLastChecks().get(0).getMatches();
+		for(int i=0; i<alm.size(); i++) {
+			MatchDataModel mdm = new MatchDataModel(alm.get(i));
+			Employee emdm = mdm.getEmployeeModel().getEmployee();
+			if(emdm.getStatus() == StatusEmployee.ABSENT) {
+				absentEmployees += emdm.getId() + " - " + emdm.getFirstName() + " - " +emdm.getLastName() + "\n";
+				for(int j=0; j<dataEmployees.size(); j++) {
+					if(emdm.getId().equals(dataEmployees.get(j).getId())) {
+						dataEmployees.remove(j);
+					}
+				}
+			}
+			else {
+				dataCheck.add(mdm);
+			}	
 		}
+		
+		this.filter();
 
 		// fine costruttore
   	// Initialization data
@@ -116,7 +138,28 @@ public class CheckCtrl {
 
     nomeECognome.setCellValueFactory(
         new PropertyValueFactory<EmployeeDataModel, String>("nomeECognome"));
-   
+
+		if(absentEmployees.length()!=0 && !shown) {
+			shown = true;
+			Alert alert = new Alert(AlertType.WARNING);
+	    alert.initOwner(null);
+	    alert.setTitle("Avviso");
+	    alert.setHeaderText("Alcuni impiegati sono assenti.");
+	    alert.setContentText("I seguenti impiegati sono assenti e vanno sostituiti:\n" + absentEmployees);
+	    alert.showAndWait();
+		}
+		
+		ArrayList<String> employeesInCheck = new ArrayList<>();
+		for(int j=0;j<dataCheck.size(); j++) {
+			employeesInCheck.add(dataCheck.get(j).getEmployeeModel().getEmployee().getId());
+		}
+    
+		for(int i=0; i<empM.size(); i++) {
+			if(employeesInCheck.contains(empM.get(i).getId())) {
+				empM.remove(i);
+			}
+		}
+    
     this.employees.setItems(empM);
 
     checkEmployee.setCellValueFactory(
@@ -134,14 +177,21 @@ public class CheckCtrl {
   }
 
   @FXML
-  public void nextWorkshift() throws IOException {
+  public void nextWorkshift() throws IOException, SQLException {
 	  
 	  if(turno == 0) {	// MORNING turn
+	  	
 		  this.employees.setItems(empP);
 		  this.workshiftLabel.setText("Pomeriggio");
 		  this.check1 = FXCollections.observableArrayList(dataCheck);
+		 
 		  // Clear dataCheck
 		  dataCheck.clear();
+		  
+			ArrayList<Match> alm = DBHelperCheck.getInstance().getLastChecks().get(1).getMatches();
+			for(int i=0; i<alm.size(); i++) {
+				dataCheck.add(new MatchDataModel(alm.get(i)));
+			}
 		  this.turno++;
 	  }
 	  
@@ -152,6 +202,11 @@ public class CheckCtrl {
 		  this.check2 = FXCollections.observableArrayList(dataCheck);
 		  // Clear dataCheck
 		  dataCheck.clear();
+		  
+			ArrayList<Match> alm = DBHelperCheck.getInstance().getLastChecks().get(2).getMatches();
+			for(int i=0; i<alm.size(); i++) {
+				dataCheck.add(new MatchDataModel(alm.get(i)));
+			}
 		  this.turno++;
 	  }
 	  else {  // EVENING turn

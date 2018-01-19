@@ -22,7 +22,7 @@ public class DBHelperVehicle {
 	private DBHelperVehicle() throws SQLException {
 		dbm.connect();
 	}
-	
+
 	public static DBHelperVehicle getInstance() throws SQLException {
 		if(instance != null) {
 			return instance;
@@ -30,23 +30,17 @@ public class DBHelperVehicle {
 		instance = new DBHelperVehicle();
 		return instance;
 	}
-	
+
 	public Vehicle getVehicleById(String id) throws SQLException {
-		return getAllVehiclesArray("id == '" + id + "'").get(0);
+		return getAllVehiclesArray("idVehicle='" + id + "'").get(0);
 	}
-	
+
 	public ArrayList<Vehicle> getAllVehiclesArray(String clause) throws SQLException {
 		ArrayList<Vehicle> vehicles= new ArrayList<>();
-		clause = (clause == null)? "TRUE":clause;
+		clause = (clause == null)? "true" :clause;
 
-		dbm.executeQuery("SELECT * FROM vehicle WHERE " + clause);
-		// verify if the query returned an empty table
-//		if(!dbm.getResultSet().next()) {
-//			return null;
-//		}
-		// if the query table returned contains something
+		dbm.executeQuery("SELECT * FROM tcp.vehicle WHERE " + clause);
 		ResultSet result = dbm.getResultSet();
-		result.beforeFirst();
 		while(result.next()) {
 			Vehicle v= new Vehicle();
 			v.setId(result.getString("idVehicle"));
@@ -56,15 +50,13 @@ public class DBHelperVehicle {
 			v.setSeats(result.getInt("Seats"));
 			v.setStandingPlaces(result.getInt("StandingPlaces"));
 			v.setStatus(StatusVehicle.valueOf(result.getString("Status")));
-			// vehicles.add(new VehicleDataModel(v, "In circolazione"));
 			vehicles.add(v);
 		}
-		// ObservableList<VehicleDataModel> dataVehicles = FXCollections.observableArrayList(vehicles);
 		return vehicles;
 	}
-	
 
-	
+
+
 	public ObservableList<VehicleDataModel> getAllVehicles() {
 		ArrayList<VehicleDataModel> vehicles= new ArrayList<>();
 		try {
@@ -172,7 +164,7 @@ public class DBHelperVehicle {
 	    // execute the preparedstatement
 	    preparedStmt.execute();
 	}
-	
+
 	public void insertBrokenEndDay(Vehicle v) throws SQLException {
 		String id = this.getBrokenId(v);
 		LocalDate date = LocalDate.now();
@@ -188,7 +180,7 @@ public class DBHelperVehicle {
 		} else
 			throw new SQLException();
 	}
-	
+
 	public ArrayList<BrokenInterval> getBrokenInterval(Vehicle v) {
 		ArrayList<BrokenInterval> array = new ArrayList<>();
 		try {
@@ -209,7 +201,7 @@ public class DBHelperVehicle {
 		}
 		return array;
 	}
-	
+
 	public void insertBrokenStartDay(Vehicle v) throws SQLException {
 		// String id = this.getNewBrokenId();
 		LocalDate date = LocalDate.now();
@@ -241,11 +233,23 @@ public class DBHelperVehicle {
 		}
 		return id;
 	}
-	
+
 	public int removeVehicle(Vehicle v) {
 		int result = dbm.executeUpdate("DELETE FROM tcp.vehicle WHERE idVehicle='"+v.getId()+"'");
 		return result;
 	}
-	
-	
+	public void updateVehicle(Vehicle newV) throws SQLException {
+		int updated = -1;
+		String query = "UPDATE tcp.vehicle SET "+
+				"Brand='"+newV.getBrand()+"', "+
+				"Seats= "+newV.getSeats()+", "+
+				"StandingPlaces="+newV.getStandingPlaces()+", "+
+				"PlacesForDisabled="+newV.getPlacesForDisable()+", "+
+				"Plate='"+newV.getPlate()+"' "+
+				"WHERE idVehicle='"+newV.getId()+"'";
+		updated = dbm.executeUpdate(query);
+		if(updated < 1)
+			throw new SQLException();
+	}
+
 }
