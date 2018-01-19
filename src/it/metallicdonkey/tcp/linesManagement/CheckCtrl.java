@@ -12,9 +12,7 @@ import it.metallicdonkey.tcp.employeesManagement.EmployeeDataModel;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.Check;
-import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.models.Match;
-import it.metallicdonkey.tcp.models.Stop;
 import it.metallicdonkey.tcp.models.Workshift;
 import it.metallicdonkey.tcp.vehiclesManagement.VehicleDataModel;
 import javafx.collections.FXCollections;
@@ -94,7 +92,6 @@ public class CheckCtrl {
 		this.dataEmployees = DBHelperEmployee.getInstance().getAllEmployees();
 		this.dataLines = DBHelperLine.getInstance().getAllLines();
 		this.dataCheck = FXCollections.observableArrayList();
-		
 		this.filter();
 		System.out.println("tutti gli impiegati");
 		for(int i=0; i<dataEmployees.size(); i++) {

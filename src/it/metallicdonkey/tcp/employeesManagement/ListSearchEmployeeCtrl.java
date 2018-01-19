@@ -175,8 +175,12 @@ public class ListSearchEmployeeCtrl {
 										try {
 											DBHelperEmployee.getInstance().insertAbsenceStartDay(employee.getEmployee());
 										} catch (SQLException e) {
-											// TODO Auto-generated catch block
 											e.printStackTrace();
+											Alert alert = new Alert(AlertType.WARNING);
+											alert.setTitle("Attenzione");		
+											alert.setHeaderText("Impossibile aggiornare lo status");
+											alert.setContentText("Lo status non può essere aggiornato a causa di un errore durante la connessione con il DBMS");
+											alert.showAndWait();
 										}
 										employee.getEmployee().setStatus(StatusEmployee.ABSENT);
 										ImageView nimv = new ImageView(new Image(getClass().getResourceAsStream("../icons/nbv.png")));
