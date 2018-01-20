@@ -63,7 +63,7 @@ public class EmployeeDataModel {
 	}
 
 	public String getRole() {
-		return this.role.get();
+		return this.role.get().replaceAll("_", " ");
 	}
 
 	public double getSalary() {
@@ -71,7 +71,8 @@ public class EmployeeDataModel {
 		ArrayList<AbsenceInterval> al = DBHelperEmployee.getInstance().getAbsenceInterval(this.getEmployee());
 		for(int i=0; i<al.size(); i++)
 			absenceDays += al.get(i).getDays();
-		return this.salary.get() * (30 - absenceDays) / 30;
+		double s = this.salary.get() * (30 - absenceDays) / 30;
+		return Math.floor(s*100)/100;
 	}
 	
 	public double getNetSalary() {

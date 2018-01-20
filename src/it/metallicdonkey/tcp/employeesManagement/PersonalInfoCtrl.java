@@ -9,6 +9,7 @@ import it.metallicdonkey.tcp.db.DBHelperEmployee;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.Session;
 import it.metallicdonkey.tcp.models.AbsenceInterval;
+import it.metallicdonkey.tcp.models.Payment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,6 +39,8 @@ public class PersonalInfoCtrl {
 	private Label stipendiolordo;
 	@FXML 
 	private ListView<String> assenze;
+	@FXML 
+	private ListView<String> pagamento;
 
 	private App mainApp;
   @FXML
@@ -68,6 +71,20 @@ public class PersonalInfoCtrl {
   	}
   	ol = FXCollections.observableArrayList(als);
   	this.assenze.setItems(ol);
+  	fullfillPayment();
+  }
+  
+  private void fullfillPayment() {
+  	ArrayList<Payment> payments = DBHelperEmployee.getInstance().getPayments(Session.employee);
+  	ObservableList<String> ol;
+  	ArrayList<String> als = new ArrayList<>();
+  	for(int i=0; i<payments.size(); i++) {
+  		LocalDate date = payments.get(i).getDate();
+  		als.add(date.getDayOfMonth()+"/"+date.getMonthValue()+"/"+date.getYear()+" - "+payments.get(i).getNetSalary()+"€");
+  	}
+  	ol = FXCollections.observableArrayList(als);
+  	this.pagamento.setItems(ol);
+
   }
 
   @FXML

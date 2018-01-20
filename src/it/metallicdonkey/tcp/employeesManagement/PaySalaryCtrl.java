@@ -1,6 +1,7 @@
 package it.metallicdonkey.tcp.employeesManagement;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -104,7 +105,7 @@ public class PaySalaryCtrl {
 	}
 	
 	@FXML
-	public void pay() {
+	public void pay() throws SQLException {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
     alert.initOwner(mainApp.getPrimaryStage());
     alert.setTitle("Avviso");
@@ -112,6 +113,13 @@ public class PaySalaryCtrl {
     alert.setContentText(this.total.getText()+" verranno prelevati dal conto aziendale e verranno generati i mandati di pagamento per ogni impiegato.");
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
+			for(int i=0; i<data.size(); i++) {
+				Payment p = new Payment();
+				p.setDate(LocalDate.now());
+				p.setIdEmployee(data.get(i).getEmployee().getId());
+				p.setNetSalary(data.get(i).getNetSalary());
+				DBHelperEmployee.getInstance().insertPayment(p, data.get(i).getEmployee());
+			}
 			Alert alert2 = new Alert(AlertType.INFORMATION);
 	    alert2.initOwner(mainApp.getPrimaryStage());
 	    alert2.setTitle("Avviso");
