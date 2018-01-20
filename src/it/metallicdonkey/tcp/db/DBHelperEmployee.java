@@ -218,7 +218,7 @@ public class DBHelperEmployee {
 		int updated = -1;
 		String query = "INSERT INTO tcp.absenceInterval (StartDay, EndDay, Employee_idEmployee) "+
 				"VALUES (?, ?, ?)";
-		String query2 = "UPDATE tcp.employee SET Status=\"ABSENT\" WHERE idEmployee=\""+e.getId() + "\"";
+		String query2 = "UPDATE tcp.employee SET Status='ABSENT' WHERE idEmployee='"+e.getId() + "'";
 		e.setStatus(StatusEmployee.ABSENT);
 		updated = dbm.executeUpdate(query2);
 		if(updated < 1)
@@ -229,6 +229,7 @@ public class DBHelperEmployee {
 		preparedStmt.setString(2, "1970-01-01");
 		preparedStmt.setString(3, e.getId());
 		preparedStmt.execute();
+		
 	}
 	private String getAbsenceId(Employee e) {
 		String id = null;
@@ -266,7 +267,7 @@ public class DBHelperEmployee {
 	public ArrayList<AbsenceInterval> getAbsenceInterval(Employee e) {
 		ArrayList<AbsenceInterval> array = new ArrayList<>();
 		try {
-			dbm.executeQuery("SELECT * FROM AbsenceInterval WHERE Employee_idEmployee="+e.getId());
+			dbm.executeQuery("SELECT * FROM AbsenceInterval WHERE Employee_idEmployee='"+e.getId()+"'");
 			ResultSet result = dbm.getResultSet();
 			result.beforeFirst();
 			while(result.next()) {

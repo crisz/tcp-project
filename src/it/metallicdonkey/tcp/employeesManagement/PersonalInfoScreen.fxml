@@ -58,7 +58,7 @@
             <Label layoutX="576.0" layoutY="44.0" text="Informazioni Personali" />
             <Label layoutX="31.0" layoutY="205.0" text="Storico Pagamenti: " />
             <Separator layoutX="432.0" layoutY="-2.0" orientation="VERTICAL" prefHeight="507.0" prefWidth="7.0" />
-            <ListView layoutX="134.0" layoutY="72.0" prefHeight="103.0" prefWidth="200.0" />
+            <ListView fx:id="assenze" layoutX="134.0" layoutY="72.0" prefHeight="103.0" prefWidth="200.0" />
             <ListView layoutX="134.0" layoutY="235.0" prefHeight="200.0" prefWidth="200.0" />
             <Label layoutX="34.0" layoutY="44.0" text="Giorni di assenza: " />
          </children>

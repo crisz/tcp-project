@@ -54,8 +54,7 @@ public class EntryVehicleCtrl {
 			a.showAndWait();
 			return;
 		}
-		Location l = al.get((int) Math.floor(Math.random() * al.size()));
-		int location = l.getId_Location();
+		
 		
 		Vehicle v = null;
 		ArrayList<Vehicle> av = DBHelperVehicle.getInstance().getAllVehiclesArray();
@@ -86,17 +85,34 @@ public class EntryVehicleCtrl {
 	    return;
 		}
 		
+		if(v.getStatus() == StatusVehicle.BROKEN) {
+			Alert alert = new Alert(AlertType.WARNING);
+	    alert.initOwner(mainApp.getPrimaryStage());
+	    alert.setTitle("Avviso");
+	    alert.setHeaderText("Inserimento fallito!");
+	    alert.setContentText("Il veicolo con matricola " + vehicleField.getText() + " è guasto. Si prega di segnalare il termine di guasto.");
+	    alert.showAndWait();
+	    return;
+		}
+		
 		v.setStatus(StatusVehicle.AVAILABLE);
 		/*System.out.println("Brand: "+v.getBrand());
 		DBHelperVehicle.getInstance().removeVehicle(v);
 		System.out.println("Inserting "+v);
 		DBHelperVehicle.getInstance().insertVehicle(v);*/
-		
 		// Save modifications into db
 		DBHelperVehicle.getInstance().updateVehicle(v);
-		DBHelperDeposit.getInstance().setLocation(v);
-		
-		String result = "L'ingresso del veicolo " + vehicleField.getText() + " è avvenuto con successo. La postazione assegnata è: " + location;
+		int l = DBHelperDeposit.getInstance().setLocation(v);
+		if(l==-1) {
+			Alert alert = new Alert(AlertType.WARNING);
+	    alert.initOwner(mainApp.getPrimaryStage());
+	    alert.setTitle("Avviso");
+	    alert.setHeaderText("Inserimento fallito!");
+	    alert.setContentText("Il deposito è pieno");
+	    alert.showAndWait();
+	    return;
+		}
+		String result = "L'ingresso del veicolo " + vehicleField.getText() + " è avvenuto con successo. La postazione assegnata è: " + l;
 		resultLabel.setText(result);
 		
 	}

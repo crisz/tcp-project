@@ -25,7 +25,7 @@
                   <TableColumn fx:id="hSeats" prefWidth="105.18267822265625" text="Posti&#13;disabili" />
                   <TableColumn fx:id="vLocation" prefWidth="106.85220336914062" text="Posizione" />
                   <TableColumn fx:id="editColumn" prefWidth="131.0609130859375" text="Visualizza &#13;e Modifica" />
-                  <TableColumn fx:id="brokenColumn" prefWidth="107.68701171875" text="Segnala guasto" />
+                  <TableColumn fx:id="brokenColumn" prefWidth="107.68701171875" text="Segnala guasto &#13;Termine guasto" />
                   <TableColumn fx:id="removeColumn" prefWidth="68.4521484375" text="Rimuovi" />
                </columns>
             </TableView>

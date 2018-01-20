@@ -31,7 +31,7 @@ public class Home {
 		}
 	}
 	public void destroyHome() {
-		this.home = null;
+		Home.home = null;
 	}
 	public void goHome(App mainApp) throws IOException {
 		FXMLLoader loader = new FXMLLoader();

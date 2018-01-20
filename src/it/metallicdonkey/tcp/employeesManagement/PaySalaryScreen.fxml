@@ -20,8 +20,8 @@
                   <TableColumn fx:id="salaryColumn" prefWidth="200.0" text="Stipendio lordo" />
               </columns>
             </TableView>
-            <Label layoutX="386.0" layoutY="355.0" text="Spese complessive" />
-            <Label fx:id="total" layoutX="403.0" layoutY="397.0" text="5000 €">
+            <Label layoutX="625.0" layoutY="304.0" text="Spese complessive" />
+            <Label fx:id="total" layoutX="648.0" layoutY="331.0" text="5000 €">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
@@ -30,6 +30,9 @@
             <TextField fx:id="filter" layoutX="435.0" layoutY="30.0" />
             <Button layoutX="142.0" layoutY="482.0" mnemonicParsing="false" onAction="#goHome" text="Indietro" />
             <Button layoutX="680.0" layoutY="482.0" mnemonicParsing="false" onAction="#goHome" text="Home" />
+            <Button layoutX="511.0" layoutY="374.0" mnemonicParsing="false" onAction="#pay" prefHeight="27.0" prefWidth="329.0" text="Paga" />
+            <Label layoutX="142.0" layoutY="304.0" text="Ultimo pagamento" />
+            <Label fx:id="ultimoPagamento" alignment="BASELINE_CENTER" layoutX="46.0" layoutY="323.0" text="Label" textAlignment="CENTER" />
          </children>
       </Pane>
    </children>

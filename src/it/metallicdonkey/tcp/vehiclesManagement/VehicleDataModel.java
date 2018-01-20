@@ -1,5 +1,8 @@
 package it.metallicdonkey.tcp.vehiclesManagement;
 
+import java.sql.SQLException;
+
+import it.metallicdonkey.tcp.db.DBHelperDeposit;
 import it.metallicdonkey.tcp.models.Vehicle;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -70,7 +73,15 @@ public class VehicleDataModel {
 
 
 	public String getVLocation() {
-		return location.get();
+		if(location.get().equals("In deposito")) {
+			try {
+				return ""+DBHelperDeposit.getInstance().getLocation(getVehicle()).getId_Location();
+			} catch (SQLException | NullPointerException e ) {
+				e.printStackTrace();
+				return "In circolazione";
+			}
+		}
+		else return location.get();
 	}
 
 
