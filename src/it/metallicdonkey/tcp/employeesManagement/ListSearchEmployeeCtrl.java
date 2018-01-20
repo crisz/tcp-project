@@ -201,6 +201,16 @@ public class ListSearchEmployeeCtrl {
 
 									Optional<ButtonType> result = alert.showAndWait();
 									if (result.get() == ButtonType.OK){
+										try {
+											DBHelperEmployee.getInstance().insertAbsenceEndDay(employee.getEmployee());
+										} catch (SQLException e) {
+											e.printStackTrace();
+											Alert a = new Alert(AlertType.WARNING);
+											a.setTitle("Attenzione");		
+											a.setHeaderText("Impossibile aggiornare lo status");
+											a.setContentText("Lo status non può essere aggiornato a causa di un errore durante la connessione con il DBMS");
+											a.showAndWait();
+										};
 										ImageView nimv = new ImageView(new Image(getClass().getResourceAsStream("../icons/bv.png")));
 										nimv.setFitHeight(24.0);
 										nimv.setFitWidth(24.0);
