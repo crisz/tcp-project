@@ -349,4 +349,14 @@ public class DBHelperEmployee {
 		System.out.println(query);
 		dbm.executeUpdate(query);
 	}
+	
+	public ArrayList<String> getIds() throws SQLException{
+		ArrayList<String> allIds = new ArrayList<>();
+		dbm.executeQuery("SELECT idEmployee FROM tcp.employee");
+		ResultSet result = dbm.getResultSet();
+		while(result.next()) {
+			allIds.add(result.getString("idEmployee"));
+		}
+		return allIds;
+	}
 }

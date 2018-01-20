@@ -4,6 +4,9 @@ package it.metallicdonkey.tcp.employeesManagement;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,12 +80,12 @@ public class AddEmployeeCtrl {
 			error.showAndWait();
 		} else {
 			try {
-				DBHelperEmployee.getInstance().insertEmployee(getNewEmployee());
-//				Alert alert = new Alert(AlertType.NONE);
-//		    alert.initOwner(mainApp.getPrimaryStage());
-//		    alert.setTitle("Avviso");
-//		    alert.setHeaderText("Inserimento avvenuto con successo!");
-//		    alert.showAndWait();
+			DBHelperEmployee.getInstance().insertEmployee(getNewEmployee());
+			Alert alert = new Alert(AlertType.NONE);
+		    alert.initOwner(mainApp.getPrimaryStage());
+		    alert.setTitle("Avviso");
+		    alert.setHeaderText("Inserimento avvenuto con successo!");
+		    alert.showAndWait();
 
 		    matricola.setText("");
 		    nome.setText("");
@@ -111,13 +114,17 @@ public class AddEmployeeCtrl {
 	 * Make sure to call this methods after the check for the values
 	 */
 
-	private Employee getNewEmployee() {
+	private Employee getNewEmployee() throws SQLException {
 		Employee e = new Employee();
 		e.setFirstName(nome.getText());
 		e.setLastName(cognome.getText());
 		e.setBirthDate(datanascita.getValue());
 		e.setAddress(indirizzo.getText());
-		e.setId(matricola.getText());
+		if(matricola.getText().equals("")) {
+			e.setId(generateId());
+		}else {
+			e.setId(matricola.getText());
+		}
 		e.setSalary(Double.parseDouble(stipendio.getText()));
 		e.setEmail(email.getText());
 		e.setRole(Role.valueOf(this.ruolo.getValue().replace(" ", "_")));
@@ -135,11 +142,6 @@ public class AddEmployeeCtrl {
 	    alert.setTitle("Avviso");
 	    alert.setHeaderText("Inserimento fallito!");
 
-		// Check matricola
-	    if (matricola.getText().equals("")) {
-	    	alert.setContentText("Inserisci una matricola");
-	    	return alert;
-	    }
 	    // Check nome
 	    if (nome.getText().equals("")) {
 	    	alert.setContentText("Inserisci un nome");
@@ -212,5 +214,27 @@ public class AddEmployeeCtrl {
 	}
 	public void setModel(EmployeeDataModel employee) {
 		this.employee = employee;
+	}
+	private String generateId() throws SQLException {
+		ArrayList<String> allIds = DBHelperEmployee.getInstance().getIds();
+		String id = "";
+		Random r = new Random();
+		boolean unique = false;
+		while(!unique) {
+			for(int i = 0; i < 7; i++) {
+				id = id + r.nextInt(10);
+			}
+			Iterator<String> iterator = allIds.iterator();
+			unique = isUnique(id, iterator);
+		}
+		return id;
+	}
+	private boolean isUnique(String string, Iterator<String> iterator) {
+		while(iterator.hasNext()) {
+			if(string.equals(iterator.next())) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
