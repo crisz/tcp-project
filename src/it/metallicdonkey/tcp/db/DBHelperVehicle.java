@@ -77,7 +77,6 @@ public class DBHelperVehicle {
 				v.setSeats(result.getInt("Seats"));
 				v.setStandingPlaces(result.getInt("StandingPlaces"));
 				v.setStatus(StatusVehicle.valueOf(result.getString("Status")));
-				
 				vehicles.add(new VehicleDataModel(v, statusVehicleToItalian(v.getStatus())));
 			}
 		}
@@ -234,6 +233,8 @@ public class DBHelperVehicle {
 		preparedStmt.setString(3, v.getId());
 		preparedStmt.execute();
 		v.setStatus(StatusVehicle.BROKEN);
+		if(v.getStatus() == StatusVehicle.AVAILABLE)
+			DBHelperDeposit.getInstance().freeLocation(v);
 	}
 	private String getBrokenId(Vehicle v) {
 		String id = null;

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.db.DBHelperDeposit;
 import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.login.Home;
 import javafx.collections.ObservableList;
@@ -181,7 +182,16 @@ public class ListSearchVehicleCtrl {
 
 									Optional<ButtonType> result = alert.showAndWait();
 									if (result.get() == ButtonType.OK){
-										// TODO: implementare segnalazione guasto su db
+										try {
+											DBHelperVehicle.getInstance().insertBrokenStartDay(vehicle.getVehicle());
+										} catch (SQLException e) {
+											e.printStackTrace();
+											Alert a = new Alert(AlertType.WARNING);
+											a.setTitle("Attenzione");		
+											a.setHeaderText("Impossibile aggiornare lo status");
+											a.setContentText("Lo status non può essere aggiornato a causa di un errore durante la connessione con il DBMS");
+											a.showAndWait();
+										}
 										vehicle.setVLocation("Guasto");
 										ImageView nimv = new ImageView(new Image(getClass().getResourceAsStream("../icons/nbv.png")));
 										nimv.setFitHeight(24.0);
@@ -202,9 +212,27 @@ public class ListSearchVehicleCtrl {
 
 									Optional<ButtonType> result = alert.showAndWait();
 									if (result.get() == ButtonType.OK){
-										// TODO: implementare segnalazione termine guasto su db
-										vehicle.setVLocation("A320");
-										// TODO: sostituire "A320" con Deposit.getFreeLocation(); dopo l'implementazione nel db
+										try {
+											DBHelperVehicle.getInstance().insertBrokenStartDay(vehicle.getVehicle());
+										} catch (SQLException e) {
+											e.printStackTrace();
+											Alert a = new Alert(AlertType.WARNING);
+											a.setTitle("Attenzione");		
+											a.setHeaderText("Impossibile aggiornare lo status");
+											a.setContentText("Lo status non può essere aggiornato a causa di un errore durante la connessione con il DBMS");
+											a.showAndWait();										
+										}
+										try {
+											DBHelperVehicle.getInstance().insertBrokenEndDay(vehicle.getVehicle());
+											vehicle.setVLocation(""+DBHelperDeposit.getInstance().setLocation(vehicle.getVehicle()));
+										} catch (SQLException e) {
+											Alert a = new Alert(AlertType.WARNING);
+											a.setTitle("Attenzione");		
+											a.setHeaderText("Impossibile aggiornare lo status");
+											a.setContentText("Lo status non può essere aggiornato a causa di un errore durante la connessione con il DBMS");
+											a.showAndWait();
+										}
+										
 										ImageView nimv = new ImageView(new Image(getClass().getResourceAsStream("../icons/bv.png")));
 										nimv.setFitHeight(24.0);
 										nimv.setFitWidth(24.0);

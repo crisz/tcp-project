@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.db.DBHelperDeposit;
 import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.StatusVehicle;
@@ -55,8 +56,15 @@ public class AddVehicleCtrl {
 			Vehicle v = getNewVehicle();
 			try {
 				DBHelperVehicle.getInstance().insertVehicle(v);
+				int l = DBHelperDeposit.getInstance().setLocation(v);
 				String result = "Il veicolo " + v.getId() + " é stato inserito con successo";
 				System.out.println(result);
+				Alert alert = new Alert(AlertType.INFORMATION);
+		    alert.initOwner(mainApp.getPrimaryStage());
+		    alert.setTitle("Avviso");
+		    alert.setHeaderText("Inserimento avvenuto con successo!");
+		    alert.setContentText("Il veicolo con matricola " + v.getId() + " è stato aggiunto all'elenco dei veicoli.\n La sua postazione in deposito è: "+l);
+		    alert.showAndWait();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

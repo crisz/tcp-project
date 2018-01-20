@@ -67,15 +67,18 @@ public class DBHelperDeposit {
 		ArrayList<Location> locations = this.getLocations("Vehicle_idVehicle='"+v.getId()+"'");
 		return (locations.isEmpty())? null: locations.get(0);
 	}
-	public void setLocation(Vehicle v) throws SQLException {
+	public int setLocation(Vehicle v) throws SQLException {
 		ArrayList<Location> locations = this.getAllFreeLocations();
-		Location location = locations.get(0);
+		if(locations.size() == 0) 
+			return -1;
+		Location location = locations.get((int)Math.floor(Math.random()*locations.size()));
 		int updated = -1;
 		updated = dbm.executeUpdate("UPDATE tcp.location SET Vehicle_idVehicle='"+v.getId()+"' "+
 		"WHERE idPlace='"+location.getId_Location()+"'");
 		if(updated < 1)
 			throw new SQLException();
 		location.setId_Vehicle(v.getId());
+		return location.getId_Location();
 	}
 	public void freeLocation(Vehicle v) throws SQLException {
 		Location l= this.getLocation(v);
