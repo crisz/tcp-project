@@ -267,7 +267,7 @@ public class DBHelperEmployee {
 	public ArrayList<AbsenceInterval> getAbsenceInterval(Employee e) {
 		ArrayList<AbsenceInterval> array = new ArrayList<>();
 		try {
-			dbm.executeQuery("SELECT * FROM AbsenceInterval WHERE Employee_idEmployee="+e.getId());
+			dbm.executeQuery("SELECT * FROM AbsenceInterval WHERE Employee_idEmployee='"+e.getId()+"'");
 			ResultSet result = dbm.getResultSet();
 			result.beforeFirst();
 			while(result.next()) {

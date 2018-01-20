@@ -39,4 +39,7 @@ public class AbsenceInterval {
 	public void setIdEmployee(String idEmployee) {
 		this.idEmployee = idEmployee;
 	}
+	public int getDays() {
+		return Math.abs(this.getEndDay().getDayOfYear() - this.startDay.getDayOfYear());
+	}
 }

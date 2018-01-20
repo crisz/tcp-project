@@ -1,5 +1,9 @@
 package it.metallicdonkey.tcp.employeesManagement;
 
+import java.util.ArrayList;
+
+import it.metallicdonkey.tcp.db.DBHelperEmployee;
+import it.metallicdonkey.tcp.models.AbsenceInterval;
 import it.metallicdonkey.tcp.models.Employee;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -63,6 +67,14 @@ public class EmployeeDataModel {
 	}
 
 	public double getSalary() {
-		return this.salary.get();
+		int absenceDays = 0;
+		ArrayList<AbsenceInterval> al = DBHelperEmployee.getInstance().getAbsenceInterval(this.getEmployee());
+		for(int i=0; i<al.size(); i++)
+			absenceDays += al.get(i).getDays();
+		return this.salary.get() * (30 - absenceDays) / 30;
+	}
+	
+	public double getNetSalary() {
+		return 0.66*getSalary();
 	}
 }
