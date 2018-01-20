@@ -52,7 +52,7 @@ public class LoginCtrl {
 		  e.setStatus(StatusEmployee.AVAILABLE);
 		  e.setRole(Role.Autista);
 		  e.setWorkshift(Workshift.MATTINA);
-		  Home.getHome(Role.Addetto_ai_mezzi).goHome(mainApp);
+		  Home.getHome(Role.Addetto_agli_impiegati).goHome(mainApp);
 	  } else {
 		  try {
 				DBHelperEmployee dbm = DBHelperEmployee.getInstance();

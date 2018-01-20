@@ -165,6 +165,7 @@ public class ListSearchEmployeeCtrl {
 							btn2.setOnAction(event -> {
 								EmployeeDataModel employee = getTableView().getItems().get(getIndex());
 								if(!(employee.getEmployee().getStatus() == StatusEmployee.ABSENT)) {
+									
 									Alert alert = new Alert(AlertType.CONFIRMATION);
 									alert.setTitle("Confirmation Dialog");
 									alert.setHeaderText("Sei sicuro di voler segnalare l'impiegato come assente?");
@@ -194,6 +195,7 @@ public class ListSearchEmployeeCtrl {
 
 								}
 								else {
+									getTableRow().setStyle(null);
 									Alert alert = new Alert(AlertType.CONFIRMATION);
 									alert.setTitle("Confirmation Dialog");
 									alert.setHeaderText("Sei sicuro di voler rendere disponibile l'impiegato?");
@@ -228,6 +230,10 @@ public class ListSearchEmployeeCtrl {
 							if(employee.getEmployee().getStatus() == StatusEmployee.ABSENT) {
 								System.out.println("Broken employee");
 								bv.setImage(new Image(getClass().getResourceAsStream("../icons/nbv.png")));
+								getTableRow().setStyle("-fx-background-color: #e55e5e");
+							}
+							else {
+								getTableRow().setStyle(null);
 							}
 							setGraphic(btn2);
 							setText(null);

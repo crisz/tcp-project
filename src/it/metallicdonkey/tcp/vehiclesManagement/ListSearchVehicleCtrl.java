@@ -76,7 +76,7 @@ public class ListSearchVehicleCtrl {
 				new PropertyValueFactory<VehicleDataModel, String>("vLocation"));
 		// Initialization filter
 		FilteredList<VehicleDataModel> filteredData = new FilteredList<>(data, p -> true);
-
+      
 		filter.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredData.setPredicate(v -> {
 				// If filter text is empty, display all persons.
@@ -175,6 +175,7 @@ public class ListSearchVehicleCtrl {
 							btn2.setOnAction(event -> {
 								VehicleDataModel vehicle = getTableView().getItems().get(getIndex());
 								if(!vehicle.getVLocation().equals("Guasto")) {
+									getTableRow().setStyle("-fx-background-color: #e55e5e");
 									Alert alert = new Alert(AlertType.CONFIRMATION);
 									alert.setTitle("Confirmation Dialog");
 									alert.setHeaderText("Sei sicuro di voler segnalare il veicolo come guasto?");
@@ -205,6 +206,7 @@ public class ListSearchVehicleCtrl {
 
 								}
 								else {
+									getTableRow().setStyle(null);
 									Alert alert = new Alert(AlertType.CONFIRMATION);
 									alert.setTitle("Confirmation Dialog");
 									alert.setHeaderText("Sei sicuro di voler segnalare il veicolo come funzionante?");
