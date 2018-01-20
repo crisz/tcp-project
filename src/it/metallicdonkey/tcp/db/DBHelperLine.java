@@ -45,6 +45,7 @@ public class DBHelperLine {
 		while(resultSet.next()) {
 			Line line = new Line();
 			line.setName(resultSet.getString("idLine"));
+			line.setPriority(resultSet.getInt("Priority"));
 			line.setStartTerminal(this.getTerminal(line, true));
 			line.setEndTerminal(this.getTerminal(line, false));
 			line.setGoingStops(this.getStops(line, true));
@@ -92,18 +93,21 @@ public class DBHelperLine {
 			if(going == true) {
 				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, line_has_stop ls, line l " +
 						"WHERE s.idStop=ls.Stop_idStop AND l.idLine='" + line.getName() +
-						"' AND l.idLine=ls.Line_idLine AND ls.type = 'GOING'");
+						"' AND l.idLine=ls.Line_idLine AND ls.type = 'GOING'"+
+						"ORDER BY ls.sequenceNumber");
 			} else {
 				dbm.executeQuery("SELECT s.idStop, s.Address FROM stop s, line_has_stop ls, line l " +
 						"WHERE s.idStop=ls.Stop_idStop AND l.idLine='" + line.getName() +
-						"' AND l.idLine=ls.Line_idLine AND ls.type='RETURN'");
+						"' AND l.idLine=ls.Line_idLine AND ls.type='RETURN'"+
+						"ORDER BY ls.sequenceNumber");
 			}
 			ResultSet resultSet = dbm.getResultSet();
 			resultSet.beforeFirst();
+			int i=-1;
 			while(resultSet.next()) {
 				Stop stop = new Stop();
 				stop.setAddress(resultSet.getString("s.Address"));
-				stops.add(stop);
+				stops.add(++i, stop);
 			}
 		} catch (SQLException exc) {
 			exc.printStackTrace();
@@ -120,6 +124,7 @@ public class DBHelperLine {
 				System.out.println("Line!");
 				Line line = new Line();
 				line.setName(resultSet.getString("idLine"));
+				line.setPriority(resultSet.getInt("Priority"));
 				line.setStartTerminal(this.getTerminal(line, true));
 				line.setEndTerminal(this.getTerminal(line, false));
 				line.setGoingStops(this.getStops(line, true));
@@ -162,7 +167,7 @@ public class DBHelperLine {
 
 	private void connectLine(Line l) throws SQLException {
 
-		int sequence = -1;
+		int sequence = 0;
 
 		insertLineHasStop(l.getName(), getIdStop(l.getStartTerminal().getAddress()), "FIRST", ++sequence);
 		ArrayList<Stop> going = l.getGoingStops();
@@ -171,13 +176,11 @@ public class DBHelperLine {
 		for(int i=0; i<going.size(); i++) {
 			insertLineHasStop(l.getName(), getIdStop(going.get(i).getAddress()), "GOING", ++sequence);
 		}
-
+		insertLineHasStop(l.getName(), getIdStop(l.getEndTerminal().getAddress()), "END", ++sequence);
 		for(int i=0; i<ret.size(); i++) {
 			insertLineHasStop(l.getName(), getIdStop(ret.get(i).getAddress()), "RETURN", ++sequence);
 		}
-
-		insertLineHasStop(l.getName(), getIdStop(l.getEndTerminal().getAddress()), "END", ++sequence);
-
+		insertLineHasStop(l.getName(), getIdStop(l.getStartTerminal().getAddress()), "FIRST", ++sequence);
 	}
 
 	private void insertLineHasStop(String id, int idStop, String type, int sequence) throws SQLException {
