@@ -6,19 +6,27 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import it.metallicdonkey.tcp.employeesManagement.AddEmployeeCtrl;
 import it.metallicdonkey.tcp.models.Employee;
 
 import it.metallicdonkey.tcp.models.Vehicle;
 
 public class Test {
 	public static void main(String[] args) throws SQLException {
-		DBHelperVehicle db = DBHelperVehicle.getInstance();
-		try {
-			Vehicle old = db.getVehicleById("2587");
-			old.setBrand("AL580WF");
-			db.updateVehicle(old);
-		} catch (SQLException exc) {
-			exc.printStackTrace();
-		}
+//		DBHelperVehicle db = DBHelperVehicle.getInstance();
+//		try {
+//			Vehicle old = db.getVehicleById("2587");
+//			old.setBrand("AL580WF");
+//			db.updateVehicle(old);
+//		} catch (SQLException exc) {
+//			exc.printStackTrace();
+//		}
+//		DBHelperEmployee dbe = DBHelperEmployee.getInstance();
+//		
+//		ArrayList<String> allIds = dbe.getIds();
+//		Iterator<String> iterator = allIds.iterator();
+//		while(iterator.hasNext()) {
+//			System.out.println(iterator.next());
+//		}
 	}
 }
