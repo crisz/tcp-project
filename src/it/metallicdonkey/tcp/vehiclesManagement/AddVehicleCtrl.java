@@ -86,7 +86,7 @@ public class AddVehicleCtrl {
 		if(matricola.getText().equals("")) {
 			v.setId(generateId());
 		}else {
-
+			v.setId(matricola.getText());
 		}
 		v.setPlacesForDisable(Integer.parseInt(postiDisabili.getText()));
 		v.setPlate(targa.getText());
