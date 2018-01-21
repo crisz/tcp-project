@@ -15,7 +15,7 @@ public class DBHelperDeposit {
 	private DBHelperDeposit() throws SQLException {
 		dbm.connect();
 	}
-	
+
 	public static DBHelperDeposit getInstance() throws SQLException {
 		if(instance != null) {
 			return instance;
@@ -23,9 +23,10 @@ public class DBHelperDeposit {
 		instance = new DBHelperDeposit();
 		return instance;
 	}
-	
+
 	private ArrayList<Location> getLocations(String clause){
 		ArrayList<Location> locations = new ArrayList<>();
+		int i = 0;
 		try {
 			dbm.executeQuery("SELECT * FROM tcp.location WHERE "+clause);
 			// verify if the query returned an empty table
@@ -34,12 +35,13 @@ public class DBHelperDeposit {
 //			}
 			// if the query table returned contains something
 			ResultSet result = dbm.getResultSet();
-//			result.beforeFirst();
+			result.beforeFirst();
 			while(result.next()) {
 				Location l= new Location();
 				l.setId_Location(result.getInt("idPlace"));
 				l.setId_Vehicle(result.getString("Vehicle_idVehicle"));
-				locations.add(l);
+				locations.add(i, l);
+				i++;
 			}
 		}
 		catch(SQLException exc) {
@@ -69,7 +71,7 @@ public class DBHelperDeposit {
 	}
 	public int setLocation(Vehicle v) throws SQLException {
 		ArrayList<Location> locations = this.getAllFreeLocations();
-		if(locations.size() == 0) 
+		if(locations.size() == 0)
 			return -1;
 		Location location = locations.get((int)Math.floor(Math.random()*locations.size()));
 		int updated = -1;
@@ -81,11 +83,11 @@ public class DBHelperDeposit {
 		return location.getId_Location();
 	}
 	public void freeLocation(Vehicle v) throws SQLException {
-		Location l= this.getLocation(v);
-		
+		// Location l= this.getLocation(v);
+
 		int updated = -1;
-		updated = dbm.executeUpdate("UPDATE tcp.location SET Vehicle_idVehicle=null WHERE idPlace='"+
-				l.getId_Location()+"'");
+		updated = dbm.executeUpdate("UPDATE tcp.location SET Vehicle_idVehicle=null WHERE Vehicle_idVehicle='"+
+				v.getId()+"'");
 		if(updated < 1)
 			throw new SQLException();
 	}

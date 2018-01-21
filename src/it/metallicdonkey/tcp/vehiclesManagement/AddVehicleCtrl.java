@@ -59,8 +59,7 @@ public class AddVehicleCtrl {
 		} else {
 			Vehicle v = getNewVehicle();
 			try {
-				DBHelperVehicle.getInstance().insertVehicle(v);
-				int l = DBHelperDeposit.getInstance().setLocation(v);
+				int l = DBHelperVehicle.getInstance().insertVehicle(v);
 				String result = "Il veicolo " + v.getId() + " é stato inserito con successo";
 				System.out.println(result);
 				Alert alert = new Alert(AlertType.INFORMATION);
@@ -161,7 +160,7 @@ public class AddVehicleCtrl {
 	public void setModel(VehicleDataModel line) {
 		this.vehicle = line;
 	}
-	
+
 	private String generateId() throws SQLException {
 		ArrayList<String> allIds = DBHelperVehicle.getInstance().getIds();
 		String id = "";
