@@ -21,12 +21,12 @@ public class Test {
 //		} catch (SQLException exc) {
 //			exc.printStackTrace();
 //		}
-//		DBHelperEmployee dbe = DBHelperEmployee.getInstance();
-//		
-//		ArrayList<String> allIds = dbe.getIds();
-//		Iterator<String> iterator = allIds.iterator();
-//		while(iterator.hasNext()) {
-//			System.out.println(iterator.next());
-//		}
+		DBHelperVehicle dbv = DBHelperVehicle.getInstance();
+		
+		ArrayList<String> allIds = dbv.getIds();
+		Iterator<String> iterator = allIds.iterator();
+		while(iterator.hasNext()) {
+			System.out.println(iterator.next());
+		}
 	}
 }

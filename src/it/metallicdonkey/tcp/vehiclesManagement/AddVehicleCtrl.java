@@ -2,9 +2,13 @@ package it.metallicdonkey.tcp.vehiclesManagement;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperDeposit;
+import it.metallicdonkey.tcp.db.DBHelperEmployee;
 import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.StatusVehicle;
@@ -47,7 +51,7 @@ public class AddVehicleCtrl {
 	}
 
 	@FXML
-	public void submitVehicle() {
+	public void submitVehicle() throws SQLException {
 
 		Alert error = check();
 		if (error != null) {
@@ -72,10 +76,14 @@ public class AddVehicleCtrl {
 		}
 	}
 
-	private Vehicle getNewVehicle() {
+	private Vehicle getNewVehicle() throws SQLException {
 		Vehicle v = new Vehicle();
 		v.setBrand(modello.getText());
-		v.setId(matricola.getText());
+		if(matricola.getText().equals("")) {
+			v.setId(generateId());
+		}else {
+			v.setId(matricola.getText());
+		}
 		v.setPlacesForDisable(Integer.parseInt(postiDisabili.getText()));
 		v.setPlate(targa.getText());
 		v.setSeats(Integer.parseInt(postiASedere.getText()));
@@ -90,11 +98,11 @@ public class AddVehicleCtrl {
 	    alert.setTitle("Avviso");
 	    alert.setHeaderText("Inserimento fallito!");
 
-		// Check matricola
-	    if (matricola.getText().equals("")) {
-	    	alert.setContentText("Inserisci una matricola");
-	    	return alert;
-	    }
+//		// Check matricola
+//	    if (matricola.getText().equals("")) {
+//	    	alert.setContentText("Inserisci una matricola");
+//	    	return alert;
+//	    }
 	    // Check targa
 	    if (targa.getText().equals("")) {
 	    	alert.setContentText("Inserisci una targa");
@@ -153,4 +161,28 @@ public class AddVehicleCtrl {
 	public void setModel(VehicleDataModel line) {
 		this.vehicle = line;
 	}
+	
+	private String generateId() throws SQLException {
+		ArrayList<String> allIds = DBHelperVehicle.getInstance().getIds();
+		String id = "";
+		Random r = new Random();
+		boolean unique = false;
+		while(!unique) {
+			for(int i = 0; i < 4; i++) {
+				id = id + r.nextInt(10);
+			}
+			Iterator<String> iterator = allIds.iterator();
+			unique = isUnique(id, iterator);
+		}
+		return id;
+	}
+	private boolean isUnique(String string, Iterator<String> iterator) {
+		while(iterator.hasNext()) {
+			if(string.equals(iterator.next())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }

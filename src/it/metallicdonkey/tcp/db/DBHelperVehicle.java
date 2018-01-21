@@ -275,4 +275,13 @@ public class DBHelperVehicle {
 			throw new SQLException();
 	}
 
+	public ArrayList<String> getIds() throws SQLException{
+		ArrayList<String> allIds = new ArrayList<>();
+		dbm.executeQuery("SELECT idVehicle FROM tcp.vehicle");
+		ResultSet result = dbm.getResultSet();
+		while(result.next()) {
+			allIds.add(result.getString("idVehicle"));
+		}
+		return allIds;
+	}
 }
