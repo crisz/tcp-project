@@ -68,6 +68,12 @@ public class AddVehicleCtrl {
 				alert.setHeaderText("Inserimento avvenuto con successo!");
 				alert.setContentText("Il veicolo con matricola " + v.getId() + " è stato aggiunto all'elenco dei veicoli.\n La sua postazione in deposito è: "+l);
 				alert.showAndWait();
+				matricola.setText("");
+				postiASedere.setText("");
+				postiDisabili.setText("");
+				postiInPiedi.setText("");
+				targa.setText("");
+				modello.setText("");
 			} catch (SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 	            alert.initOwner(null);
