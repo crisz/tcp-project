@@ -28,9 +28,9 @@ public class AdministrativeAreaCtrl {
     AnchorPane personalInfo = (AnchorPane) loader.load();
     System.out.println("Resource done!");
 
-		Scene scene = new Scene(personalInfo);
-		System.out.println(scene);
-		System.out.println(personalInfo);
+	Scene scene = new Scene(personalInfo);
+	System.out.println(scene);
+	System.out.println(personalInfo);
     Stage stage = mainApp.getPrimaryStage();
     stage.setScene(scene);
   }

@@ -38,6 +38,9 @@ public class DBHelperEmployee {
 	public Employee login(String id, String password) throws SQLException {
 		Employee employee = new Employee();
 		employee = this.getEmployeeById(id);
+		if(employee == null) {
+			return null;
+		}
 		System.out.println(employee.getPassword());
 		System.out.println(password);
 		if( !(employee.getPassword().equals(password))) {
@@ -114,8 +117,9 @@ public class DBHelperEmployee {
 				}
 				else if(w.equals("AFTERNOON"))
 					e.setWorkshift(Workshift.POMERIGGIO);
-				else
+				else {
 					e.setWorkshift(Workshift.SERA);
+				}
 				employees.add(new EmployeeDataModel(e));
 			}
 		}
@@ -131,7 +135,7 @@ public class DBHelperEmployee {
 		ArrayList<Employee> ar = getAllEmployees("idEmployee = '" + id + "'");
 		if(ar.size() == 0) {
 			// TODO: come dovremmo comportarci se l'impiegato non esiste?
-			return new Employee();
+			return null;
 		}
 		else return ar.get(0);
 	}

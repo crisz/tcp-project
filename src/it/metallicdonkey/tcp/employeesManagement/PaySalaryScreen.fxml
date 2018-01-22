@@ -21,7 +21,7 @@
               </columns>
             </TableView>
             <Label layoutX="625.0" layoutY="304.0" text="Spese complessive" />
-            <Label fx:id="total" layoutX="648.0" layoutY="331.0" text="5000 €">
+            <Label fx:id="total" layoutX="648.0" layoutY="331.0">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
