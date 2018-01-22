@@ -81,6 +81,14 @@ public class PaySalaryCtrl {
 		sortedData.comparatorProperty().bind(mainTable.comparatorProperty());
 		mainTable.setItems(sortedData);
 		
+		// Init the totat label
+		double totalSalary = 0;
+		for(int i=0; i<mainTable.getItems().size(); i++) {
+			totalSalary+= salaryColumn.getCellObservableValue(i).getValue();
+			System.out.println(i);
+		}
+		total.setText(String.valueOf(totalSalary) + " €");
+		
 		ArrayList<Payment> ar = DBHelperEmployee.getInstance().getPayments(Session.employee);
 		if(ar.size()==0) {
 			ultimoPagamento.setText("Non è mai stato effettuato un pagamento");
@@ -94,14 +102,6 @@ public class PaySalaryCtrl {
 		else {
 			ultimoPagamento.setText("L'ultimo pagamento è stato effettuato più di 30 giorni fa, in data "+last);
 		}
-		// Init the totat label
-		double totalSalary = 0;
-		for(int i=0; i<mainTable.getItems().size(); i++) {
-			totalSalary+= salaryColumn.getCellObservableValue(i).getValue();
-		}
-
-		total.setText(String.valueOf(totalSalary) + " €");
-
 	}
 	
 	@FXML

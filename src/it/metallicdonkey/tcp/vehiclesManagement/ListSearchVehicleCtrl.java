@@ -55,7 +55,7 @@ public class ListSearchVehicleCtrl {
 	public static VehicleDataModel selectedVehicle;
 
 	ObservableList<VehicleDataModel> data;
-	
+
 	public ListSearchVehicleCtrl() throws SQLException {
 		this.data = DBHelperVehicle.getInstance().getAllVehicles();
 		System.out.println("Data loaded");
@@ -76,7 +76,7 @@ public class ListSearchVehicleCtrl {
 				new PropertyValueFactory<VehicleDataModel, String>("vLocation"));
 		// Initialization filter
 		FilteredList<VehicleDataModel> filteredData = new FilteredList<>(data, p -> true);
-      
+
 		filter.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredData.setPredicate(v -> {
 				// If filter text is empty, display all persons.
@@ -122,7 +122,7 @@ public class ListSearchVehicleCtrl {
 								VehicleDataModel vehicle = getTableView().getItems().get(getIndex());
 								ListSearchVehicleCtrl.selectedVehicle = vehicle;
 								FXMLLoader loader = new FXMLLoader();
-								loader.setLocation(App.class.getResource("vehiclesManagement/ChangeVehicleScreen.fxml"));                           
+								loader.setLocation(App.class.getResource("vehiclesManagement/ChangeVehicleScreen.fxml"));
 								AnchorPane personalInfo;
 								try {
 									personalInfo = (AnchorPane) loader.load();
@@ -188,7 +188,7 @@ public class ListSearchVehicleCtrl {
 										} catch (SQLException e) {
 											e.printStackTrace();
 											Alert a = new Alert(AlertType.WARNING);
-											a.setTitle("Attenzione");		
+											a.setTitle("Attenzione");
 											a.setHeaderText("Impossibile aggiornare lo status");
 											a.setContentText("Lo status non può essere aggiornato a causa di un errore durante la connessione con il DBMS");
 											a.showAndWait();
@@ -219,22 +219,22 @@ public class ListSearchVehicleCtrl {
 										} catch (SQLException e) {
 											e.printStackTrace();
 											Alert a = new Alert(AlertType.WARNING);
-											a.setTitle("Attenzione");		
+											a.setTitle("Attenzione");
 											a.setHeaderText("Impossibile aggiornare lo status");
 											a.setContentText("Lo status non può essere aggiornato a causa di un errore durante la connessione con il DBMS");
-											a.showAndWait();										
+											a.showAndWait();
 										}
 										try {
 											DBHelperVehicle.getInstance().insertBrokenEndDay(vehicle.getVehicle());
 											vehicle.setVLocation(""+DBHelperDeposit.getInstance().setLocation(vehicle.getVehicle()));
 										} catch (SQLException e) {
 											Alert a = new Alert(AlertType.WARNING);
-											a.setTitle("Attenzione");		
+											a.setTitle("Attenzione");
 											a.setHeaderText("Impossibile aggiornare lo status");
 											a.setContentText("Lo status non può essere aggiornato a causa di un errore durante la connessione con il DBMS");
 											a.showAndWait();
 										}
-										
+
 										ImageView nimv = new ImageView(new Image(getClass().getResourceAsStream("../icons/bv.png")));
 										nimv.setFitHeight(24.0);
 										nimv.setFitWidth(24.0);
@@ -264,7 +264,7 @@ public class ListSearchVehicleCtrl {
 
 		brokenColumn.setCellFactory(cellFactory3);
 
-		// Action: remove 
+		// Action: remove
 
 		removeColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 		final ListSearchVehicleCtrl lsvc = this;
@@ -287,18 +287,27 @@ public class ListSearchVehicleCtrl {
 							setText(null);
 						} else {
 							btn3.setOnAction(event -> {
-								VehicleDataModel line = getTableView().getItems().get(getIndex());
+								VehicleDataModel vehicle = getTableView().getItems().get(getIndex());
 								Alert alert = new Alert(AlertType.CONFIRMATION);
 								alert.setTitle("Confirmation Dialog");
 								alert.setHeaderText("Sei sicuro di voler eliminare il veicolo?");
-								alert.setContentText("Il veicolo con matricola " + line.getId() + " verrà eliminato. Questa operazione è irreversibile.");
+								alert.setContentText("Il veicolo con matricola " + vehicle.getId() + " verrà eliminato. Questa operazione è irreversibile.");
 
 								Optional<ButtonType> result = alert.showAndWait();
 								if (result.get() == ButtonType.OK){
-									// TODO: implementare cancellazione su db
-									data.remove(line);
-									lsvc.initialize();
-								} 
+									try {
+										DBHelperVehicle.getInstance().removeVehicle(vehicle.getVehicle());
+										data.remove(vehicle);
+										lsvc.initialize();
+									} catch (SQLException e) {
+										alert = new Alert(AlertType.WARNING);
+							            alert.initOwner(null);
+							            alert.setTitle("Connection Information");
+							            alert.setHeaderText("Connessione Non Disponibile");
+							            alert.setContentText("Controlla la connessione e riprova.");
+							            alert.showAndWait();
+									}
+								}
 							});
 							btn3.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1px");
 							rv.setFitWidth(24.0);

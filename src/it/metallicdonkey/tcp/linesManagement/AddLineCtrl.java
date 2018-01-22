@@ -116,7 +116,7 @@ public class AddLineCtrl {
 		}
 	}
 
-	private Alert check() {
+	private Alert check() throws SQLException {
 		Alert alert = new Alert(AlertType.WARNING);
 	    alert.initOwner(mainApp.getPrimaryStage());
 	    alert.setTitle("Avviso");
@@ -132,6 +132,10 @@ public class AddLineCtrl {
 	    }
 	    if (priority.getText().equals("")) {
 	    	alert.setContentText("Inserisci una priorità alla linea.");
+	    	return alert;
+	    }
+	    if(DBHelperLine.getInstance().getIds().contains(name.getText())) {
+	    	alert.setContentText("Il nome inserito è già stato assegnato ad un'altra linea");
 	    	return alert;
 	    }
 	    else {

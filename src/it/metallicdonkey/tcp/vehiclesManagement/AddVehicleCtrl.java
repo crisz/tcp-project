@@ -52,25 +52,35 @@ public class AddVehicleCtrl {
 
 	@FXML
 	public void submitVehicle() throws SQLException {
-
-		Alert error = check();
+		ArrayList<String> ids = DBHelperVehicle.getInstance().getIds();
+		Alert error = check(ids);
 		if (error != null) {
 			error.showAndWait();
 		} else {
-			Vehicle v = getNewVehicle();
 			try {
-				DBHelperVehicle.getInstance().insertVehicle(v);
-				int l = DBHelperDeposit.getInstance().setLocation(v);
+				Vehicle v = getNewVehicle();
+				int l = DBHelperVehicle.getInstance().insertVehicle(v);
 				String result = "Il veicolo " + v.getId() + " é stato inserito con successo";
 				System.out.println(result);
 				Alert alert = new Alert(AlertType.INFORMATION);
-		    alert.initOwner(mainApp.getPrimaryStage());
-		    alert.setTitle("Avviso");
-		    alert.setHeaderText("Inserimento avvenuto con successo!");
-		    alert.setContentText("Il veicolo con matricola " + v.getId() + " è stato aggiunto all'elenco dei veicoli.\n La sua postazione in deposito è: "+l);
-		    alert.showAndWait();
+				alert.initOwner(mainApp.getPrimaryStage());
+				alert.setTitle("Avviso");
+				alert.setHeaderText("Inserimento avvenuto con successo!");
+				alert.setContentText("Il veicolo con matricola " + v.getId() + " è stato aggiunto all'elenco dei veicoli.\n La sua postazione in deposito è: "+l);
+				alert.showAndWait();
+				matricola.setText("");
+				postiASedere.setText("");
+				postiDisabili.setText("");
+				postiInPiedi.setText("");
+				targa.setText("");
+				modello.setText("");
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				Alert alert = new Alert(AlertType.WARNING);
+	            alert.initOwner(null);
+	            alert.setTitle("Connection Information");
+	            alert.setHeaderText("Connessione Non Disponibile");
+	            alert.setContentText("Controlla la connessione e riprova.");
+	            alert.showAndWait();
 				e.printStackTrace();
 			}
 		}
@@ -92,67 +102,72 @@ public class AddVehicleCtrl {
 		return v;
 	}
 
-	private Alert check() {
+	private Alert check(ArrayList<String> ids) {
 		Alert alert = new Alert(AlertType.WARNING);
-	    alert.initOwner(mainApp.getPrimaryStage());
-	    alert.setTitle("Avviso");
-	    alert.setHeaderText("Inserimento fallito!");
+		alert.initOwner(mainApp.getPrimaryStage());
+		alert.setTitle("Avviso");
+		alert.setHeaderText("Inserimento fallito!");
 
-//		// Check matricola
-//	    if (matricola.getText().equals("")) {
-//	    	alert.setContentText("Inserisci una matricola");
-//	    	return alert;
-//	    }
-	    // Check targa
-	    if (targa.getText().equals("")) {
-	    	alert.setContentText("Inserisci una targa");
-	    	return alert;
-	    }
-	    // Check postiASedere
-	    if (postiASedere.getText().equals("")) {
-	    	alert.setContentText("Inserisci il numero di posti a sedere");
-	    	return alert;
-	    }
-	    // Check postiDisabili
-	    if (postiDisabili.getText().equals("")) {
-	    	alert.setContentText("Inserisci il numero di posti per disabili");
-	    	return alert;
-	    }
-	    // Check postiInPiedi
-	    if (postiInPiedi.getText().equals("")) {
-	    	alert.setContentText("Inserisci il numero di posti in piedi");
-	    	return alert;
-	    }
-	    // Check idMatricola < 7 char
-	    if (matricola.getText().length() > 7) {
-	    	alert.setContentText("La matricola non deve superare i 7 caratteri");
-	    	return alert;
-	    }
+		//		// Check matricola
+		//	    if (matricola.getText().equals("")) {
+		//	    	alert.setContentText("Inserisci una matricola");
+		//	    	return alert;
+		//	    }
 
-	    // Check if values are numeric or not
-	    else {
-	    	int numPostiASedere = -1;
-	    	int numPostiDisabili = -1;
-	    	int numPostiInPiedi = -1;
-	    	try {
-	    		numPostiASedere = Integer.parseInt(postiASedere.getText());
-	    		numPostiDisabili = Integer.parseInt(postiDisabili.getText());
-	    		numPostiInPiedi = Integer.parseInt(postiInPiedi.getText());
-	    	}
-	    	catch(NumberFormatException e) {
-	    		alert.setContentText("Inserisci un valore numerico nei campi del numero di posti");
-	    		return alert;
-	    	}
-	    }
+		if(ids.contains(matricola.getText())) {
+			alert.setContentText("La matricola inserita non è disponibile");
+			return alert;
+		}
+		// Check targa
+		if (targa.getText().equals("")) {
+			alert.setContentText("Inserisci una targa");
+			return alert;
+		}
+		// Check postiASedere
+		if (postiASedere.getText().equals("")) {
+			alert.setContentText("Inserisci il numero di posti a sedere");
+			return alert;
+		}
+		// Check postiDisabili
+		if (postiDisabili.getText().equals("")) {
+			alert.setContentText("Inserisci il numero di posti per disabili");
+			return alert;
+		}
+		// Check postiInPiedi
+		if (postiInPiedi.getText().equals("")) {
+			alert.setContentText("Inserisci il numero di posti in piedi");
+			return alert;
+		}
+		// Check idMatricola < 7 char
+		if (matricola.getText().length() > 7) {
+			alert.setContentText("La matricola non deve superare i 7 caratteri");
+			return alert;
+		}
 
-	    // Data is ok
-	    return null;
+		// Check if values are numeric or not
+		else {
+			int numPostiASedere = -1;
+			int numPostiDisabili = -1;
+			int numPostiInPiedi = -1;
+			try {
+				numPostiASedere = Integer.parseInt(postiASedere.getText());
+				numPostiDisabili = Integer.parseInt(postiDisabili.getText());
+				numPostiInPiedi = Integer.parseInt(postiInPiedi.getText());
+			}
+			catch(NumberFormatException e) {
+				alert.setContentText("Inserisci un valore numerico nei campi del numero di posti");
+				return alert;
+			}
+		}
+
+		// Data is ok
+		return null;
 	}
 
 	@FXML
-  public void goHome() throws IOException {
-  	Home.getHome(null).goHome(this.mainApp);
-  }
+	public void goHome() throws IOException {
+		Home.getHome(null).goHome(this.mainApp);
+	}
 
 	public void setMainApp(App mainApp) {
 		this.mainApp = mainApp;
@@ -161,7 +176,7 @@ public class AddVehicleCtrl {
 	public void setModel(VehicleDataModel line) {
 		this.vehicle = line;
 	}
-	
+
 	private String generateId() throws SQLException {
 		ArrayList<String> allIds = DBHelperVehicle.getInstance().getIds();
 		String id = "";

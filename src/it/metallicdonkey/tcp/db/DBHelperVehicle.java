@@ -86,7 +86,7 @@ public class DBHelperVehicle {
 		ObservableList<VehicleDataModel> dataVehicles = FXCollections.observableArrayList(vehicles);
 		return dataVehicles;
 	}
-	
+
 	private String statusVehicleToItalian(StatusVehicle status) {
 		switch (status) {
 		case ON_ACTION:
@@ -99,7 +99,7 @@ public class DBHelperVehicle {
 			return "Invalid location";
 		}
 	}
-	
+
 	public ArrayList<Vehicle> getAllVehiclesArray() {
 		ArrayList<Vehicle> vehicles= new ArrayList<>();
 		try {
@@ -163,7 +163,7 @@ public class DBHelperVehicle {
 		}
 		return "MORNING";
 	}
-	public void insertVehicle(Vehicle v) throws SQLException {
+	public int insertVehicle(Vehicle v) throws SQLException {
 		// the mysql insert statement
 		String query = "insert into vehicle (idVehicle, Brand, Status, Seats, StandingPlaces, PlacesForDisabled, Plate)"
 				+ " values (?, ?, ?, ?, ?, ?, ?)";
@@ -177,6 +177,8 @@ public class DBHelperVehicle {
 	    preparedStmt.setString(7, v.getPlate());
 	    // execute the preparedstatement
 	    preparedStmt.execute();
+	    int location = DBHelperDeposit.getInstance().setLocation(v);
+	    return location;
 	}
 
 	public void insertBrokenEndDay(Vehicle v) throws SQLException {
@@ -232,9 +234,9 @@ public class DBHelperVehicle {
 		preparedStmt.setString(2, "1970-01-01");
 		preparedStmt.setString(3, v.getId());
 		preparedStmt.execute();
-		v.setStatus(StatusVehicle.BROKEN);
 		if(v.getStatus() == StatusVehicle.AVAILABLE)
 			DBHelperDeposit.getInstance().freeLocation(v);
+		v.setStatus(StatusVehicle.BROKEN);
 	}
 	private String getBrokenId(Vehicle v) {
 		String id = null;
@@ -252,8 +254,11 @@ public class DBHelperVehicle {
 
 	public int removeVehicle(Vehicle v) {
 		int removed1 = -1;
+		int removed2 = -1;
 		int result = -1;
 		removed1 = dbm.executeUpdate("DELETE FROM tcp.match WHERE Vehicle_idVehicle = '"+
+				v.getId()+"'");
+		removed2 = dbm.executeUpdate("UPDATE tcp.Location SET Vehicle_idVehicle=null WHERE Vehicle_idVehicle='"+
 				v.getId()+"'");
 		if(removed1 < 0)
 			return -1;
