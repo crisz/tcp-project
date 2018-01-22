@@ -222,4 +222,14 @@ public class DBHelperLine {
 		result = dbm.executeUpdate("DELETE FROM tcp.line WHERE idLine='"+l.getName()+"'");
 		return result;
 	}
+	
+	public ArrayList<String> getIds() throws SQLException{
+		ArrayList<String> allIds = new ArrayList<>();
+		dbm.executeQuery("SELECT idLine FROM tcp.line");
+		ResultSet result = dbm.getResultSet();
+		while(result.next()) {
+			allIds.add(result.getString("idLine"));
+		}
+		return allIds;
+	}
 }
