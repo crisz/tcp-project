@@ -7,6 +7,7 @@ import it.metallicdonkey.tcp.depositManagement.EntryVehicleCtrl;
 import it.metallicdonkey.tcp.depositManagement.ExitVehicleCtrl;
 import it.metallicdonkey.tcp.employeesManagement.PersonalInfoCtrl;
 import it.metallicdonkey.tcp.linesManagement.AddLineCtrl;
+import it.metallicdonkey.tcp.linesManagement.AdministrativeAreaCtrl;
 import it.metallicdonkey.tcp.linesManagement.CheckCtrl;
 import it.metallicdonkey.tcp.linesManagement.ListSearchLineCtrl;
 import it.metallicdonkey.tcp.login.Home;
@@ -19,7 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
-public class VehicleAreaCtrl {
+public class VehicleAreaCtrl extends AdministrativeAreaCtrl {
 	private App mainApp;
 
   @FXML

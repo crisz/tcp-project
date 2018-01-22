@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.linesManagement.AddLineCtrl;
+import it.metallicdonkey.tcp.linesManagement.AdministrativeAreaCtrl;
 import it.metallicdonkey.tcp.linesManagement.CheckCtrl;
 import it.metallicdonkey.tcp.linesManagement.ListSearchLineCtrl;
 import it.metallicdonkey.tcp.login.Home;
@@ -15,7 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class HRAreaCtrl {
+public class HRAreaCtrl extends AdministrativeAreaCtrl {
 	private App mainApp;
 	@FXML
 	public void initialize(){

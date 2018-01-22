@@ -23,7 +23,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 
-public class ChangeEmployeeCtrl {
+public class ChangeEmployeeCtrl extends AddEmployeeCtrl {
 	private App mainApp;
 	@FXML
 	private TextField matricola;

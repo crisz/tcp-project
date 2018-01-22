@@ -3,6 +3,7 @@ package it.metallicdonkey.tcp.linesManagement;
 import java.io.IOException;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.employeesManagement.EmployeeAreaCtrl;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.LoginCtrl;
 import it.metallicdonkey.tcp.login.Session;
@@ -13,7 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
-public class AdministrativeAreaCtrl {
+public class AdministrativeAreaCtrl extends EmployeeAreaCtrl {
 	private App mainApp;
 
   @FXML
