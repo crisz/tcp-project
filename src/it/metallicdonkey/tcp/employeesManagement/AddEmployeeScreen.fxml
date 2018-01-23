@@ -35,6 +35,7 @@
             <Button layoutX="721.0" layoutY="417.0" mnemonicParsing="false" onAction="#goHome" text="Home" />
             <Label layoutX="533.0" layoutY="315.0" text="Turno di lavoro" />
             <Spinner fx:id="turno" layoutX="671.0" layoutY="311.0" />
+            <Label layoutX="201.0" layoutY="217.0" text="Formato data: gg/mm/aaaa" />
          </children>
       </Pane>
    </children>
