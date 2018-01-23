@@ -250,4 +250,10 @@ public class ChangeEmployeeCtrl extends AddEmployeeCtrl {
 	public void setModel(EmployeeDataModel employee) {
 		this.employee = employee;
 	}
+	@FXML
+	public void goBack() throws IOException{
+		HRAreaCtrl hrac = new HRAreaCtrl();
+		hrac.setMainApp(this.mainApp);
+		hrac.showSearchEmployee();
+	}
 }

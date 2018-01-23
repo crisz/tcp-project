@@ -68,7 +68,7 @@ public class HRAreaCtrl extends AdministrativeAreaCtrl {
 
 
 	@FXML
-	private void showSearchLine() throws IOException {
+	public void showSearchLine() throws IOException {
 		System.out.println("Showing search info line...");
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(App.class.getResource("linesManagement/ListSearchLineScreen.fxml"));
@@ -83,7 +83,7 @@ public class HRAreaCtrl extends AdministrativeAreaCtrl {
 		lslCtrl.setMainApp(mainApp);
 	}
 	@FXML
-	private void showSearchEmployee() throws IOException {
+	public void showSearchEmployee() throws IOException {
 		System.out.println("Showing search info employee...");
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(App.class.getResource("employeesManagement/ListSearchEmployeeScreen.fxml"));
