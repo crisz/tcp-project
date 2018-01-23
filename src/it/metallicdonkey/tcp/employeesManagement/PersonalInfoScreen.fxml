@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.employeesManagement.PersonalInfoCtrl">
+<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.employeesManagement.PersonalInfoCtrl">
    <children>
       <Pane layoutX="2.0" prefHeight="647.6956718343874" prefWidth="702.3826319282409" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -61,6 +61,7 @@
             <ListView fx:id="assenze" layoutX="134.0" layoutY="72.0" prefHeight="103.0" prefWidth="200.0" />
             <ListView fx:id="pagamento" layoutX="134.0" layoutY="235.0" prefHeight="200.0" prefWidth="200.0" />
             <Label layoutX="34.0" layoutY="44.0" text="Giorni di assenza: " />
+            <Button layoutX="134.0" layoutY="435.0" mnemonicParsing="false" onAction="#print" prefHeight="27.0" prefWidth="200.0" text="Stampa ultimo pagamento" />
          </children>
       </Pane>
    </children>
