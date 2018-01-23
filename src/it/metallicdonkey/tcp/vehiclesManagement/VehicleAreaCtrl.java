@@ -95,7 +95,7 @@ public class VehicleAreaCtrl extends AdministrativeAreaCtrl {
   }
 
   @FXML
-  private void showSearchVehicle() throws IOException {
+  public void showSearchVehicle() throws IOException {
   	System.out.println("Showing search info vehicle...");
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(App.class.getResource("vehiclesManagement/ListSearchVehicleScreen.fxml"));

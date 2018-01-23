@@ -181,4 +181,12 @@ public class ChangeVehicleCtrl extends AddVehicleCtrl{
 	public void setModel(VehicleDataModel v) {
 		this.vehicle = v;
 	}
+	
+	@FXML
+	public void goBack() throws IOException {
+		System.out.println("Back!");
+		VehicleAreaCtrl vac = new VehicleAreaCtrl();
+		vac.setMainApp(this.mainApp);
+		vac.showSearchVehicle();
+	}
 }
