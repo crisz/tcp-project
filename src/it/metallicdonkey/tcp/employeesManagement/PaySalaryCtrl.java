@@ -40,7 +40,7 @@ public class PaySalaryCtrl {
 
 	@FXML
 	TextField filter;
-	
+
 	@FXML
 	Label ultimoPagamento;
 
@@ -49,18 +49,18 @@ public class PaySalaryCtrl {
 	private App mainApp;
 	private EmployeeDataModel employee;
 	ObservableList<EmployeeDataModel> data;
-	
+
 	@FXML
 	private void initialize() {
 		// Initialization data
 		data = DBHelperEmployee.getInstance().getAllEmployees();
-		
+
 		idColumn.setCellValueFactory(
-			new PropertyValueFactory<EmployeeDataModel, String>("id"));
+				new PropertyValueFactory<EmployeeDataModel, String>("id"));
 		roleColumn.setCellValueFactory(
-			new PropertyValueFactory<EmployeeDataModel, String>("role"));
+				new PropertyValueFactory<EmployeeDataModel, String>("role"));
 		salaryColumn.setCellValueFactory(
-			new PropertyValueFactory<EmployeeDataModel, Double>("salary"));
+				new PropertyValueFactory<EmployeeDataModel, Double>("salary"));
 		System.out.println(data);
 		// Initialization filter
 		FilteredList<EmployeeDataModel> filteredData = new FilteredList<>(data, p -> true);
@@ -80,7 +80,7 @@ public class PaySalaryCtrl {
 		SortedList<EmployeeDataModel> sortedData = new SortedList<>(filteredData);
 		sortedData.comparatorProperty().bind(mainTable.comparatorProperty());
 		mainTable.setItems(sortedData);
-		
+
 		// Init the totat label
 		double totalSalary = 0;
 		for(int i=0; i<mainTable.getItems().size(); i++) {
@@ -88,7 +88,7 @@ public class PaySalaryCtrl {
 			System.out.println(i);
 		}
 		total.setText(String.valueOf(totalSalary) + " €");
-		
+
 		ArrayList<Payment> ar = DBHelperEmployee.getInstance().getPayments(Session.employee);
 		if(ar.size()==0) {
 			ultimoPagamento.setText("Non è mai stato effettuato un pagamento");
@@ -103,32 +103,57 @@ public class PaySalaryCtrl {
 			ultimoPagamento.setText("L'ultimo pagamento è stato effettuato più di 30 giorni fa, in data "+last);
 		}
 	}
-	
+
 	@FXML
 	public void pay() throws SQLException {
+		ArrayList<Payment> ar = DBHelperEmployee.getInstance().getPayments(Session.employee);
+		LocalDate now = LocalDate.now();
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.initOwner(mainApp.getPrimaryStage());
-    alert.setTitle("Avviso");
-    alert.setHeaderText("Sei sicuro di voler effettuare il pagamento?");
-    alert.setContentText(this.total.getText()+" verranno prelevati dal conto aziendale e verranno generati i mandati di pagamento per ogni impiegato.");
+		alert.initOwner(mainApp.getPrimaryStage());
+		alert.setTitle("Avviso");
+		alert.setHeaderText("Sei sicuro di voler effettuare il pagamento?");
+		alert.setContentText(this.total.getText()+" verranno prelevati dal conto aziendale e verranno generati i mandati di pagamento per ogni impiegato.");
 		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK){
-			for(int i=0; i<data.size(); i++) {
-				Payment p = new Payment();
-				p.setDate(LocalDate.now());
-				p.setIdEmployee(data.get(i).getEmployee().getId());
-				p.setNetSalary(data.get(i).getNetSalary());
-				DBHelperEmployee.getInstance().insertPayment(p, data.get(i).getEmployee());
+		if (result.get() == ButtonType.OK) {
+			if(ar.size() == 0) {
+				for(int i=0; i<data.size(); i++) {
+					Payment p = new Payment();
+					p.setDate(LocalDate.now());
+					p.setIdEmployee(data.get(i).getEmployee().getId());
+					p.setNetSalary(data.get(i).getNetSalary());
+					DBHelperEmployee.getInstance().insertPayment(p, data.get(i).getEmployee());
+				}
+				Alert alert2 = new Alert(AlertType.INFORMATION);
+				alert2.initOwner(mainApp.getPrimaryStage());
+				alert2.setTitle("Avviso");
+				alert2.setHeaderText("Il pagamento è stato effettuato.");
+				alert2.setContentText("I mandati di pagamento sono stati generati.");
+				alert2.showAndWait();
+			} else {
+				LocalDate last = ar.get(0).getDate();
+				Alert alert2 = new Alert(AlertType.INFORMATION);
+				alert2.initOwner(mainApp.getPrimaryStage());
+				alert2.setTitle("Avviso");
+				if(now.getDayOfYear() - last.getDayOfYear() < -1) {
+					alert2.setHeaderText("Il pagamento non è stato effettuato.");
+					alert2.setContentText("Non sono trascorsi più di 30 giorni dall'ultimo pagamento.");
+				} else {
+					for(int i=0; i<data.size(); i++) {
+						Payment p = new Payment();
+						p.setDate(LocalDate.now());
+						p.setIdEmployee(data.get(i).getEmployee().getId());
+						p.setNetSalary(data.get(i).getNetSalary());
+						DBHelperEmployee.getInstance().insertPayment(p, data.get(i).getEmployee());
+					}
+					alert2.setHeaderText("Il pagamento è stato effettuato.");
+					alert2.setContentText("I mandati di pagamento sono stati generati.");
+				}
+				alert2.showAndWait();
 			}
-			Alert alert2 = new Alert(AlertType.INFORMATION);
-	    alert2.initOwner(mainApp.getPrimaryStage());
-	    alert2.setTitle("Avviso");
-	    alert2.setHeaderText("Il pagamento è stato effettuato.");
-	    alert2.setContentText("I mandati di pagamento sono stati generati.");
-	    alert2.showAndWait();
 		}
+		ultimoPagamento.setText("L'ultimo pagamento è stato effettuato meno di 30 giorni fa, in data "+now+".\n Non è possibile effettuare un nuovo pagamento se non sono passati almeno 30 giorni.");
 	}
-	
+
 	/*
 	 * TODO Fix the back and home buttons
 	 */

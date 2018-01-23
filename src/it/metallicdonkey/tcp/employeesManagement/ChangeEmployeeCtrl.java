@@ -55,14 +55,14 @@ public class ChangeEmployeeCtrl extends AddEmployeeCtrl {
 		String[] workshiftEntries = {"Mattina", "Pomeriggio", "Sera"};
 		ObservableList<String> roles = FXCollections.observableArrayList(rolesEntries);
 		ObservableList<String> workshifts = FXCollections.observableArrayList(workshiftEntries);
-		
+
 		SpinnerValueFactory<String> valueFactory = new SpinnerValueFactory.ListSpinnerValueFactory<String>(roles);
 		SpinnerValueFactory<String> valueFactory2 = new SpinnerValueFactory.ListSpinnerValueFactory<String>(workshifts);
-		
-		
+
+
 		ruolo.setValueFactory(valueFactory);
 		turno.setValueFactory(valueFactory2);
-		
+
 		this.employee = ListSearchEmployeeCtrl.selectedEmployee;
 		this.matricola.setText(employee.getEmployee().getId());
 		this.nome.setText(employee.getEmployee().getFirstName());
@@ -73,8 +73,55 @@ public class ChangeEmployeeCtrl extends AddEmployeeCtrl {
 		this.email.setText(employee.getEmployee().getEmail());
 		this.ruolo.getValueFactory().setValue(employee.getEmployee().getRole().name());
 		this.turno.getValueFactory().setValue(employee.getEmployee().getWorkshift().name());
-		
+
+		this.matricola.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent; -fx-background-color: #F4F4F4");
+		this.matricola.setEditable(false);
+		this.nome.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
+		this.nome.setEditable(false);
+		this.cognome.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
+		this.cognome.setEditable(false);
+		this.datanascita.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
+		this.datanascita.setEditable(false);
+		this.stipendio.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
+		this.stipendio.setEditable(false);
+		this.indirizzo.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
+		this.indirizzo.setEditable(false);
+		this.email.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
+		this.email.setEditable(false);
+		this.ruolo.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
+		this.ruolo.setDisable(true);
+		this.turno.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
+		this.turno.setDisable(true);
 	}
+
+	@FXML
+	private void change() {
+		this.matricola.setStyle(null);
+		this.matricola.setEditable(false);
+		this.nome.setStyle(null);
+		this.nome.setEditable(true);
+		this.cognome.setStyle(null);
+		this.cognome.setEditable(true);
+		this.datanascita.setStyle(null);
+		this.datanascita.setEditable(true);
+		this.stipendio.setStyle(null);
+		this.stipendio.setEditable(true);
+		this.indirizzo.setStyle(null);
+		this.indirizzo.setEditable(true);
+		this.email.setStyle(null);
+		this.email.setEditable(true);
+		this.ruolo.setStyle(null);
+		this.ruolo.setDisable(false);
+		this.turno.setStyle(null);
+		this.turno.setDisable(false);
+
+		if(this.inviaButton.getText().equals("Invia")) {
+			submitEmployee();
+		}
+
+		this.inviaButton.setText("Invia");
+	}
+
 	@FXML
 	private void submitEmployee() {
 		System.out.println(turno.getValue());
@@ -84,13 +131,13 @@ public class ChangeEmployeeCtrl extends AddEmployeeCtrl {
 		} else {
 			try {
 				DBHelperEmployee.getInstance().updateEmployee(getNewEmployee());
-				
+
 				Alert alert = new Alert(AlertType.INFORMATION);
 			    alert.initOwner(mainApp.getPrimaryStage());
 			    alert.setTitle("Avviso");
 			    alert.setHeaderText("Inserimento avvenuto con successo!");
 				alert.show();
-			} 
+			}
 			catch (SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 			    alert.initOwner(mainApp.getPrimaryStage());
@@ -104,13 +151,13 @@ public class ChangeEmployeeCtrl extends AddEmployeeCtrl {
 			System.out.println(result);
 		}
 	}
-	
-	
+
+
 	/*
 	 * This method return the employee created with the values inserted by the user
 	 * Make sure to call this methods after the check for the values
 	 */
-	
+
 	private Employee getNewEmployee() {
 		Employee e = new Employee();
 		e.setFirstName(nome.getText());
@@ -125,7 +172,7 @@ public class ChangeEmployeeCtrl extends AddEmployeeCtrl {
 		e.setStatus(StatusEmployee.AVAILABLE);
 		return e;
 	}
-	
+
 	/*
 	 * TODO ADD Maximum date selectable
 	 */
@@ -155,7 +202,7 @@ public class ChangeEmployeeCtrl extends AddEmployeeCtrl {
 	    	alert.setContentText("Inserisci un indirizzo e-mail");
 	    	return alert;
 	    }
-	    
+
 	    // Check indirizzo
 	    if (indirizzo.getText().equals("")) {
 	    	alert.setContentText("Inserisci un indirizzo di residenza");
@@ -189,7 +236,7 @@ public class ChangeEmployeeCtrl extends AddEmployeeCtrl {
 		    	return alert;
 	    	}
 	    }
-	 
+
 	    // Data is ok
 	    return null;
 	}
