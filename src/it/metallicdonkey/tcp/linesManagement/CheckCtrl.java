@@ -78,86 +78,11 @@ public class CheckCtrl {
 	FilteredList<EmployeeDataModel> empM;
 	FilteredList<EmployeeDataModel> empP;
 	FilteredList<EmployeeDataModel> empS;
-	
+	ArrayList<EmployeeDataModel> employeesInCheck = new ArrayList<>();
 	boolean oldChecksExists;
 	List<Check> oldChecks; 
+	Workshift currentWorkshift = Workshift.MATTINA;
 	
-	
-	private void filter() {
-		this.empM = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.MATTINA && e.getEmployee().getRole() == Role.Autista);
-		this.empP = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.POMERIGGIO && e.getEmployee().getRole() == Role.Autista);
-		this.empS = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.SERA && e.getEmployee().getRole() == Role.Autista);
-	}
-	
-	private void showAbsentEmployees() {
-		String absentEmployees = "";
-		if (oldChecksExists) {
-			ArrayList<Match> alm = oldChecks.get(0).getMatches();
-			for(int i=0; i<alm.size(); i++) {
-				MatchDataModel mdm = new MatchDataModel(alm.get(i));
-				Employee emdm = mdm.getEmployeeModel().getEmployee();
-				if(emdm.getStatus() == StatusEmployee.ABSENT) {
-					absentEmployees += emdm.getId() + " - " + emdm.getFirstName() + " - " +emdm.getLastName() + "\n";
-					for(int j=0; j<dataEmployees.size(); j++) {
-						if(emdm.getId().equals(dataEmployees.get(j).getId())) {
-							dataEmployees.remove(j);
-						}
-					}
-				}
-				else {
-					dataCheck.add(mdm);
-				}	
-			}
-		}
-		
-		if(absentEmployees.length()!=0) {
-			Alert alert = new Alert(AlertType.WARNING);
-	    alert.initOwner(null);
-	    alert.setTitle("Avviso");
-	    alert.setHeaderText("Alcuni impiegati sono assenti.");
-	    alert.setContentText("I seguenti impiegati sono assenti e vanno sostituiti:\n" + absentEmployees);
-	    alert.showAndWait();
-		}
-	}
-	
-	private void initColumns() {
-    this.nameColumn.setCellValueFactory(
-        new PropertyValueFactory<LineDataModel, String>("name"));
-    this.startTerminalColumn.setCellValueFactory(
-        new PropertyValueFactory<LineDataModel, String>("startTerminal"));
-    this.endTerminalColumn.setCellValueFactory(
-        new PropertyValueFactory<LineDataModel, String>("endTerminal"));
-  	this.lines.setItems(dataLines);
-
-  	this.vehicleId.setCellValueFactory(
-        new PropertyValueFactory<VehicleDataModel, String>("id"));
-    this.seats.setCellValueFactory(
-        new PropertyValueFactory<VehicleDataModel, String>("seats"));
-    this.vehicles.setItems(dataVehicles);
-
-    this.nomeECognome.setCellValueFactory(
-        new PropertyValueFactory<EmployeeDataModel, String>("nomeECognome"));
-	}
-	
-	private void setEmployees(FilteredList<EmployeeDataModel> filteredEmployees) {
-		ArrayList<String> employeesInCheck = new ArrayList<>();
-		for(int j=0;j<dataCheck.size(); j++) {
-			employeesInCheck.add(dataCheck.get(j).getEmployeeModel().getEmployee().getId());
-		}
-		
-		for(int i=0; i<filteredEmployees.size(); i++) {
-			if(employeesInCheck.contains(filteredEmployees.get(i).getId())) {
-				removeEmployee(filteredEmployees, i);
-			}
-		}
-    
-    this.employees.setItems(filteredEmployees);
-	}
-	
-  private void removeEmployee(FilteredList<EmployeeDataModel> filteredEmployees, int i) {
-		dataEmployees.remove(filteredEmployees.get(i));
-		this.filter();
-	}
 
 	@FXML
   private void initialize() throws SQLException {
@@ -171,21 +96,34 @@ public class CheckCtrl {
 		this.oldChecksExists = this.oldChecks.size() != 0;
 		
 		this.showAbsentEmployees();
-			
-		this.filter();
-
 		this.initColumns();
-		
-		this.setEmployees(this.empM);
-		
-    checkEmployee.setCellValueFactory(
-        new PropertyValueFactory<MatchDataModel, String>("employee"));
-    checkVehicle.setCellValueFactory(
-        new PropertyValueFactory<MatchDataModel, String>("vehicle"));
-    checkLine.setCellValueFactory(
-        new PropertyValueFactory<MatchDataModel, String>("line"));
-    this.check.setItems(dataCheck);
+		this.setItemsForEmployee();
+		this.setItemsForVehicle();
   }
+	
+	private void setItemsForEmployee() {
+		this.employees.setItems(new FilteredList<>(dataEmployees, e -> {
+			for(int i=0; i<dataCheck.size(); i++) {
+				if(dataCheck.get(i).getEmployeeModel().getEmployee().getId().equals(e.getEmployee().getId())) {
+					return false;
+				}
+			}
+			return e.getEmployee().getWorkshift() == this.currentWorkshift
+					&& e.getEmployee().getRole() == Role.Autista;
+		}));
+	}
+	
+	private void setItemsForVehicle() {
+
+    this.vehicles.setItems(new FilteredList<>(dataVehicles, v -> {
+			for(int i=0; i<dataCheck.size(); i++) {
+				if(dataCheck.get(i).getVehicleModel().getVehicle().getId().equals(v.getVehicle().getId())) {
+					return false;
+				}
+			}
+			return true;
+		}));
+	}
 
   @FXML
   public void goHome() throws IOException {
@@ -195,10 +133,9 @@ public class CheckCtrl {
   @FXML
   public void nextWorkshift() throws IOException, SQLException {
 	  
-	  if(turno == 0) {	// MORNING turn
-	  	
-		  this.employees.setItems(empP);
+	  if(turno == 0) {	
 		  this.workshiftLabel.setText("Pomeriggio");
+		  this.currentWorkshift = Workshift.POMERIGGIO;
 		  this.check1 = FXCollections.observableArrayList(dataCheck);
 		 
 		  // Clear dataCheck
@@ -211,11 +148,13 @@ public class CheckCtrl {
 				  dataCheck.add(new MatchDataModel(alm.get(i)));
 			  }
 		  }
+		  this.setItemsForEmployee();
+		  this.setItemsForVehicle();
 		  this.turno++;
 	  }
 	  
-	  else if(turno == 1) {  // AFTERNOON turn
-		  this.employees.setItems(empS);
+	  else if(turno == 1) {
+	  	this.currentWorkshift = Workshift.SERA;
 		  this.workshiftLabel.setText("Sera");
 		  this.nextButton.setText("Fine");
 		  this.check2 = FXCollections.observableArrayList(dataCheck);
@@ -227,6 +166,8 @@ public class CheckCtrl {
 				  dataCheck.add(new MatchDataModel(alm.get(i)));
 			  }
 		  }
+		  this.setItemsForEmployee();
+		  this.setItemsForVehicle();
 		  this.turno++;
 	  }
 	  else {  // EVENING turn
@@ -306,8 +247,8 @@ public class CheckCtrl {
     	Match m = new Match(e.getEmployee(), l.getLine(), v.getVehicle());
     	
     	dataCheck.add(new MatchDataModel(m));
-    	dataEmployees.remove(e);
-    	dataVehicles.remove(v);
+    	this.setItemsForEmployee();
+    	this.setItemsForVehicle();
   	} catch(NullPointerException e) {
 			Alert alert = new Alert(AlertType.WARNING);
 	    alert.initOwner(mainApp.getPrimaryStage());
@@ -322,12 +263,9 @@ public class CheckCtrl {
   public void removeBind() {
   	try {
 	  	MatchDataModel c = this.check.getSelectionModel().getSelectedItem();
-	  	EmployeeDataModel e = c.getEmployeeModel();
-	  	VehicleDataModel v = c.getVehicleModel();
-	  	
-	  	dataEmployees.add(e);
-	  	dataVehicles.add(v);
 	  	check.getItems().remove(c);
+	  	this.setItemsForEmployee();
+    	this.setItemsForVehicle();
   	} 
   	catch(NullPointerException e) {
 		Alert alert = new Alert(AlertType.WARNING);
@@ -342,4 +280,65 @@ public class CheckCtrl {
   public void setMainApp(App mainApp) {
     this.mainApp = mainApp;
   }
+  
+	
+	private void initColumns() {
+    this.nameColumn.setCellValueFactory(
+        new PropertyValueFactory<LineDataModel, String>("name"));
+    this.startTerminalColumn.setCellValueFactory(
+        new PropertyValueFactory<LineDataModel, String>("startTerminal"));
+    this.endTerminalColumn.setCellValueFactory(
+        new PropertyValueFactory<LineDataModel, String>("endTerminal"));
+  	this.lines.setItems(dataLines);
+
+  	this.vehicleId.setCellValueFactory(
+        new PropertyValueFactory<VehicleDataModel, String>("id"));
+    this.seats.setCellValueFactory(
+        new PropertyValueFactory<VehicleDataModel, String>("seats"));
+
+    this.nomeECognome.setCellValueFactory(
+        new PropertyValueFactory<EmployeeDataModel, String>("nomeECognome"));
+    
+    this.checkEmployee.setCellValueFactory(
+        new PropertyValueFactory<MatchDataModel, String>("employee"));
+    this.checkVehicle.setCellValueFactory(
+        new PropertyValueFactory<MatchDataModel, String>("vehicle"));
+    this.checkLine.setCellValueFactory(
+        new PropertyValueFactory<MatchDataModel, String>("line"));
+    this.check.setItems(dataCheck);
+    
+    
+	}
+	
+	private void showAbsentEmployees() {
+		String absentEmployees = "";
+		if (oldChecksExists) {
+			ArrayList<Match> alm = oldChecks.get(0).getMatches();
+			for(int i=0; i<alm.size(); i++) {
+				MatchDataModel mdm = new MatchDataModel(alm.get(i));
+				Employee emdm = mdm.getEmployeeModel().getEmployee();
+				if(emdm.getStatus() == StatusEmployee.ABSENT) {
+					absentEmployees += emdm.getId() + " - " + emdm.getFirstName() + " - " +emdm.getLastName() + "\n";
+					for(int j=0; j<dataEmployees.size(); j++) {
+						if(emdm.getId().equals(dataEmployees.get(j).getId())) {
+							dataEmployees.remove(j);
+						}
+					}
+				}
+				else {
+					dataCheck.add(mdm);
+				}	
+			}
+		}
+		if(absentEmployees.length()!=0) {
+			Alert alert = new Alert(AlertType.WARNING);
+	    alert.initOwner(null);
+	    alert.setTitle("Avviso");
+	    alert.setHeaderText("Alcuni impiegati sono assenti.");
+	    alert.setContentText("I seguenti impiegati sono assenti e vanno sostituiti:\n" + absentEmployees);
+	    alert.showAndWait();
+		}
+	}
+	
+
 }
