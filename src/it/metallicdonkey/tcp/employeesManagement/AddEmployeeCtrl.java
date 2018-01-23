@@ -214,6 +214,11 @@ public class AddEmployeeCtrl {
 					return alert;
 				}
 			}
+			// Alfabetical check for name
+//			if( (Integer.parseInt(nome.getText())) | (Integer.parseInt(cognome.getText())) ) {
+//				alert.setContentText("Nome e cognome non possono contenere solo numeri");
+//				return alert;
+//			}
 			// TODO: String check for nome e cognome
 			try {
 				Integer.parseInt(nome.getText());

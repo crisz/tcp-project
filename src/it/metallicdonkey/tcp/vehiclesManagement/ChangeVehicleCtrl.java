@@ -48,7 +48,7 @@ public class ChangeVehicleCtrl extends AddVehicleCtrl{
 		this.postiDisabili.setText(this.vehicle.getHSeats());
 		this.postiInPiedi.setText(this.vehicle.getSSeats());
 		this.targa.setText(this.vehicle.getVehicle().getPlate());
-		this.modello.setText("Modello");
+		this.modello.setText(this.vehicle.getVehicle().getBrand());
 		// TODO: Aggiugnere targa in VehicleDataModel
 		this.matricola.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent; -fx-background-color: #F4F4F4");
 		this.matricola.setEditable(false);
@@ -181,7 +181,6 @@ public class ChangeVehicleCtrl extends AddVehicleCtrl{
 	public void setModel(VehicleDataModel v) {
 		this.vehicle = v;
 	}
-	
 	@FXML
 	public void goBack() throws IOException {
 		System.out.println("Back!");

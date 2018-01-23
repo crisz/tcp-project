@@ -30,11 +30,11 @@
             <TextField fx:id="password" layoutX="671.0" layoutY="185.0" />
             <Label layoutX="559.0" layoutY="250.0" text="Ruolo" />
             <Spinner fx:id="ruolo" layoutX="671.0" layoutY="246.0" />
-            <Button layoutX="74.0" layoutY="417.0" mnemonicParsing="false" onAction="#goHome" text="Indietro" />
-            <Button fx:id="inviaButton" layoutX="415.0" layoutY="417.0" mnemonicParsing="false" onAction="#submitEmployee" text="Invia" />
-            <Button layoutX="721.0" layoutY="417.0" mnemonicParsing="false" onAction="#goHome" text="Home" />
             <Label layoutX="533.0" layoutY="315.0" text="Turno di lavoro" />
             <Spinner fx:id="turno" layoutX="671.0" layoutY="311.0" />
+            <Button layoutX="65.0" layoutY="442.0" mnemonicParsing="false" onAction="#goHome" prefHeight="27.0" prefWidth="126.0" text="Indietro" />
+            <Button fx:id="inviaButton" layoutX="329.0" layoutY="442.0" mnemonicParsing="false" onAction="#change" prefHeight="27.0" prefWidth="213.0" text="Modifica" />
+            <Button layoutX="694.0" layoutY="442.0" mnemonicParsing="false" onAction="#goHome" prefHeight="27.0" prefWidth="126.0" text="Home" />
          </children>
       </Pane>
    </children>

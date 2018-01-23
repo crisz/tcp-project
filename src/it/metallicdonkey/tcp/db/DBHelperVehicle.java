@@ -62,9 +62,9 @@ public class DBHelperVehicle {
 		try {
 			dbm.executeQuery("SELECT * FROM vehicle");
 			// verify if the query returned an empty table
-//			if(!dbm.getResultSet().next()) {
-//				return null;
-//			}
+			//			if(!dbm.getResultSet().next()) {
+			//				return null;
+			//			}
 			// if the query table returned contains something
 			ResultSet result = dbm.getResultSet();
 			result.beforeFirst();
@@ -105,9 +105,9 @@ public class DBHelperVehicle {
 		try {
 			dbm.executeQuery("SELECT * FROM vehicle");
 			// verify if the query returned an empty table
-//			if(!dbm.getResultSet().next()) {
-//				return null;
-//			}
+			//			if(!dbm.getResultSet().next()) {
+			//				return null;
+			//			}
 			// if the query table returned contains something
 			ResultSet result = dbm.getResultSet();
 			result.beforeFirst();
@@ -168,17 +168,17 @@ public class DBHelperVehicle {
 		String query = "insert into vehicle (idVehicle, Brand, Status, Seats, StandingPlaces, PlacesForDisabled, Plate)"
 				+ " values (?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement preparedStmt = dbm.getConnection().prepareStatement(query);
-	    preparedStmt.setString(1, v.getId());
-	    preparedStmt.setString(2, v.getBrand());
-	    preparedStmt.setString(3, v.getStatus().name());
-	    preparedStmt.setInt(4, v.getSeats());
-	    preparedStmt.setInt(5, v.getStandingPlaces());
-	    preparedStmt.setInt(6, v.getPlacesForDisable());
-	    preparedStmt.setString(7, v.getPlate());
-	    // execute the preparedstatement
-	    preparedStmt.execute();
-	    int location = DBHelperDeposit.getInstance().setLocation(v);
-	    return location;
+		preparedStmt.setString(1, v.getId());
+		preparedStmt.setString(2, v.getBrand());
+		preparedStmt.setString(3, v.getStatus().name());
+		preparedStmt.setInt(4, v.getSeats());
+		preparedStmt.setInt(5, v.getStandingPlaces());
+		preparedStmt.setInt(6, v.getPlacesForDisable());
+		preparedStmt.setString(7, v.getPlate());
+		// execute the preparedstatement
+		preparedStmt.execute();
+		int location = DBHelperDeposit.getInstance().setLocation(v);
+		return location;
 	}
 
 	public void insertBrokenEndDay(Vehicle v) throws SQLException {

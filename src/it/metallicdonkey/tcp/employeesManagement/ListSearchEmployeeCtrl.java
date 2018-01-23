@@ -52,7 +52,7 @@ public class ListSearchEmployeeCtrl {
 	public ListSearchEmployeeCtrl() throws SQLException {
 		 this.data = DBHelperEmployee.getInstance().getAllEmployees();
 	}
-	
+
 	public static EmployeeDataModel selectedEmployee;
 	@FXML
 	private void initialize() {
@@ -111,11 +111,11 @@ public class ListSearchEmployeeCtrl {
 								EmployeeDataModel employee = getTableView().getItems().get(getIndex());
 								ListSearchEmployeeCtrl.selectedEmployee = employee;
 								FXMLLoader loader = new FXMLLoader();
-								loader.setLocation(App.class.getResource("employeesManagement/ChangeEmployeeScreen.fxml"));                           
+								loader.setLocation(App.class.getResource("employeesManagement/ChangeEmployeeScreen.fxml"));
 								AnchorPane personalInfo;
 								try {
 									personalInfo = (AnchorPane) loader.load();
-									
+
 									Scene scene = new Scene(personalInfo);
 									Stage stage = mainApp.getPrimaryStage();
 									stage.setScene(scene);
@@ -140,7 +140,7 @@ public class ListSearchEmployeeCtrl {
 		};
 
 		editColumn.setCellFactory(cellFactory);
-		
+
 		// Action: absence
 		absenceColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
@@ -165,7 +165,7 @@ public class ListSearchEmployeeCtrl {
 							btn2.setOnAction(event -> {
 								EmployeeDataModel employee = getTableView().getItems().get(getIndex());
 								if(!(employee.getEmployee().getStatus() == StatusEmployee.ABSENT)) {
-									
+
 									Alert alert = new Alert(AlertType.CONFIRMATION);
 									alert.setTitle("Confirmation Dialog");
 									alert.setHeaderText("Sei sicuro di voler segnalare l'impiegato come assente?");
@@ -178,7 +178,7 @@ public class ListSearchEmployeeCtrl {
 										} catch (SQLException e) {
 											e.printStackTrace();
 											Alert a = new Alert(AlertType.WARNING);
-											a.setTitle("Attenzione");		
+											a.setTitle("Attenzione");
 											a.setHeaderText("Impossibile aggiornare lo status");
 											a.setContentText("Lo status non può essere aggiornato a causa di un errore durante la connessione con il DBMS");
 											a.showAndWait();
@@ -208,7 +208,7 @@ public class ListSearchEmployeeCtrl {
 										} catch (SQLException e) {
 											e.printStackTrace();
 											Alert a = new Alert(AlertType.WARNING);
-											a.setTitle("Attenzione");		
+											a.setTitle("Attenzione");
 											a.setHeaderText("Impossibile aggiornare lo status");
 											a.setContentText("Lo status non può essere aggiornato a causa di un errore durante la connessione con il DBMS");
 											a.showAndWait();
@@ -246,7 +246,7 @@ public class ListSearchEmployeeCtrl {
 
 		absenceColumn.setCellFactory(cellFactory3);
 
-		// Action: remove 
+		// Action: remove
 
 		removeColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 		final ListSearchEmployeeCtrl lsvc = this;
@@ -277,10 +277,12 @@ public class ListSearchEmployeeCtrl {
 
 								Optional<ButtonType> result = alert.showAndWait();
 								if (result.get() == ButtonType.OK){
-									DBHelperEmployee.getInstance().removeEmployee(employee.getEmployee());
-									data.remove(employee);
-									lsvc.initialize();
-								} 
+									int removed = DBHelperEmployee.getInstance().removeEmployee(employee.getEmployee());
+									if(removed >= 0) {
+										data.remove(employee);
+										lsvc.initialize();
+									}
+								}
 							});
 							btn3.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1px");
 							rv.setFitWidth(24.0);

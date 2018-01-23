@@ -292,12 +292,15 @@ public class DBHelperEmployee {
 	public int removeEmployee(Employee e) {
 		int removed1 = -1;
 		int removed2 = -1;
+		int removed3 = -1;
 		int result = -1;
+		removed3 = dbm.executeUpdate("DELETE FROM tcp.absenceInterval WHERE Employee_idEmployee='"+
+				e.getId()+"'");
 		removed1 = dbm.executeUpdate("DELETE FROM tcp.match WHERE Employee_idEmployee = '"+
 				e.getId()+"'");
 		removed2 = dbm.executeUpdate("DELETE FROM tcp.payment WHERE Employee_idEmployee = '"+
 				e.getId()+"'");
-		if(removed1 < 0 || removed2 < 0)
+		if(removed1 < 0 || removed2 < 0 || removed3 < 0)
 			return -1;
 		result = dbm.executeUpdate("DELETE FROM tcp.employee WHERE idEmployee='"+e.getId()+"'");
 		return result;
