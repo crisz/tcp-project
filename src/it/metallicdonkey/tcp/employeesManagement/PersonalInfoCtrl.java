@@ -89,10 +89,12 @@ public class PersonalInfoCtrl {
 
 	@FXML
 	public void goHome() throws IOException {
+		System.out.println("PIC - MA:"+this.mainApp);
 		Home.getHome(null).goHome(this.mainApp);
 	}
 
 	public void setMainApp(App mainApp) {
+		System.out.println("PIC - SMA:"+this.mainApp);
 		this.mainApp = mainApp;
 	}
 }

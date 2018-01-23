@@ -82,35 +82,16 @@ public class CheckCtrl {
 	boolean oldChecksExists;
 	List<Check> oldChecks; 
 	
-	public CheckCtrl() throws SQLException {
-	// TODO: Sostituire i 4 ObservabileList qua sottocon i dati scaricati dal db (check giorno precedente + guasti e assenti)
-
-
-	}
-
 	
 	private void filter() {
 		this.empM = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.MATTINA && e.getEmployee().getRole() == Role.Autista);
 		this.empP = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.POMERIGGIO && e.getEmployee().getRole() == Role.Autista);
 		this.empS = new FilteredList<>(dataEmployees, e -> e.getEmployee().getWorkshift() == Workshift.SERA && e.getEmployee().getRole() == Role.Autista);
 	}
-	boolean shown = false;
-
-  @FXML
-  private void initialize() throws SQLException {
-		this.dataVehicles = DBHelperVehicle.getInstance().getAllVehicles();
-		this.dataEmployees = DBHelperEmployee.getInstance().getAllEmployees();
-		this.dataLines = DBHelperLine.getInstance().getAllLines();
-		this.dataCheck = FXCollections.observableArrayList();		
-		
+	
+	private void showAbsentEmployees() {
 		String absentEmployees = "";
-		
-		// Check if there are the last 3 checks in the db
-		oldChecks = DBHelperCheck.getInstance().getLastChecks();
-		oldChecksExists = (oldChecks.size() == 0)? false:true;
-		
 		if (oldChecksExists) {
-			
 			ArrayList<Match> alm = oldChecks.get(0).getMatches();
 			for(int i=0; i<alm.size(); i++) {
 				MatchDataModel mdm = new MatchDataModel(alm.get(i));
@@ -128,30 +109,8 @@ public class CheckCtrl {
 				}	
 			}
 		}
-			
-		this.filter();
-
-		// fine costruttore
-  	// Initialization data
-    nameColumn.setCellValueFactory(
-        new PropertyValueFactory<LineDataModel, String>("name"));
-    startTerminalColumn.setCellValueFactory(
-        new PropertyValueFactory<LineDataModel, String>("startTerminal"));
-    endTerminalColumn.setCellValueFactory(
-        new PropertyValueFactory<LineDataModel, String>("endTerminal"));
-  	this.lines.setItems(dataLines);
-
-  	vehicleId.setCellValueFactory(
-        new PropertyValueFactory<VehicleDataModel, String>("id"));
-    seats.setCellValueFactory(
-        new PropertyValueFactory<VehicleDataModel, String>("seats"));
-    this.vehicles.setItems(dataVehicles);
-
-    nomeECognome.setCellValueFactory(
-        new PropertyValueFactory<EmployeeDataModel, String>("nomeECognome"));
-
-		if(absentEmployees.length()!=0 && !shown ) {
-			shown = true;
+		
+		if(absentEmployees.length()!=0) {
 			Alert alert = new Alert(AlertType.WARNING);
 	    alert.initOwner(null);
 	    alert.setTitle("Avviso");
@@ -159,21 +118,66 @@ public class CheckCtrl {
 	    alert.setContentText("I seguenti impiegati sono assenti e vanno sostituiti:\n" + absentEmployees);
 	    alert.showAndWait();
 		}
-		
+	}
+	
+	private void initColumns() {
+    this.nameColumn.setCellValueFactory(
+        new PropertyValueFactory<LineDataModel, String>("name"));
+    this.startTerminalColumn.setCellValueFactory(
+        new PropertyValueFactory<LineDataModel, String>("startTerminal"));
+    this.endTerminalColumn.setCellValueFactory(
+        new PropertyValueFactory<LineDataModel, String>("endTerminal"));
+  	this.lines.setItems(dataLines);
+
+  	this.vehicleId.setCellValueFactory(
+        new PropertyValueFactory<VehicleDataModel, String>("id"));
+    this.seats.setCellValueFactory(
+        new PropertyValueFactory<VehicleDataModel, String>("seats"));
+    this.vehicles.setItems(dataVehicles);
+
+    this.nomeECognome.setCellValueFactory(
+        new PropertyValueFactory<EmployeeDataModel, String>("nomeECognome"));
+	}
+	
+	private void setEmployees(FilteredList<EmployeeDataModel> filteredEmployees) {
 		ArrayList<String> employeesInCheck = new ArrayList<>();
 		for(int j=0;j<dataCheck.size(); j++) {
 			employeesInCheck.add(dataCheck.get(j).getEmployeeModel().getEmployee().getId());
 		}
 		
-    
-		for(int i=0; i<empM.size(); i++) {
-			if(employeesInCheck.contains(empM.get(i).getId())) {
-				empM.remove(i);
+		for(int i=0; i<filteredEmployees.size(); i++) {
+			if(employeesInCheck.contains(filteredEmployees.get(i).getId())) {
+				removeEmployee(filteredEmployees, i);
 			}
 		}
     
-    this.employees.setItems(empM);
+    this.employees.setItems(filteredEmployees);
+	}
+	
+  private void removeEmployee(FilteredList<EmployeeDataModel> filteredEmployees, int i) {
+		dataEmployees.remove(filteredEmployees.get(i));
+		this.filter();
+	}
 
+	@FXML
+  private void initialize() throws SQLException {
+		this.dataVehicles = DBHelperVehicle.getInstance().getAllVehicles();
+		this.dataEmployees = DBHelperEmployee.getInstance().getAllEmployees();
+		this.dataLines = DBHelperLine.getInstance().getAllLines();
+		this.dataCheck = FXCollections.observableArrayList();		
+
+		// Check if there are the last 3 checks in the db
+		this.oldChecks = DBHelperCheck.getInstance().getLastChecks();
+		this.oldChecksExists = this.oldChecks.size() != 0;
+		
+		this.showAbsentEmployees();
+			
+		this.filter();
+
+		this.initColumns();
+		
+		this.setEmployees(this.empM);
+		
     checkEmployee.setCellValueFactory(
         new PropertyValueFactory<MatchDataModel, String>("employee"));
     checkVehicle.setCellValueFactory(
