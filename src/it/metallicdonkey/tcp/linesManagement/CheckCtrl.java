@@ -132,8 +132,24 @@ public class CheckCtrl {
 
   @FXML
   public void nextWorkshift() throws IOException, SQLException {
-	  
-	  if(turno == 0) {	
+	  if(turno == -1) {
+		  this.workshiftLabel.setText("Mattina");
+		  this.currentWorkshift = Workshift.MATTINA;
+		  // Clear dataCheck
+		  dataCheck.clear();
+		  
+		  if(oldChecksExists) {
+		  
+			  ArrayList<Match> alm = oldChecks.get(1).getMatches();
+			  for(int i=0; i<alm.size(); i++) {
+				  dataCheck.add(new MatchDataModel(alm.get(i)));
+			  }
+		  }
+		  this.setItemsForEmployee();
+		  this.setItemsForVehicle();
+		  this.turno++;	  	
+	  }
+	  else if(turno == 0) {	
 		  this.workshiftLabel.setText("Pomeriggio");
 		  this.currentWorkshift = Workshift.POMERIGGIO;
 		  this.check1 = FXCollections.observableArrayList(dataCheck);
@@ -170,7 +186,7 @@ public class CheckCtrl {
 		  this.setItemsForVehicle();
 		  this.turno++;
 	  }
-	  else {  // EVENING turn
+	  else {
   		
   		/*
   		 * Save checks into the database
@@ -340,5 +356,13 @@ public class CheckCtrl {
 		}
 	}
 	
+	
+	@FXML
+	private void goBack() throws IOException, SQLException {
+		this.turno -= 2;
+		if(this.turno<-1) 
+			this.turno = -1;
+		this.nextWorkshift();
+	}
 
 }

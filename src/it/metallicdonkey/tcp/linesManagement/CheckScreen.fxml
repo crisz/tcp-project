@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.linesManagement.CheckCtrl">
+<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.linesManagement.CheckCtrl">
    <children>
       <Pane layoutX="2.0" prefHeight="647.6956718343874" prefWidth="702.3826319282409" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button layoutX="68.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" prefHeight="26.0" prefWidth="121.0" text="Indietro" />
+            <Button layoutX="68.0" layoutY="460.0" mnemonicParsing="false" onAction="#goBack" prefHeight="26.0" prefWidth="121.0" text="Indietro" />
             <Button layoutX="691.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" prefHeight="26.0" prefWidth="121.0" text="Home" />
             <Label layoutX="48.0" layoutY="14.0" text="Check di inizio giornata" />
             <TableView fx:id="lines" layoutX="562.0" layoutY="63.0" prefHeight="187.0" prefWidth="294.0">
