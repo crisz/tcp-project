@@ -1,11 +1,13 @@
 package it.metallicdonkey.tcp.employeesManagement;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperEmployee;
+import it.metallicdonkey.tcp.linesManagement.PDFCheck;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.Session;
 import it.metallicdonkey.tcp.models.AbsenceInterval;
@@ -13,8 +15,10 @@ import it.metallicdonkey.tcp.models.Payment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
 
 public class PersonalInfoCtrl {
 	@FXML
@@ -42,6 +46,9 @@ public class PersonalInfoCtrl {
 	@FXML
 	private ListView<String> pagamento;
 
+
+	private ArrayList<Payment> payments;
+	
 	private App mainApp;
 	@FXML
 	private void initialize() {
@@ -54,7 +61,6 @@ public class PersonalInfoCtrl {
 		this.ruolo.setText(Session.employee.getRole().name().replaceAll("_", " "));
 		this.turno.setText(Session.employee.getWorkshift().name());
 		this.stipendiolordo.setText(String.valueOf(Session.employee.getSalary()));
-
 		ArrayList<AbsenceInterval> absences = DBHelperEmployee.getInstance().getAbsenceInterval(Session.employee);
 		ObservableList<String> ol;
 		ArrayList<String> als = new ArrayList<>();
@@ -75,7 +81,7 @@ public class PersonalInfoCtrl {
 	}
 
 	private void fullfillPayment() {
-		ArrayList<Payment> payments = DBHelperEmployee.getInstance().getPayments(Session.employee);
+		payments = DBHelperEmployee.getInstance().getPayments(Session.employee);
 		ObservableList<String> ol;
 		ArrayList<String> als = new ArrayList<>();
 		for(int i=0; i<payments.size(); i++) {
@@ -97,5 +103,25 @@ public class PersonalInfoCtrl {
 		System.out.println("PIC - SMA:"+this.mainApp);
 		this.mainApp = mainApp;
 	}
+	
+	@FXML
+	public void print() throws IOException {
+		Payment p = payments.get(payments.size()-1);
+		
+		PDFPayment pdf = new PDFPayment();
+
+  	String path = pdf.print(p);
+  	File a = new File(path);
+  	
+  	String absolute = a.getCanonicalPath();
+  	
+		Alert alert = new Alert(AlertType.INFORMATION);
+    alert.initOwner(mainApp.getPrimaryStage());
+    alert.setTitle("Avviso");
+    alert.setHeaderText("PDF Generato con successo!");
+    alert.setContentText("Lo puoi trovare all'indirizzo "+absolute+".");
+    alert.showAndWait();
+	}
+	
 }
 
