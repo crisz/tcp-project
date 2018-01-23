@@ -42,7 +42,7 @@ public class EmployeeDataModel {
 	}
 
 	public String getNomeECognome() {
-		return this.getId()+" - "+this.nome.get()+" "+this.cognome.get();
+		return this.nome.get()+" "+this.cognome.get();
 	}
 	public String getId() {
 		return this.id.get();
