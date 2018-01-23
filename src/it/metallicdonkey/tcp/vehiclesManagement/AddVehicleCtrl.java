@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperDeposit;
@@ -76,15 +78,16 @@ public class AddVehicleCtrl {
 				modello.setText("");
 			} catch (SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
-	            alert.initOwner(null);
-	            alert.setTitle("Connection Information");
-	            alert.setHeaderText("Connessione Non Disponibile");
-	            alert.setContentText("Controlla la connessione e riprova.");
-	            alert.showAndWait();
+				alert.initOwner(mainApp.getPrimaryStage());
+				alert.setTitle("Avviso");
+				alert.setHeaderText("Inserimento fallito!");
+				alert.setContentText("Il numero di matricola inserito è già stato assegnato");
+				alert.showAndWait();
 				e.printStackTrace();
 			}
 		}
 	}
+
 
 	private Vehicle getNewVehicle() throws SQLException {
 		Vehicle v = new Vehicle();
@@ -138,9 +141,13 @@ public class AddVehicleCtrl {
 			alert.setContentText("La matricola non deve superare i 7 caratteri");
 			return alert;
 		}
-
 		// Check if values are numeric or not
 		else {
+			// Check plate pattern
+			if(!targa.getText().matches("[a-zA-Z0-9]*")) {
+				alert.setContentText("Inserisci una targa valida");
+				return alert;
+			}
 			int numPostiASedere = -1;
 			int numPostiDisabili = -1;
 			int numPostiInPiedi = -1;
