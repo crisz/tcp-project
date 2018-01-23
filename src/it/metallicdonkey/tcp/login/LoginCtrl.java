@@ -59,6 +59,7 @@ public class LoginCtrl {
 				Employee employee = dbm.login(matricola.getText(), password.getText());
 				if(employee!=null) {
 					Session.employee = employee;
+					System.out.println("ccc"+Session.employee.getRole());
 					Home home = Home.getHome(Session.employee.getRole());
 					home.goHome(mainApp);
 				} else if (employee == null) {

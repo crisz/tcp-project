@@ -34,7 +34,7 @@ public class HRAreaCtrl extends AdministrativeAreaCtrl {
 		Stage stage = mainApp.getPrimaryStage();
 		stage.setScene(scene);
 		PersonalInfoCtrl ctrl = loader.getController();
-	    ctrl.setMainApp(mainApp);
+		ctrl.setMainApp(mainApp);
 	}
 	@FXML
 	private void showAddEmployee() throws IOException {
@@ -128,22 +128,22 @@ public class HRAreaCtrl extends AdministrativeAreaCtrl {
 		cCtrl.setMainApp(mainApp);
 	}
 	@FXML
-	  private void logout() throws IOException {
-		  System.out.println("logging out...");
-		  FXMLLoader loader = new FXMLLoader();
-		  loader.setLocation(App.class.getResource("login/LoginScreen.fxml"));
-		  AnchorPane login = (AnchorPane) loader.load();
-		  System.out.println("Resource done!");
-		  Scene scene = new Scene(login);
-		  System.out.println(scene);
-		  System.out.println(login);
-		  Stage stage = mainApp.getPrimaryStage();
-		  stage.setScene(scene);
-		  Session.employee = null;
-		  Home.getHome(null).destroyHome();
-		  LoginCtrl loginCtrl = loader.getController();
-		  loginCtrl.setMainApp(this.mainApp);
-	  }
+	private void logout() throws IOException {
+		System.out.println("logging out...");
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(App.class.getResource("login/LoginScreen.fxml"));
+		AnchorPane login = (AnchorPane) loader.load();
+		System.out.println("Resource done!");
+		Scene scene = new Scene(login);
+		System.out.println(scene);
+		System.out.println(login);
+		Stage stage = mainApp.getPrimaryStage();
+		stage.setScene(scene);
+		Session.employee = null;
+		Home.getHome(null).destroyHome();
+		LoginCtrl loginCtrl = loader.getController();
+		loginCtrl.setMainApp(this.mainApp);
+	}
 	public void setMainApp(App mainApp) {
 		this.mainApp = mainApp;
 	}

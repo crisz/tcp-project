@@ -80,29 +80,31 @@ public class AddEmployeeCtrl {
 			error.showAndWait();
 		} else {
 			try {
-			DBHelperEmployee.getInstance().insertEmployee(getNewEmployee());
-			Alert alert = new Alert(AlertType.NONE);
-		    alert.initOwner(mainApp.getPrimaryStage());
-		    alert.setTitle("Avviso");
-		    alert.setHeaderText("Inserimento avvenuto con successo!");
-		    alert.showAndWait();
+				DBHelperEmployee.getInstance().insertEmployee(getNewEmployee());
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.initOwner(mainApp.getPrimaryStage());
+				alert.setTitle("Avviso");
+				alert.setHeaderText("Inserimento avvenuto con successo!");
+				alert.setContentText("L'impiegato è stato aggiunto all'elenco degli impiegati");
+				alert.showAndWait();
 
-		    matricola.setText("");
-		    nome.setText("");
-		    cognome.setText("");
-		    email.setText("");
-		    password.setText("");
-		    indirizzo.setText("");
-		    datanascita.setValue(LocalDate.of(1900, 1, 1));;
-		    stipendio.setText("");
+				matricola.setText("");
+				nome.setText("");
+				cognome.setText("");
+				email.setText("");
+				password.setText("");
+				indirizzo.setText("");
+				datanascita.setValue(LocalDate.of(1900, 1, 1));;
+				stipendio.setText("");
 
 			} catch (SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
-		    alert.initOwner(mainApp.getPrimaryStage());
-		    alert.setTitle("Avviso");
-		    alert.setHeaderText("Inserimento fallito!");
-		    alert.showAndWait();
-		    e.printStackTrace();
+				alert.initOwner(mainApp.getPrimaryStage());
+				alert.setTitle("Avviso");
+				alert.setHeaderText("Inserimento fallito!");
+				alert.setContentText("Il numero di matricola inserito è già stato assegnato");
+				alert.showAndWait();
+				e.printStackTrace();
 			}
 			String result = "L'impiegato con matricola " + matricola.getText() + " é stato inserito con successo";
 			System.out.println(result);
@@ -138,72 +140,85 @@ public class AddEmployeeCtrl {
 	 */
 	private Alert check() {
 		Alert alert = new Alert(AlertType.WARNING);
-	    alert.initOwner(mainApp.getPrimaryStage());
-	    alert.setTitle("Avviso");
-	    alert.setHeaderText("Inserimento fallito!");
+		alert.initOwner(mainApp.getPrimaryStage());
+		alert.setTitle("Avviso");
+		alert.setHeaderText("Inserimento fallito!");
 
-	    // Check nome
-	    if (nome.getText().equals("")) {
-	    	alert.setContentText("Inserisci un nome");
-	    	return alert;
-	    }
-	    // Check cognome
-	    if (cognome.getText().equals("")) {
-	    	alert.setContentText("Inserisci un cognome");
-	    	return alert;
-	    }
-	    // Check email
-	    if (email.getText().equals("")) {
-	    	alert.setContentText("Inserisci un indirizzo e-mail");
-	    	return alert;
-	    }
+		// Check nome
+		if (nome.getText().equals("")) {
+			alert.setContentText("Inserisci un nome");
+			return alert;
+		}
+		// Check cognome
+		if (cognome.getText().equals("")) {
+			alert.setContentText("Inserisci un cognome");
+			return alert;
+		}
+		// Check email
+		if (email.getText().equals("")) {
+			alert.setContentText("Inserisci un indirizzo e-mail");
+			return alert;
+		}
 
-	    // Check password
-	    if (password.getText().equals("")) {
-	    	alert.setContentText("Inserisci una password");
-	    	return alert;
-	    }
-	    // Check indirizzo
-	    if (indirizzo.getText().equals("")) {
-	    	alert.setContentText("Inserisci un indirizzo di residenza");
-	    	return alert;
-	    }
-	    // Check datanascita
-	    if (datanascita.getValue() == null) {
-	    	alert.setContentText("Inserisci una data di nascita");
-	    	return alert;
-	    }
-	    // Check stipendio
-	    if (stipendio.getText().equals("")) {
-	    	alert.setContentText("Inserisci uno stipendio");
-	    	return alert;
-	    }
-	    // Check lunghezza matricola
-	    if (matricola.getText().length() > 10) {
-	    	alert.setContentText("La matricola non deve essere più lunga di 10 caratteri");
-	    	return alert;
-	    }
-	    else {
-	    	 //Check email pattern
-	    	String regex = "^[\\w\\d\\.]+@[\\w\\.]+\\.\\w+$";
-		    Pattern p = Pattern.compile(regex);
-		    Matcher m = p.matcher(email.getText());
-		    if(! m.matches()) {
-		    	alert.setContentText("Inserisci un indirizzo email valido");
-		    	return alert;
-		    }
-		    // Numerical check for stipendio
-	    	try {
-	    		Double.parseDouble(stipendio.getText());
-	    	}
-	    	catch(NumberFormatException e) {
-	    		alert.setContentText("Inserisci un valore numerico per lo stipendio");
-		    	return alert;
-	    	}
-	    }
+		// Check password
+		if (password.getText().equals("")) {
+			alert.setContentText("Inserisci una password");
+			return alert;
+		}
+		// Check indirizzo
+		if (indirizzo.getText().equals("")) {
+			alert.setContentText("Inserisci un indirizzo di residenza");
+			return alert;
+		}
+		// Check datanascita
+		if (datanascita.getValue() == null) {
+			alert.setContentText("Inserisci una data di nascita");
+			return alert;
+		}
+		// Check stipendio
+		if (stipendio.getText().equals("")) {
+			alert.setContentText("Inserisci uno stipendio");
+			return alert;
+		}
+		// Check lunghezza matricola
+		if (matricola.getText().length() > 7) {
+			alert.setContentText("La matricola non deve essere più lunga di 7 caratteri");
+			return alert;
+		}
+		else {
+			//Check email pattern
+			String regex = "^[\\w\\d\\.]+@[\\w\\.]+\\.\\w+$";
+			Pattern p = Pattern.compile(regex);
+			Matcher m = p.matcher(email.getText());
+			if(! m.matches()) {
+				alert.setContentText("Inserisci un indirizzo email valido");
+				return alert;
+			}
+			// Numerical check for stipendio
+			try {
+				double s = Double.parseDouble(stipendio.getText());
+				if(s <= 0) throw new NumberFormatException();
+			}
+			catch(NumberFormatException e) {
+				alert.setContentText("Inserisci un valore numerico positivo per lo stipendio");
+				return alert;
+			}
+			// Numerical check for matricola
+			if (!matricola.getText().equals("")) {
+				try {
+					int a = Integer.parseInt(matricola.getText());
+					if(a < 0)	throw new NumberFormatException();
+				}
+				catch(NumberFormatException e) {
+					alert.setContentText("Inserisci un valore numerico positivo per la matricola");
+					return alert;
+				}
+			}
+			// TODO: String check for nome e cognome
+		}
 
-	    // Data is ok
-	    return null;
+		// Data is ok
+		return null;
 	}
 	@FXML
 	public void goHome() throws IOException {

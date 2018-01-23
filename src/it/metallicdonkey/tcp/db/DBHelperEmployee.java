@@ -53,12 +53,12 @@ public class DBHelperEmployee {
 		try {
 			dbm.executeQuery("SELECT * FROM employee WHERE "+clause);
 			// verify if the query returned an empty table
-//			if(!dbm.getResultSet().next()) {
-//				return null;
-//			}
+			//			if(!dbm.getResultSet().next()) {
+			//				return null;
+			//			}
 			// if the query table returned contains something
 			ResultSet result = dbm.getResultSet();
-//			result.beforeFirst();
+			//			result.beforeFirst();
 			while(result.next()) {
 				Employee e= new Employee();
 				e.setId(result.getString("idEmployee"));
@@ -92,9 +92,9 @@ public class DBHelperEmployee {
 		try {
 			dbm.executeQuery("SELECT * FROM employee");
 			// verify if the query returned an empty table
-//			if(!dbm.getResultSet().next()) {
-//				return null;
-//			}
+			//			if(!dbm.getResultSet().next()) {
+			//				return null;
+			//			}
 			// if the query table returned contains something
 			ResultSet result = dbm.getResultSet();
 			result.beforeFirst();
@@ -145,9 +145,9 @@ public class DBHelperEmployee {
 		try {
 			dbm.executeQuery("SELECT * FROM employee");
 			// verify if the query returned an empty table
-//			if(!dbm.getResultSet().next()) {
-//				return null;
-//			}
+			//			if(!dbm.getResultSet().next()) {
+			//				return null;
+			//			}
 			// if the query table returned contains something
 			ResultSet result = dbm.getResultSet();
 			result.beforeFirst();
@@ -233,7 +233,7 @@ public class DBHelperEmployee {
 		preparedStmt.setString(2, "1970-01-01");
 		preparedStmt.setString(3, e.getId());
 		preparedStmt.execute();
-		
+
 	}
 	private String getAbsenceId(Employee e) {
 		String id = null;
@@ -353,7 +353,7 @@ public class DBHelperEmployee {
 		System.out.println(query);
 		dbm.executeUpdate(query);
 	}
-	
+
 	public ArrayList<String> getIds() throws SQLException{
 		ArrayList<String> allIds = new ArrayList<>();
 		dbm.executeQuery("SELECT idEmployee FROM tcp.employee");

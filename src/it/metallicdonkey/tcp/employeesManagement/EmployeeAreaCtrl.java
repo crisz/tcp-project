@@ -22,17 +22,30 @@ public class EmployeeAreaCtrl {
 
   @FXML
   private void showPersonalInfo() throws IOException {
+//  	System.out.println("Showing personal info...");
+//    FXMLLoader loader = new FXMLLoader();
+//    loader.setLocation(App.class.getResource("employeesManagement/PersonalInfoScreen.fxml"));
+//    AnchorPane personalInfo = (AnchorPane) loader.load();
+//    System.out.println("Resource done!");
+//		Scene scene = new Scene(personalInfo);
+//		System.out.println(scene);
+//		System.out.println(personalInfo);
+//    Stage stage = mainApp.getPrimaryStage();
+//    stage.setScene(scene);
+//    PersonalInfoCtrl ctrl = loader.getController();
+//    ctrl.setMainApp(mainApp);
   	System.out.println("Showing personal info...");
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(App.class.getResource("employeesManagement/PersonalInfoScreen.fxml"));
-    AnchorPane personalInfo = (AnchorPane) loader.load();
-    System.out.println("Resource done!");
-
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(App.class.getResource("employeesManagement/PersonalInfoScreen.fxml"));
+		AnchorPane personalInfo = (AnchorPane) loader.load();
+		System.out.println("Resource done!");
 		Scene scene = new Scene(personalInfo);
 		System.out.println(scene);
 		System.out.println(personalInfo);
-    Stage stage = mainApp.getPrimaryStage();
-    stage.setScene(scene);
+		Stage stage = mainApp.getPrimaryStage();
+		stage.setScene(scene);
+		PersonalInfoCtrl ctrl = loader.getController();
+	  ctrl.setMainApp(mainApp);
   }
   @FXML
   private void logout() throws IOException {
