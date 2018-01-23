@@ -220,6 +220,23 @@ public class AddEmployeeCtrl {
 //				return alert;
 //			}
 			// TODO: String check for nome e cognome
+			try {
+				Integer.parseInt(nome.getText());
+				alert.setContentText("Inserisci un nome valido");
+				return alert;
+			}
+			catch(NumberFormatException exc) {
+				;
+			}
+			
+			try {
+				Integer.parseInt(cognome.getText());
+				alert.setContentText("Inserisci un cognome valido");
+				return alert;
+			}
+			catch(NumberFormatException exc) {
+				;
+			}
 		}
 
 		// Data is ok

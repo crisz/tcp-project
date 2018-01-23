@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.employeesManagement.AddEmployeeCtrl">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.employeesManagement.AddEmployeeCtrl">
    <children>
       <Pane layoutX="-195.0" prefHeight="500.0" prefWidth="870.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -35,6 +35,7 @@
             <Button layoutX="721.0" layoutY="417.0" mnemonicParsing="false" onAction="#goHome" text="Home" />
             <Label layoutX="533.0" layoutY="315.0" text="Turno di lavoro" />
             <Spinner fx:id="turno" layoutX="671.0" layoutY="311.0" />
+            <Label layoutX="201.0" layoutY="217.0" text="Formato data: gg/mm/aaaa" />
          </children>
       </Pane>
    </children>

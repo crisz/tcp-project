@@ -39,13 +39,15 @@ public class EmployeeAreaCtrl {
 		loader.setLocation(App.class.getResource("employeesManagement/PersonalInfoScreen.fxml"));
 		AnchorPane personalInfo = (AnchorPane) loader.load();
 		System.out.println("Resource done!");
+		PersonalInfoCtrl ctrl = loader.getController();
+		System.out.println("mainApp:" +mainApp);
+	  ctrl.setMainApp(mainApp);
 		Scene scene = new Scene(personalInfo);
 		System.out.println(scene);
 		System.out.println(personalInfo);
 		Stage stage = mainApp.getPrimaryStage();
 		stage.setScene(scene);
-		PersonalInfoCtrl ctrl = loader.getController();
-	  ctrl.setMainApp(mainApp);
+		
   }
   @FXML
   private void logout() throws IOException {
@@ -64,7 +66,9 @@ public class EmployeeAreaCtrl {
 	  LoginCtrl loginCtrl = loader.getController();
 	  loginCtrl.setMainApp(this.mainApp);
   }
+  
   public void setMainApp(App mainApp) {
+  	System.out.println("Setting main app: "+mainApp);
     this.mainApp = mainApp;
   }
 }

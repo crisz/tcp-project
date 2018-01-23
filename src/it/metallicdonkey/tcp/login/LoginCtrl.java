@@ -3,15 +3,11 @@ package it.metallicdonkey.tcp.login;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 //import com.mysql.jdbc.Driver;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperEmployee;
-import it.metallicdonkey.tcp.db.DBHelperVehicle;
-import it.metallicdonkey.tcp.db.DBManager;
 import it.metallicdonkey.tcp.models.Employee;
 import it.metallicdonkey.tcp.models.StatusEmployee;
 import it.metallicdonkey.tcp.models.Workshift;
@@ -60,8 +56,7 @@ public class LoginCtrl {
 				if(employee!=null) {
 					Session.employee = employee;
 					System.out.println("ccc"+Session.employee.getRole());
-					Home home = Home.getHome(Session.employee.getRole());
-					home.goHome(mainApp);
+					Home.getHome(Session.employee.getRole()).goHome(mainApp);
 				} else if (employee == null) {
 					Alert alert = new Alert(AlertType.WARNING);
 		            alert.initOwner(null);

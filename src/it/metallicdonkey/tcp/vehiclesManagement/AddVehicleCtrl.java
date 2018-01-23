@@ -108,12 +108,7 @@ public class AddVehicleCtrl {
 		alert.setTitle("Avviso");
 		alert.setHeaderText("Inserimento fallito!");
 
-		//		// Check matricola
-		//	    if (matricola.getText().equals("")) {
-		//	    	alert.setContentText("Inserisci una matricola");
-		//	    	return alert;
-		//	    }
-
+		// Check matricola disponibile
 		if(ids.contains(matricola.getText())) {
 			alert.setContentText("La matricola inserita non è disponibile");
 			return alert;

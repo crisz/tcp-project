@@ -34,17 +34,28 @@ public class Home {
 		Home.home = null;
 	}
 	public void goHome(App mainApp) throws IOException {
+		System.out.println("GOHOME called!!");
 		FXMLLoader loader = new FXMLLoader();
 		Scene scene;
 		switch(role) {
 		case Autista:
 		case Impiegato:
+			System.out.println("It's a driver!");
 			loader.setLocation(App.class.getResource("employeesManagement/employeeAreaScreen.fxml"));
 			AnchorPane employeeScreen = (AnchorPane) loader.load();
 			scene = new Scene(employeeScreen);
-			mainApp.getPrimaryStage().setScene(scene);
-			EmployeeAreaCtrl employeeCtrl = loader.getController();
-			employeeCtrl.setMainApp(mainApp);
+			try {
+				EmployeeAreaCtrl employeeCtrl = loader.getController();
+				System.out.println("About to set main app...");
+				employeeCtrl.setMainApp(mainApp);
+				System.out.println("Main: "+mainApp);
+				System.out.println("PrimaryStage: "+mainApp.getPrimaryStage());
+				System.out.println("Scene: "+scene);
+				mainApp.getPrimaryStage().setScene(scene);
+			} catch(NullPointerException e) {
+				e.printStackTrace();
+			}
+			
 			break;
 		case Impiegato_amministrativo:
 			loader.setLocation(App.class.getResource("linesManagement/administrativeAreaScreen.fxml"));
