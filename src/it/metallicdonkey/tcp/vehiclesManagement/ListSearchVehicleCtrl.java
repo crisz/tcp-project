@@ -8,6 +8,9 @@ import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperDeposit;
 import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.login.Home;
+import it.metallicdonkey.tcp.models.StatusEmployee;
+import it.metallicdonkey.tcp.models.StatusVehicle;
+import it.metallicdonkey.tcp.models.Vehicle;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -175,7 +178,6 @@ public class ListSearchVehicleCtrl {
 							btn2.setOnAction(event -> {
 								VehicleDataModel vehicle = getTableView().getItems().get(getIndex());
 								if(!vehicle.getVLocation().equals("Guasto")) {
-									getTableRow().setStyle("-fx-background-color: #e55e5e");
 									Alert alert = new Alert(AlertType.CONFIRMATION);
 									alert.setTitle("Confirmation Dialog");
 									alert.setHeaderText("Sei sicuro di voler segnalare il veicolo come guasto?");
@@ -206,7 +208,6 @@ public class ListSearchVehicleCtrl {
 
 								}
 								else {
-									getTableRow().setStyle(null);
 									Alert alert = new Alert(AlertType.CONFIRMATION);
 									alert.setTitle("Confirmation Dialog");
 									alert.setHeaderText("Sei sicuro di voler segnalare il veicolo come funzionante?");
@@ -238,6 +239,7 @@ public class ListSearchVehicleCtrl {
 										ImageView nimv = new ImageView(new Image(getClass().getResourceAsStream("../icons/bv.png")));
 										nimv.setFitHeight(24.0);
 										nimv.setFitWidth(24.0);
+
 										Button button = (Button) event.getSource();
 										button.setGraphic(nimv);
 										vehicles.getColumns().get(0).setVisible(false);
@@ -249,9 +251,13 @@ public class ListSearchVehicleCtrl {
 							bv.setFitWidth(24.0);
 							bv.setFitHeight(24.0);
 							VehicleDataModel vehicle = getTableView().getItems().get(getIndex());
-							if(vehicle.getVLocation().equals("Guasto")) {
+							if(vehicle.getVLocation().equals("Guasto") || vehicle.getVehicle().getStatus() == StatusVehicle.BROKEN) {
 								System.out.println("Broken vehicle");
 								bv.setImage(new Image(getClass().getResourceAsStream("../icons/nbv.png")));
+								getTableRow().setStyle("-fx-background-color: #e55e5e");
+							}
+							else {
+								getTableRow().setStyle(null);
 							}
 							setGraphic(btn2);
 							setText(null);
