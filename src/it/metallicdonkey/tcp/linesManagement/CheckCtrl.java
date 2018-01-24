@@ -364,6 +364,8 @@ public class CheckCtrl {
 		if(this.turno<-1) 
 			this.turno = -1;
 		this.nextWorkshift();
+		
+		nextButton.setText("Turno successivo");
 	}
 
 }
