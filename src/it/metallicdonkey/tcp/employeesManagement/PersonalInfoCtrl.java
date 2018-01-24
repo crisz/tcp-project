@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperEmployee;
@@ -48,7 +49,7 @@ public class PersonalInfoCtrl {
 
 
 	private ArrayList<Payment> payments;
-	
+
 	private App mainApp;
 	@FXML
 	private void initialize() {
@@ -103,18 +104,27 @@ public class PersonalInfoCtrl {
 		System.out.println("PIC - SMA:"+this.mainApp);
 		this.mainApp = mainApp;
 	}
-	
+
 	@FXML
 	public void print() throws IOException {
+		if(payments.size() == 0) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(mainApp.getPrimaryStage());
+			alert.setTitle("Errore");
+			alert.setHeaderText("Non esistono pagamenti");
+			alert.setContentText("Non è stato generato alcun mandato di pagamento");
+			alert.showAndWait();
+			return;
+		}
 		Payment p = payments.get(payments.size()-1);
-		
+
 		PDFPayment pdf = new PDFPayment();
 
   	String path = pdf.print(p);
   	File a = new File(path);
-  	
+
   	String absolute = a.getCanonicalPath();
-  	
+
 		Alert alert = new Alert(AlertType.INFORMATION);
     alert.initOwner(mainApp.getPrimaryStage());
     alert.setTitle("Avviso");
@@ -122,6 +132,6 @@ public class PersonalInfoCtrl {
     alert.setContentText("Lo puoi trovare all'indirizzo "+absolute+".");
     alert.showAndWait();
 	}
-	
+
 }
 

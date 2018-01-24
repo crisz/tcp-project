@@ -8,12 +8,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.linesManagement.ChangeLineCtrl">
+<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.linesManagement.ChangeLineCtrl">
    <children>
       <Pane layoutX="-14.0" prefHeight="500.0" prefWidth="870.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ListView fx:id="stopsList" layoutX="181.0" layoutY="142.0" prefHeight="206.0" prefWidth="223.0" />
-            <Button layoutX="68.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" prefHeight="27.0" prefWidth="112.0" text="Indietro" />
+            <Button layoutX="68.0" layoutY="460.0" mnemonicParsing="false" onAction="#goBack" prefHeight="27.0" prefWidth="112.0" text="Indietro" />
             <Button layoutX="720.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" prefHeight="27.0" prefWidth="107.0" text="Home" />
             <Label layoutX="87.0" layoutY="77.0" text="Nome" />
             <Label layoutX="82.0" layoutY="125.0" text="Fermate" />

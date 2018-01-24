@@ -4,10 +4,6 @@ package it.metallicdonkey.tcp.linesManagement;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperLine;
 import it.metallicdonkey.tcp.login.Home;

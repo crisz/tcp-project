@@ -101,7 +101,7 @@ public class VehicleAreaCtrl extends AdministrativeAreaCtrl {
 	}
 
 	@FXML
-	private void showSearchLine() throws IOException {
+	public void showSearchLine() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(App.class.getResource("linesManagement/ListSearchLineScreen.fxml"));
 		AnchorPane lsl = (AnchorPane) loader.load();

@@ -56,12 +56,12 @@
                </children>
             </GridPane>
             <Label layoutX="576.0" layoutY="44.0" text="Informazioni Personali" />
-            <Label layoutX="31.0" layoutY="205.0" text="Storico Pagamenti: " />
+            <Label layoutX="30.0" layoutY="188.0" text="Storico Pagamenti: " />
             <Separator layoutX="432.0" layoutY="-2.0" orientation="VERTICAL" prefHeight="507.0" prefWidth="7.0" />
-            <ListView fx:id="assenze" layoutX="134.0" layoutY="72.0" prefHeight="103.0" prefWidth="200.0" />
-            <ListView fx:id="pagamento" layoutX="134.0" layoutY="235.0" prefHeight="200.0" prefWidth="200.0" />
+            <ListView fx:id="assenze" layoutX="134.0" layoutY="69.0" prefHeight="103.0" prefWidth="200.0" />
+            <ListView fx:id="pagamento" layoutX="134.0" layoutY="212.0" prefHeight="200.0" prefWidth="200.0" />
             <Label layoutX="34.0" layoutY="44.0" text="Giorni di assenza: " />
-            <Button layoutX="134.0" layoutY="435.0" mnemonicParsing="false" onAction="#print" prefHeight="27.0" prefWidth="200.0" text="Stampa ultimo pagamento" />
+            <Button layoutX="134.0" layoutY="412.0" mnemonicParsing="false" onAction="#print" prefHeight="27.0" prefWidth="200.0" text="Stampa ultimo pagamento" />
          </children>
       </Pane>
    </children>

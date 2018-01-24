@@ -141,6 +141,11 @@ public class AddVehicleCtrl {
 			alert.setContentText("La matricola non deve superare i 7 caratteri");
 			return alert;
 		}
+		// Check Plate < 8 char
+		if (targa.getText().length() > 7) {
+			alert.setContentText("La targa non deve essere più lunga di 7 caratteri");
+			return alert;
+		}
 		// Check if values are numeric or not
 		else {
 			// Check plate pattern

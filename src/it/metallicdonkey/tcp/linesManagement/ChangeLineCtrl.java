@@ -8,6 +8,7 @@ import java.util.Collections;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperLine;
+import it.metallicdonkey.tcp.employeesManagement.HRAreaCtrl;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.models.Stop;
@@ -82,8 +83,8 @@ public class ChangeLineCtrl extends AddLineCtrl {
 
 		this.priority.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent; -fx-background-color: #F4F4F4");
 		this.priority.setEditable(false);
-		this.priority.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
-		this.priority.setEditable(false);
+		this.name.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
+		this.name.setEditable(false);
 	}
 
 
@@ -178,7 +179,12 @@ public class ChangeLineCtrl extends AddLineCtrl {
   public void goHome() throws IOException {
   	Home.getHome(null).goHome(this.mainApp);
   }
-
+	@FXML
+	public void goBack() throws IOException{
+		AdministrativeAreaCtrl hrac = new AdministrativeAreaCtrl();
+		hrac.setMainApp(this.mainApp);
+		hrac.showSearchLine();
+	}
 	public void setMainApp(App mainApp) {
 		this.mainApp = mainApp;
 	}

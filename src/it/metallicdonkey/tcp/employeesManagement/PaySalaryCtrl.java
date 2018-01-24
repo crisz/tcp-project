@@ -96,7 +96,7 @@ public class PaySalaryCtrl {
 		}
 		LocalDate last = ar.get(0).getDate();
 		LocalDate now = LocalDate.now();
-		if(now.getDayOfYear() - last.getDayOfYear() < 30) {
+		if( ( now.getDayOfYear()-last.getDayOfYear() ) < 30) {
 			ultimoPagamento.setText("L'ultimo pagamento è stato effettuato meno di 30 giorni fa, in data "+last+".\n Non è possibile effettuare un nuovo pagamento se non sono passati almeno 30 giorni.");
 		}
 		else {
