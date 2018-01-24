@@ -1,17 +1,23 @@
 package it.metallicdonkey.tcp.employeesManagement;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
+import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 
+import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.login.Session;
 import it.metallicdonkey.tcp.models.Check;
 import it.metallicdonkey.tcp.models.Match;
 import it.metallicdonkey.tcp.models.Payment;
+
+import java.nio.file.Path;
 
 public class PDFPayment {
 
@@ -38,20 +44,25 @@ public class PDFPayment {
 
       String line = "Mandato di pagamento "+date.replaceAll("-", "/")+":\n";
       
+      line += "Nome: "+Session.employee.getFirstName()+"\n";
+      line += "Cognome: "+Session.employee.getLastName()+"\n"; 
       line += "Matricola: "+payment.getIdEmployee()+"\n";
-      line += "Quota: "+payment.getNetSalary()+"\n";
+      line += "Quota: "+payment.getNetSalary()+"€\n";
       line += "Da prelevare presso: Monte dei paschi di Siena \n";
       line += "Codice a barre:\n";
-      line += "|| || ||| || | | | | ||| | |\n";
-      line += "|| || ||| || | | | | ||| | |\n";
-      line += "12 34 523 21 43 54 32 3 93 2";
       line += "\n";
       
       
       
       Paragraph p = new Paragraph(line);
       p.setAlignment(Element.ALIGN_JUSTIFIED);
+      Image img2 = Image.getInstance(App.class.getResource("icons/mdps.png").getFile());
+      output.add(img2);
+    
       output.add(p);
+      
+      Image img = Image.getInstance(App.class.getResource("icons/cab.png").getFile());
+      output.add(img);
     
       System.out.println("Done.");
       output.close();
