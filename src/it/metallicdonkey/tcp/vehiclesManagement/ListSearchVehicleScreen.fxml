@@ -7,16 +7,16 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.vehiclesManagement.ListSearchVehicleCtrl">
+<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.vehiclesManagement.ListSearchVehicleCtrl">
    <children>
       <Pane layoutX="2.0" prefHeight="647.6956718343874" prefWidth="702.3826319282409" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button layoutX="68.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" text="Indietro" />
             <Button layoutX="776.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" text="Home" />
-            <TextField fx:id="filter" layoutX="214.0" layoutY="39.0" prefHeight="26.0" prefWidth="273.0" />
+            <TextField fx:id="filter" layoutX="214.0" layoutY="39.0" prefHeight="27.0" prefWidth="429.0" />
             <Label layoutX="163.0" layoutY="43.0" text="Filtra" />
-            <Label layoutX="44.0" layoutY="14.0" text="Impiegato amministrativo" />
             <TableView fx:id="vehicles" layoutX="10.0" layoutY="75.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="372.0" prefWidth="850.0">
                <columns>
                   <TableColumn fx:id="id" prefWidth="152.76522827148438" text="Matricola" />
@@ -29,6 +29,11 @@
                   <TableColumn fx:id="removeColumn" prefWidth="68.4521484375" text="Rimuovi" />
                </columns>
             </TableView>
+            <Label layoutX="387.0" layoutY="9.0" text="Lista mezzi">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>
