@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Iterator;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperCheck;
@@ -192,6 +193,7 @@ public class CheckCtrl {
 		this.setItemsForEmployee();
 		this.setItemsForVehicle();
 		this.setAvailableDrivers();
+		removeDuplicates();
   }
 
   @FXML
@@ -214,6 +216,7 @@ public class CheckCtrl {
 		  this.setItemsForVehicle();
 		  this.setAvailableDrivers();
 		  this.turno++;
+		  removeDuplicates();
 	  }
 	  else if(turno == 0) {
 		  this.workshiftLabel.setText("Pomeriggio");
@@ -234,6 +237,7 @@ public class CheckCtrl {
 		  this.setItemsForVehicle();
 		  this.setAvailableDrivers();
 		  this.turno++;
+		  removeDuplicates();
 	  }
 
 	  else if(turno == 1) {
@@ -253,6 +257,7 @@ public class CheckCtrl {
 		  this.setItemsForVehicle();
 		  this.setAvailableDrivers();
 		  this.turno++;
+		  removeDuplicates();
 	  }
 	  else {
 
@@ -410,6 +415,54 @@ public class CheckCtrl {
 	    alert.setHeaderText("Alcuni impiegati sono assenti.");
 	    alert.setContentText("I seguenti impiegati sono assenti e vanno sostituiti:\n" + absentEmployees);
 	    alert.showAndWait();
+		}
+	}
+	
+	private void removeDuplicates() {
+		if(dataCheck.isEmpty())
+			return;
+		
+		Iterator<MatchDataModel> it = dataCheck.iterator();
+		MatchDataModel previous = null, current = null;
+		while(it.hasNext()) {
+			if(previous == null) {
+				previous = it.next();
+				continue;
+			}
+			
+			current = it.next();
+			// Check for duplicated employees
+			if(current.getEmployee().equals(previous.getEmployee())) {
+				System.out.println("REMOVED Duplicated Employee" + current.getEmployee());
+				it.remove();
+				this.setItemsForEmployee();
+		    	this.setItemsForVehicle();
+			}
+			// Check for duplicated Vehicles
+			else if(current.getVehicle().equals(previous.getVehicle())) {
+				System.out.println("REMOVED Duplicated Vehicle" + current.getVehicle());
+				it.remove();
+				this.setItemsForEmployee();
+		    	this.setItemsForVehicle();
+			}
+			previous = current;
+		}
+		for(int i=0; i< dataCheck.size() -1; i++) {
+			// Check for duplicated Employees
+			if(dataCheck.get(i).getEmployee().equals(dataCheck.get(i+1).getEmployee())) {
+		    	System.out.println("REMOVED Duplicated Employee" + dataCheck.get(i).getEmployee());
+				check.getItems().remove(i+1);
+				
+			}
+			
+			// Check for duplicated Vehicles
+			if(dataCheck.get(i).getVehicle().equals(dataCheck.get(i+1).getEmployee())) {
+		    	System.out.println("REMOVED Duplicated Vehicle" + dataCheck.get(i).getVehicle());
+				check.getItems().remove(i+1);
+				this.setItemsForEmployee();
+		    	this.setItemsForVehicle();
+			}
+			
 		}
 	}
 }

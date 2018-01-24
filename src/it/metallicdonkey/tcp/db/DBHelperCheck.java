@@ -66,7 +66,7 @@ public class DBHelperCheck {
 	 * @throws SQLException
 	 */	
 	public List<Check> getLastChecks() throws SQLException {
-		String query = "SELECT * FROM tcp.check ORDER BY Date DESC LIMIT 3";
+		String query = "SELECT * FROM tcp.check";
 		ResultSet resultSet = dbm.executeQuery(query);
 		
 		List<Check> checks = new ArrayList<>(); 
