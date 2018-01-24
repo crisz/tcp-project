@@ -1,8 +1,11 @@
 package it.metallicdonkey.tcp.vehiclesManagement;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import it.metallicdonkey.tcp.App;
+import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.depositManagement.EntryVehicleCtrl;
 import it.metallicdonkey.tcp.depositManagement.ExitVehicleCtrl;
 import it.metallicdonkey.tcp.employeesManagement.PersonalInfoCtrl;
@@ -13,18 +16,46 @@ import it.metallicdonkey.tcp.linesManagement.ListSearchLineCtrl;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.LoginCtrl;
 import it.metallicdonkey.tcp.login.Session;
+import it.metallicdonkey.tcp.models.StatusVehicle;
+import it.metallicdonkey.tcp.models.Vehicle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
 public class VehicleAreaCtrl extends AdministrativeAreaCtrl {
 	private App mainApp;
-
+	
+	@FXML
+	private Label gua;
+	@FXML
+	private Label cir;
+	@FXML
+	private Label dep;
+	
   @FXML
-  private void initialize() {
+  private void initialize() throws SQLException {
+  	ArrayList<Vehicle> vehicles = DBHelperVehicle.getInstance().getAllVehiclesArray();
+  	
+  	int guasti = 0;
+  	int circolazione = 0;
+  	int deposito = 0;
+  	
+  	for (int i=0; i<vehicles.size(); i++) {
+  		if(vehicles.get(i).getStatus() == StatusVehicle.AVAILABLE)
+  			deposito++;
+  		else if(vehicles.get(i).getStatus() == StatusVehicle.ON_ACTION)
+  			circolazione++;
+  		else
+  			guasti++;
+  	}
+  	
+  	gua.setText(gua.getText()+guasti);
+  	cir.setText(cir.getText()+circolazione);
+  	dep.setText(dep.getText()+deposito);
   }
 
   @FXML

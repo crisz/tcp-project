@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.employeesManagement.HRAreaCtrl">
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.employeesManagement.HRAreaCtrl">
    <children>
       <Pane prefHeight="500.0" prefWidth="870.0" style="-fx-background-color: #d3d8d8;">
          <children>
@@ -24,7 +24,10 @@
                <font>
                   <Font name="Arial" size="12.0" />
                </font></Button>
-            <Label alignment="CENTER" layoutX="62.0" layoutY="23.0" text="Addetto al personale" />
+            <Label alignment="CENTER" layoutX="328.0" layoutY="17.0" text="Addetto al personale">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
             <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="240.0" layoutY="60.0" mnemonicParsing="false" onAction="#showAddEmployee" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Inserisci impiegato" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Arial" size="12.0" />
