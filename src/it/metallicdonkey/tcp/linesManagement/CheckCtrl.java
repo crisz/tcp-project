@@ -262,6 +262,7 @@ public class CheckCtrl {
     	LineDataModel l = this.lines.getSelectionModel().getSelectedItem();
     	Match m = new Match(e.getEmployee(), l.getLine(), v.getVehicle());
     	
+    	
     	dataCheck.add(new MatchDataModel(m));
     	this.setItemsForEmployee();
     	this.setItemsForVehicle();

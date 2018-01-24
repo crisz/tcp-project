@@ -11,6 +11,7 @@ import java.util.List;
 import it.metallicdonkey.tcp.models.Check;
 import it.metallicdonkey.tcp.models.Match;
 import it.metallicdonkey.tcp.models.Workshift;
+import javafx.scene.CacheHint;
 
 public class DBHelperCheck {
 	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
@@ -37,7 +38,7 @@ public class DBHelperCheck {
 		preparedStmt.execute();
 		
 		List<Match> matches = c.getMatches(); 
-		query = "INSERT INTO tcp.match (Employee_idEmployee,Vehicle_idVehicle,Line_idLine,Check_Date) values (?, ?, ?, ?)";
+		query = "INSERT INTO tcp.match (Employee_idEmployee,Vehicle_idVehicle,Line_idLine,Check_Date,Check_Workshift) values (?, ?, ?, ?, ?)";
 		preparedStmt = dbm.getConnection().prepareStatement(query);
 		
 		for(int i=0; i< matches.size(); i++) {
@@ -45,6 +46,7 @@ public class DBHelperCheck {
 			preparedStmt.setString(2, matches.get(i).getVehicle().getId());
 			preparedStmt.setString(3, matches.get(i).getLine().getName());
 			preparedStmt.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+			preparedStmt.setString(5, DBHelperEmployee.workshiftToEnglish(c.getWorkshift()));
 			preparedStmt.execute();
 		}
 	}

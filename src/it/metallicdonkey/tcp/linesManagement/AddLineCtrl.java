@@ -57,10 +57,10 @@ public class AddLineCtrl {
 	@FXML
 	private void onAddStopClicked() {
 		// Check for valid text
-		if (newStop.getText().equals("")) {
+		if (newStop.getText().trim().equals("")) {
 			return;
 		}
-		Stop stop = new Stop(newStop.getText());
+		Stop stop = new Stop(newStop.getText().trim());
 		stops.add(stop);
 		stopsList.setItems(stops);
 
