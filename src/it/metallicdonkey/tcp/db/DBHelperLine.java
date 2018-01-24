@@ -18,11 +18,11 @@ public class DBHelperLine {
 	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
 	private static DBHelperLine instance;
 
-	private DBHelperLine() throws SQLException {
+	private DBHelperLine() {
 		dbm.connect();
 	}
 
-	public static DBHelperLine getInstance() throws SQLException {
+	public static DBHelperLine getInstance() {
 		if(instance != null) {
 			return instance;
 		}
@@ -214,15 +214,17 @@ public class DBHelperLine {
 
 	public int removeLine(Line l) {
 		int removed1 = -1;
+		int removed2 = -1;
 		int result = -1;
-		removed1 = dbm.executeUpdate("DELETE FROM tcp.line_has_stop WHERE Line_idLine = '"+
+		removed1 = dbm.executeUpdate("DELETE FROM tcp.match WHERE Line_idLine='"+l.getName()+"'");
+		removed2 = dbm.executeUpdate("DELETE FROM tcp.line_has_stop WHERE Line_idLine = '"+
 				l.getName()+"'");
-		if(removed1 < 0)
+		if(removed1 < 0 || removed2 < 0)
 			return -1;
 		result = dbm.executeUpdate("DELETE FROM tcp.line WHERE idLine='"+l.getName()+"'");
 		return result;
 	}
-	
+
 	public ArrayList<String> getIds() throws SQLException{
 		ArrayList<String> allIds = new ArrayList<>();
 		dbm.executeQuery("SELECT idLine FROM tcp.line");

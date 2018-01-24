@@ -103,59 +103,72 @@ public class AddLineCtrl {
 	}
 
 	@FXML
-	private void submitVehicle() throws SQLException {
+	private void submitVehicle() {
 
 		Alert error = check();
 		if(error != null) {
 			error.showAndWait();
 		} else {
-			Line outputLine = getNewLine();
-			DBHelperLine.getInstance().insertLine(outputLine);
-			String result = "La linea " + outputLine.getName() + " é stata inserita con successo";
-			System.out.println(result);
+			try {
+				Line outputLine = getNewLine();
+				DBHelperLine.getInstance().insertLine(outputLine);
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.initOwner(mainApp.getPrimaryStage());
+				alert.setTitle("Avviso");
+				alert.setHeaderText("Inserimento avvenuto con successo!");
+				alert.setContentText("La linea è stato aggiunta alla rete di trasporti");
+				alert.showAndWait();
+				name.setText("");
+				priority.setText("");
+				stops.clear();
+				stopsList.setItems(stops);
+				newStop.setText("");
+			} catch (SQLException exc) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.initOwner(mainApp.getPrimaryStage());
+				alert.setTitle("Avviso");
+				alert.setHeaderText("Inserimento non avvenuto!");
+				alert.setContentText("Esiste una linea con lo stesso nome");
+				alert.showAndWait();
+			}
 		}
 	}
 
-	private Alert check() throws SQLException {
+	private Alert check() {
 		Alert alert = new Alert(AlertType.WARNING);
-	    alert.initOwner(mainApp.getPrimaryStage());
-	    alert.setTitle("Avviso");
-	    alert.setHeaderText("Inserimento fallito!");
+		alert.initOwner(mainApp.getPrimaryStage());
+		alert.setTitle("Avviso");
+		alert.setHeaderText("Inserimento fallito!");
 
-	    if (stops.size() < 4) {
-	    	alert.setContentText("Inserisci almeno 4 fermate.");
-	    	return alert;
-	    }
-	    if (name.getText().equals("")) {
-	    	alert.setContentText("Inserisci un nome alla linea.");
-	    	return alert;
-	    }
-	    if (priority.getText().equals("")) {
-	    	alert.setContentText("Inserisci una priorità alla linea.");
-	    	return alert;
-	    }
-	    if(DBHelperLine.getInstance().getIds().contains(name.getText())) {
-	    	alert.setContentText("Il nome inserito è già stato assegnato ad un'altra linea");
-	    	return alert;
-	    }
-	    else {
-		    try {
-		    	Integer.parseInt(priority.getText());
-		    }
-		    catch (NumberFormatException e) {
-		    	alert.setContentText("Inserisci un valore numerico nel campo priorità");
-		    	return alert;
+		if (stops.size() < 4) {
+			alert.setContentText("Inserisci almeno 4 fermate.");
+			return alert;
+		}
+		if (name.getText().equals("")) {
+			alert.setContentText("Inserisci un nome alla linea.");
+			return alert;
+		}
+		if (priority.getText().equals("")) {
+			alert.setContentText("Inserisci una priorità alla linea.");
+			return alert;
+		}
+		else {
+			try {
+				Integer.parseInt(priority.getText());
 			}
-	    }
-	    // If data is OK
-	    return null;
-
+			catch (NumberFormatException e) {
+				alert.setContentText("Inserisci un valore numerico nel campo priorità");
+				return alert;
+			}
+		}
+		// If data is OK
+		return null;
 	}
 
 	@FXML
-  public void goHome() throws IOException {
-  	Home.getHome(null).goHome(this.mainApp);
-  }
+	public void goHome() throws IOException {
+		Home.getHome(null).goHome(this.mainApp);
+	}
 
 	public void setMainApp(App mainApp) {
 		this.mainApp = mainApp;

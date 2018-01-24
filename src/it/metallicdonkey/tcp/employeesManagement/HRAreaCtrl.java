@@ -22,7 +22,7 @@ public class HRAreaCtrl extends AdministrativeAreaCtrl {
 	public void initialize(){
 	}
 	@FXML
-	private void showPersonalInfo() throws IOException {
+	public void showPersonalInfo() throws IOException {
 		System.out.println("Showing personal info...");
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(App.class.getResource("employeesManagement/PersonalInfoScreen.fxml"));
@@ -35,6 +35,7 @@ public class HRAreaCtrl extends AdministrativeAreaCtrl {
 		stage.setScene(scene);
 		PersonalInfoCtrl ctrl = loader.getController();
 		ctrl.setMainApp(mainApp);
+//		super.showPersonalInfo();
 	}
 	@FXML
 	private void showAddEmployee() throws IOException {

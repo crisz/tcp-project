@@ -21,7 +21,7 @@ public class EmployeeAreaCtrl {
   }
 
   @FXML
-  private void showPersonalInfo() throws IOException {
+  public void showPersonalInfo() throws IOException {
 //  	System.out.println("Showing personal info...");
 //    FXMLLoader loader = new FXMLLoader();
 //    loader.setLocation(App.class.getResource("employeesManagement/PersonalInfoScreen.fxml"));
@@ -47,7 +47,7 @@ public class EmployeeAreaCtrl {
 		System.out.println(personalInfo);
 		Stage stage = mainApp.getPrimaryStage();
 		stage.setScene(scene);
-		
+
   }
   @FXML
   private void logout() throws IOException {
@@ -66,7 +66,7 @@ public class EmployeeAreaCtrl {
 	  LoginCtrl loginCtrl = loader.getController();
 	  loginCtrl.setMainApp(this.mainApp);
   }
-  
+
   public void setMainApp(App mainApp) {
   	System.out.println("Setting main app: "+mainApp);
     this.mainApp = mainApp;

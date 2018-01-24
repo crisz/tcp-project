@@ -48,47 +48,47 @@ public class ListSearchLineCtrl {
 	@FXML
 	private TableColumn<LineDataModel, String> removeColumn;
 	public static LineDataModel selectedLine;
-	
-	
+
+
 	ObservableList<LineDataModel> data;
-	
-  @FXML
-  private void initialize() throws SQLException {
+
+	@FXML
+	private void initialize() {
 		data = DBHelperLine.getInstance().getAllLines();
-  	// Initialization data
-    nameColumn.setCellValueFactory(
-        new PropertyValueFactory<LineDataModel, String>("name"));
-    startTerminalColumn.setCellValueFactory(
-        new PropertyValueFactory<LineDataModel, String>("startTerminal"));
-    endTerminalColumn.setCellValueFactory(
-        new PropertyValueFactory<LineDataModel, String>("endTerminal"));
-  	System.out.println(data);
-  	
-  	// Initialization filter
-    FilteredList<LineDataModel> filteredData = new FilteredList<>(data, p -> true);
-    
-    filter.textProperty().addListener((observable, oldValue, newValue) -> {
-      filteredData.setPredicate(line -> {
-          // If filter text is empty, display all persons.
-          if (newValue == null || newValue.isEmpty()) {
-              return true;
-          }
+		// Initialization data
+		nameColumn.setCellValueFactory(
+				new PropertyValueFactory<LineDataModel, String>("name"));
+		startTerminalColumn.setCellValueFactory(
+				new PropertyValueFactory<LineDataModel, String>("startTerminal"));
+		endTerminalColumn.setCellValueFactory(
+				new PropertyValueFactory<LineDataModel, String>("endTerminal"));
+		System.out.println(data);
 
-          // Compare first name and last name of every person with filter text.
-          String lowerCaseFilter = newValue.toLowerCase();
-          	
-          return line.getName().toLowerCase().contains(lowerCaseFilter) ||
-          			 line.getStartTerminal().toLowerCase().contains(lowerCaseFilter) ||
-          			 line.getEndTerminal().toLowerCase().contains(lowerCaseFilter);
-      });
-    });
-    SortedList<LineDataModel> sortedData = new SortedList<>(filteredData);
-    sortedData.comparatorProperty().bind(lines.comparatorProperty());
+		// Initialization filter
+		FilteredList<LineDataModel> filteredData = new FilteredList<>(data, p -> true);
 
-  	lines.setItems(sortedData);
-  	
-  	// Add actions!
-  	
+		filter.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(line -> {
+				// If filter text is empty, display all persons.
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+
+				// Compare first name and last name of every person with filter text.
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				return line.getName().toLowerCase().contains(lowerCaseFilter) ||
+						line.getStartTerminal().toLowerCase().contains(lowerCaseFilter) ||
+						line.getEndTerminal().toLowerCase().contains(lowerCaseFilter);
+			});
+		});
+		SortedList<LineDataModel> sortedData = new SortedList<>(filteredData);
+		sortedData.comparatorProperty().bind(lines.comparatorProperty());
+
+		lines.setItems(sortedData);
+
+		// Add actions!
+
 		editColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
 
@@ -116,7 +116,7 @@ public class ListSearchLineCtrl {
 								LineDataModel line = getTableView().getItems().get(getIndex());
 								ListSearchLineCtrl.selectedLine = line;
 								FXMLLoader loader = new FXMLLoader();
-								loader.setLocation(App.class.getResource("linesManagement/ChangeLineScreen.fxml"));                           
+								loader.setLocation(App.class.getResource("linesManagement/ChangeLineScreen.fxml"));
 								AnchorPane personalInfo;
 								try {
 									personalInfo = (AnchorPane) loader.load();
@@ -146,7 +146,7 @@ public class ListSearchLineCtrl {
 
 		editColumn.setCellFactory(cellFactory);
 
-		// Action: remove 
+		// Action: remove
 
 		removeColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 		final ListSearchLineCtrl lsvc = this;
@@ -177,15 +177,12 @@ public class ListSearchLineCtrl {
 
 								Optional<ButtonType> result = alert.showAndWait();
 								if (result.get() == ButtonType.OK){
-									// TODO: implementare cancellazione su db
-									data.remove(line);
-									try {
+									int i = DBHelperLine.getInstance().removeLine(line.getLine());
+									if(i >= 0) {
+										data.remove(line);
 										lsvc.initialize();
-									} catch (SQLException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
 									}
-								} 
+								}
 							});
 							btn3.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1px");
 							rv.setFitWidth(24.0);
@@ -202,14 +199,14 @@ public class ListSearchLineCtrl {
 		removeColumn.setCellFactory(cellFactory2);
 
 
-  }
-  
-  @FXML
-  public void goHome() throws IOException {
-  	Home.getHome(null).goHome(this.mainApp);
-  }
-  
-  public void setMainApp(App mainApp) {
-    this.mainApp = mainApp;
-  }
+	}
+
+	@FXML
+	public void goHome() throws IOException {
+		Home.getHome(null).goHome(this.mainApp);
+	}
+
+	public void setMainApp(App mainApp) {
+		this.mainApp = mainApp;
+	}
 }
