@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.employeesManagement.HRAreaCtrl">
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.linesManagement.AdministrativeAreaCtrl">
    <children>
       <Pane prefHeight="500.0" prefWidth="870.0" style="-fx-background-color: #d3d8d8;">
          <children>
@@ -57,7 +57,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="445.0" layoutY="60.0" mnemonicParsing="false" onAction="#check" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Check e abbinamenti" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" layoutX="445.0" layoutY="60.0" mnemonicParsing="false" onAction="#showCheck" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Check e abbinamenti" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>

@@ -55,14 +55,14 @@ public class Home {
 			} catch(NullPointerException e) {
 				e.printStackTrace();
 			}
-			
+
 			break;
 		case Impiegato_amministrativo:
-			loader.setLocation(App.class.getResource("linesManagement/administrativeAreaScreen.fxml"));
+			loader.setLocation(App.class.getResource("linesManagement/AdministrativeAreaScreen.fxml"));
 			AnchorPane adminScreen = (AnchorPane) loader.load();
 			scene = new Scene(adminScreen);
 			mainApp.getPrimaryStage().setScene(scene);
-			EmployeeAreaCtrl adminCtrl = loader.getController();
+			AdministrativeAreaCtrl adminCtrl = loader.getController();
 			adminCtrl.setMainApp(mainApp);
 			break;
 		case Addetto_ai_mezzi:
