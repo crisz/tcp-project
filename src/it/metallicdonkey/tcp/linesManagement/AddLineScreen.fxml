@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -10,7 +11,7 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.linesManagement.AddLineCtrl">
    <children>
-      <Pane layoutX="-14.0" prefHeight="500.0" prefWidth="870.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane prefHeight="500.0" prefWidth="870.0" style="-fx-border-width: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ListView fx:id="stopsList" layoutX="181.0" layoutY="142.0" prefHeight="206.0" prefWidth="223.0" />
             <Button layoutX="68.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" prefHeight="27.0" prefWidth="112.0" text="Indietro" />
@@ -29,11 +30,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label layoutX="566.0" layoutY="159.0" text="La prima fermata inserita è il Capolinea" />
-            <Label layoutX="566.0" layoutY="183.0" text="Inserire poi le fermate" />
-            <Label layoutX="566.0" layoutY="134.0" text="Guida per l'inserimento:" />
-            <Label layoutX="566.0" layoutY="208.0" text="Il sistema calcolerà il capolinea di transito" />
-            <Label layoutX="566.0" layoutY="237.0" text="Inserire come ultima fermata il capolinea" />
+            <TextArea editable="false" layoutX="475.0" layoutY="125.0" prefHeight="111.0" prefWidth="377.0" style="-fx-border-width: 0;" text="Guida per l'inserimento&#10;Inserire per prima il Capolinea&#10;Inserire le fermate&#10;Il sistema calcolerà la posizione del capolinea di transito&#10;Inserire, come ultima fermata, il Capolinea  " />
          </children>
       </Pane>
    </children>
