@@ -99,7 +99,23 @@ public class CheckCtrl {
 		this.initColumns();
 		this.setItemsForEmployee();
 		this.setItemsForVehicle();
+		//if(oldChecksExists)
+		//	filterOldCheckPerWorkshift(Workshift.MATTINA);
   }
+	
+	private void filterOldCheckPerWorkshift(Workshift w) {
+		int source = -1;
+		
+		if(w == Workshift.MATTINA)	source = 0;
+		if(w == Workshift.POMERIGGIO) source = 1;
+		else source = 2;
+		
+		dataCheck.clear();
+		
+		for(Match m: oldChecks.get(source).getMatches()) {
+			dataCheck.add(new MatchDataModel(m));
+		}
+	}
 	
 	private void setItemsForEmployee() {
 		this.employees.setItems(new FilteredList<>(dataEmployees, e -> {
