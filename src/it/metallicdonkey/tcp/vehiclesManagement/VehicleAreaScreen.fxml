@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.vehiclesManagement.VehicleAreaCtrl">
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.vehiclesManagement.VehicleAreaCtrl">
    <children>
       <Pane prefHeight="500.0" prefWidth="870.0" style="-fx-background-color: #d3d8d8;">
          <children>
-            <Button alignment="CENTER" contentDisplay="TOP" layoutX="35.0" layoutY="60.0" mnemonicParsing="false" onAction="#showPersonalInfo" prefHeight="152.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Visualizza informazioni&#13;personali" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="35.0" layoutY="132.0" mnemonicParsing="false" onAction="#showPersonalInfo" prefHeight="152.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Visualizza informazioni&#13;personali" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <graphic>
                   <ImageView fitHeight="111.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -23,8 +23,11 @@
                <font>
                   <Font name="Arial" size="12.0" />
                </font></Button>
-            <Label alignment="CENTER" layoutX="62.0" layoutY="23.0" text="Addetto ai mezzi" />
-            <Button alignment="CENTER" contentDisplay="TOP" layoutX="240.0" layoutY="60.0" mnemonicParsing="false" onAction="#showAddVehicle" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Inserisci mezzo" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Label alignment="CENTER" layoutX="371.0" layoutY="17.0" text="Addetto ai mezzi" textAlignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="240.0" layoutY="132.0" mnemonicParsing="false" onAction="#showAddVehicle" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Inserisci mezzo" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <graphic>
                   <ImageView fitHeight="92.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -36,7 +39,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="TOP" layoutX="445.0" layoutY="60.0" mnemonicParsing="false" onAction="#showSearchVehicle" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Lista e ricerca mezzi" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="445.0" layoutY="132.0" mnemonicParsing="false" onAction="#showSearchVehicle" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Lista e ricerca mezzi" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <graphic>
                   <ImageView fitHeight="111.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -48,7 +51,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="TOP" layoutX="656.0" layoutY="60.0" mnemonicParsing="false" onAction="#showEntryVehicle" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Ingresso mezzo" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="656.0" layoutY="132.0" mnemonicParsing="false" onAction="#showEntryVehicle" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Ingresso mezzo" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <graphic>
                   <ImageView fitHeight="70.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -60,7 +63,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="TOP" layoutX="38.0" layoutY="250.0" mnemonicParsing="false" onAction="#showCheck" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Check e abbinamenti" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="35.0" layoutY="322.0" mnemonicParsing="false" onAction="#showCheck" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Check e abbinamenti" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <graphic>
                   <ImageView fitHeight="72.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -72,7 +75,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="TOP" layoutX="240.0" layoutY="250.0" mnemonicParsing="false" onAction="#showAddLine" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Inserisci linea" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="240.0" layoutY="322.0" mnemonicParsing="false" onAction="#showAddLine" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Inserisci linea" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <graphic>
                   <ImageView fitHeight="68.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -84,7 +87,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="TOP" layoutX="445.0" layoutY="250.0" mnemonicParsing="false" onAction="#showSearchLine" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Lista e ricerca linee" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="445.0" layoutY="322.0" mnemonicParsing="false" onAction="#showSearchLine" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Lista e ricerca linee" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <graphic>
                   <ImageView fitHeight="111.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -96,7 +99,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="TOP" layoutX="656.0" layoutY="250.0" mnemonicParsing="false" onAction="#showExitVehicle" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Uscita mezzo" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Button alignment="CENTER" contentDisplay="TOP" layoutX="656.0" layoutY="322.0" mnemonicParsing="false" onAction="#showExitVehicle" prefHeight="164.0" prefWidth="181.0" style="-fx-background-color: white; -fx-border-width: 5px; -fx-border-color: black;" text="Uscita mezzo" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <graphic>
                   <ImageView fitHeight="68.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -113,6 +116,9 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
+            <Label fx:id="dep" layoutX="35.0" layoutY="44.0" text="Veicoli in deposito: " />
+            <Label fx:id="cir" layoutX="35.0" layoutY="70.0" text="Veicoli in circolazione: " />
+            <Label fx:id="gua" layoutX="35.0" layoutY="97.0" text="Veicoli guasti: " />
          </children>
       </Pane>
    </children>
