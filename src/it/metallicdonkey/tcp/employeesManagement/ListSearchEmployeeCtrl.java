@@ -56,6 +56,7 @@ public class ListSearchEmployeeCtrl {
 	public static EmployeeDataModel selectedEmployee;
 	@FXML
 	private void initialize() {
+		final ListSearchEmployeeCtrl lsvc = this;
 		// Initialization data
 		idColumn.setCellValueFactory(
 			new PropertyValueFactory<EmployeeDataModel, String>("id"));
@@ -189,8 +190,7 @@ public class ListSearchEmployeeCtrl {
 										nimv.setFitWidth(24.0);
 										Button button = (Button) event.getSource();
 										button.setGraphic(nimv);
-										employees.getColumns().get(0).setVisible(false);
-										employees.getColumns().get(0).setVisible(true);
+										lsvc.initialize();
 									}
 
 								}
@@ -218,8 +218,7 @@ public class ListSearchEmployeeCtrl {
 										nimv.setFitWidth(24.0);
 										Button button = (Button) event.getSource();
 										button.setGraphic(nimv);
-										employees.getColumns().get(0).setVisible(false);
-										employees.getColumns().get(0).setVisible(true);
+										lsvc.initialize();
 									}
 								}
 							});
@@ -249,7 +248,7 @@ public class ListSearchEmployeeCtrl {
 		// Action: remove
 
 		removeColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-		final ListSearchEmployeeCtrl lsvc = this;
+		
 
 		Callback<TableColumn<EmployeeDataModel, String>, TableCell<EmployeeDataModel, String>> cellFactory2
 		= //

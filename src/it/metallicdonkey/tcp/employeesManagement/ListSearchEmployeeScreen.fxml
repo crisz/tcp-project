@@ -7,8 +7,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.employeesManagement.ListSearchEmployeeCtrl">
+<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.employeesManagement.ListSearchEmployeeCtrl">
    <children>
       <Pane layoutX="2.0" prefHeight="647.6956718343874" prefWidth="702.3826319282409" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -16,7 +17,10 @@
             <Button layoutX="776.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" text="Home" />
             <TextField fx:id="filter" layoutX="214.0" layoutY="39.0" prefHeight="26.0" prefWidth="273.0" />
             <Label layoutX="163.0" layoutY="43.0" text="Filtra" />
-            <Label layoutX="44.0" layoutY="14.0" text="Impiegato amministrativo" />
+            <Label layoutX="371.0" layoutY="9.0" text="Lista impiegati">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
             <TableView fx:id="employees" layoutX="10.0" layoutY="75.0" prefHeight="372.0" prefWidth="850.0">
                <columns>
                   <TableColumn fx:id="idColumn" prefWidth="153.33333333333334" text="Matricola" />
