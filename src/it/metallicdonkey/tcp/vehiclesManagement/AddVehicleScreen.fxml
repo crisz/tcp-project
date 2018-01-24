@@ -5,8 +5,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.vehiclesManagement.AddVehicleCtrl">
+<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.vehiclesManagement.AddVehicleCtrl">
    <children>
       <Pane layoutX="-14.0" prefHeight="500.0" prefWidth="870.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -25,6 +26,11 @@
             <Button fx:id="inviaButton" layoutX="415.0" layoutY="460.0" mnemonicParsing="false" onAction="#submitVehicle" text="Invia" />
             <Label layoutX="513.0" layoutY="102.0" text="Modello" />
             <TextField fx:id="modello" layoutX="627.0" layoutY="98.0" />
+            <Label layoutX="349.0" layoutY="23.0" text="Inserimento veicolo">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>
