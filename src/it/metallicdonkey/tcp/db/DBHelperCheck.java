@@ -76,13 +76,8 @@ public class DBHelperCheck {
 			
 			c.setWorkshift(Workshift.valueOf(workshiftToItalian(resultSet.getString(2))));
 			
-			// get the yesterday date
-			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.DATE, -1);
-			Date yesterday = new Date(cal.getTimeInMillis());
-			
 			// get all the related matches
-			query = "SELECT * FROM tcp.match;";
+			query = "SELECT * FROM tcp.match WHERE Check_Workshift = '" + resultSet.getString(2) + "';";
 			ResultSet resultSet2 = dbm.executeQuery(query);
 			while(resultSet2.next()) {
 				Match m = new Match();
