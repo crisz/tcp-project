@@ -80,6 +80,8 @@ public class ListSearchVehicleCtrl {
 		// Initialization filter
 		FilteredList<VehicleDataModel> filteredData = new FilteredList<>(data, p -> true);
 
+		final ListSearchVehicleCtrl lsvc = this;
+
 		filter.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredData.setPredicate(v -> {
 				// If filter text is empty, display all persons.
@@ -201,8 +203,7 @@ public class ListSearchVehicleCtrl {
 										nimv.setFitWidth(24.0);
 										Button button = (Button) event.getSource();
 										button.setGraphic(nimv);
-										vehicles.getColumns().get(0).setVisible(false);
-										vehicles.getColumns().get(0).setVisible(true);
+										lsvc.initialize();
 
 									}
 
@@ -242,8 +243,7 @@ public class ListSearchVehicleCtrl {
 
 										Button button = (Button) event.getSource();
 										button.setGraphic(nimv);
-										vehicles.getColumns().get(0).setVisible(false);
-										vehicles.getColumns().get(0).setVisible(true);
+										lsvc.initialize();
 									}
 								}
 							});
@@ -273,7 +273,6 @@ public class ListSearchVehicleCtrl {
 		// Action: remove
 
 		removeColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-		final ListSearchVehicleCtrl lsvc = this;
 
 		Callback<TableColumn<VehicleDataModel, String>, TableCell<VehicleDataModel, String>> cellFactory2
 		= //
