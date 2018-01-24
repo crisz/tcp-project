@@ -3,6 +3,7 @@ package it.metallicdonkey.tcp.linesManagement;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import it.metallicdonkey.tcp.App;
@@ -15,10 +16,8 @@ import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.login.Role;
 import it.metallicdonkey.tcp.models.Check;
 import it.metallicdonkey.tcp.models.Employee;
-import it.metallicdonkey.tcp.models.Line;
 import it.metallicdonkey.tcp.models.Match;
 import it.metallicdonkey.tcp.models.StatusEmployee;
-import it.metallicdonkey.tcp.models.Stop;
 import it.metallicdonkey.tcp.models.Workshift;
 import it.metallicdonkey.tcp.vehiclesManagement.VehicleDataModel;
 import javafx.collections.FXCollections;
@@ -85,6 +84,99 @@ public class CheckCtrl {
 	
 
 	@FXML
+  public void addBind() {
+  	try {
+    	EmployeeDataModel e = this.employees.getSelectionModel().getSelectedItem();
+    	VehicleDataModel v = this.vehicles.getSelectionModel().getSelectedItem();
+    	LineDataModel l = this.lines.getSelectionModel().getSelectedItem();
+    	Match m = new Match(e.getEmployee(), l.getLine(), v.getVehicle());
+    	
+    	
+    	dataCheck.add(new MatchDataModel(m));
+    	this.setItemsForEmployee();
+    	this.setItemsForVehicle();
+  	} catch(NullPointerException e) {
+			Alert alert = new Alert(AlertType.WARNING);
+	    alert.initOwner(mainApp.getPrimaryStage());
+	    alert.setTitle("Error");
+	    alert.setHeaderText("Impossibile creare l'abbinamento");
+	    alert.setContentText("Seleziona almeno un impiegato, una linea e un mezzo dalle 3 liste superiori.");
+	    alert.showAndWait();
+  	}
+  }
+	
+	/*
+   * Creates a Check object for a workshift
+   */
+  private Check createCheck(Workshift workshift) {
+	  Check c = new Check();
+	  c.setWorkshift(workshift);
+	  
+	  ObservableList<MatchDataModel> source = null;
+	  switch (workshift) {
+	  	case MATTINA:
+	  		source = check1;
+	  		break;
+	  	case POMERIGGIO:
+	  		source = check2;
+	  		break;
+	  	case SERA:
+	  		source = dataCheck;
+	  		break;
+	  	default:
+	  		break;
+	  }
+	  
+	  for(int i=0; i< source.size(); i++) {
+		  c.addMatch(source.get(i).getMatch());
+	  }
+	  return c;
+  }
+	
+	@FXML
+	private void goBack() throws IOException, SQLException {
+		this.turno -= 2;
+		if(this.turno<-1) 
+			this.turno = -1;
+		this.nextWorkshift();
+		
+		nextButton.setText("Turno successivo");
+	}
+	
+	@FXML
+  public void goHome() throws IOException {
+  	Home.getHome(null).goHome(this.mainApp);
+  }
+
+  private void initColumns() {
+    this.nameColumn.setCellValueFactory(
+        new PropertyValueFactory<LineDataModel, String>("name"));
+    this.startTerminalColumn.setCellValueFactory(
+        new PropertyValueFactory<LineDataModel, String>("startTerminal"));
+    this.endTerminalColumn.setCellValueFactory(
+        new PropertyValueFactory<LineDataModel, String>("endTerminal"));
+  	this.lines.setItems(dataLines);
+
+  	this.vehicleId.setCellValueFactory(
+        new PropertyValueFactory<VehicleDataModel, String>("id"));
+    this.seats.setCellValueFactory(
+        new PropertyValueFactory<VehicleDataModel, String>("seats"));
+
+    this.nomeECognome.setCellValueFactory(
+        new PropertyValueFactory<EmployeeDataModel, String>("nomeECognome"));
+    
+    this.checkEmployee.setCellValueFactory(
+        new PropertyValueFactory<MatchDataModel, String>("employee"));
+    this.checkVehicle.setCellValueFactory(
+        new PropertyValueFactory<MatchDataModel, String>("vehicle"));
+    this.checkLine.setCellValueFactory(
+        new PropertyValueFactory<MatchDataModel, String>("line"));
+    this.check.setItems(dataCheck);
+    
+    
+	}
+
+  @FXML
   private void initialize() throws SQLException {
 		this.dataVehicles = DBHelperVehicle.getInstance().getAllVehicles();
 		this.dataEmployees = DBHelperEmployee.getInstance().getAllEmployees();
@@ -99,53 +191,9 @@ public class CheckCtrl {
 		this.initColumns();
 		this.setItemsForEmployee();
 		this.setItemsForVehicle();
-		//if(oldChecksExists)
-		//	filterOldCheckPerWorkshift(Workshift.MATTINA);
+		this.setAvailableDrivers();
   }
-	
-	private void filterOldCheckPerWorkshift(Workshift w) {
-		int source = -1;
-		
-		if(w == Workshift.MATTINA)	source = 0;
-		if(w == Workshift.POMERIGGIO) source = 1;
-		else source = 2;
-		
-		dataCheck.clear();
-		
-		for(Match m: oldChecks.get(source).getMatches()) {
-			dataCheck.add(new MatchDataModel(m));
-		}
-	}
-	
-	private void setItemsForEmployee() {
-		this.employees.setItems(new FilteredList<>(dataEmployees, e -> {
-			for(int i=0; i<dataCheck.size(); i++) {
-				if(dataCheck.get(i).getEmployeeModel().getEmployee().getId().equals(e.getEmployee().getId())) {
-					return false;
-				}
-			}
-			return e.getEmployee().getWorkshift() == this.currentWorkshift
-					&& e.getEmployee().getRole() == Role.Autista;
-		}));
-	}
-	
-	private void setItemsForVehicle() {
-
-    this.vehicles.setItems(new FilteredList<>(dataVehicles, v -> {
-			for(int i=0; i<dataCheck.size(); i++) {
-				if(dataCheck.get(i).getVehicleModel().getVehicle().getId().equals(v.getVehicle().getId())) {
-					return false;
-				}
-			}
-			return true;
-		}));
-	}
-
-  @FXML
-  public void goHome() throws IOException {
-  	Home.getHome(null).goHome(this.mainApp);
-  }
-
+  
   @FXML
   public void nextWorkshift() throws IOException, SQLException {
 	  if(turno == -1) {
@@ -156,13 +204,15 @@ public class CheckCtrl {
 		  
 		  if(oldChecksExists) {
 		  
-			  ArrayList<Match> alm = oldChecks.get(1).getMatches();
+			  ArrayList<Match> alm = oldChecks.get(0).getMatches();
+			  System.out.println(this.currentWorkshift+" "+alm.get(0).getEmployee().getId());
 			  for(int i=0; i<alm.size(); i++) {
 				  dataCheck.add(new MatchDataModel(alm.get(i)));
 			  }
 		  }
 		  this.setItemsForEmployee();
 		  this.setItemsForVehicle();
+		  this.setAvailableDrivers();
 		  this.turno++;	  	
 	  }
 	  else if(turno == 0) {	
@@ -182,6 +232,7 @@ public class CheckCtrl {
 		  }
 		  this.setItemsForEmployee();
 		  this.setItemsForVehicle();
+		  this.setAvailableDrivers();
 		  this.turno++;
 	  }
 	  
@@ -200,6 +251,7 @@ public class CheckCtrl {
 		  }
 		  this.setItemsForEmployee();
 		  this.setItemsForVehicle();
+		  this.setAvailableDrivers();
 		  this.turno++;
 	  }
 	  else {
@@ -241,56 +293,6 @@ public class CheckCtrl {
   	}
 
   }
-  
-  /*
-   * Creates a Check object for a workshift
-   */
-  private Check createCheck(Workshift workshift) {
-	  Check c = new Check();
-	  c.setWorkshift(workshift);
-	  
-	  ObservableList<MatchDataModel> source = null;
-	  switch (workshift) {
-	  	case MATTINA:
-	  		source = check1;
-	  		break;
-	  	case POMERIGGIO:
-	  		source = check2;
-	  		break;
-	  	case SERA:
-	  		source = dataCheck;
-	  		break;
-	  	default:
-	  		break;
-	  }
-	  
-	  for(int i=0; i< source.size(); i++) {
-		  c.addMatch(source.get(i).getMatch());
-	  }
-	  return c;
-  }
-
-  @FXML
-  public void addBind() {
-  	try {
-    	EmployeeDataModel e = this.employees.getSelectionModel().getSelectedItem();
-    	VehicleDataModel v = this.vehicles.getSelectionModel().getSelectedItem();
-    	LineDataModel l = this.lines.getSelectionModel().getSelectedItem();
-    	Match m = new Match(e.getEmployee(), l.getLine(), v.getVehicle());
-    	
-    	
-    	dataCheck.add(new MatchDataModel(m));
-    	this.setItemsForEmployee();
-    	this.setItemsForVehicle();
-  	} catch(NullPointerException e) {
-			Alert alert = new Alert(AlertType.WARNING);
-	    alert.initOwner(mainApp.getPrimaryStage());
-	    alert.setTitle("Error");
-	    alert.setHeaderText("Impossibile creare l'abbinamento");
-	    alert.setContentText("Seleziona almeno un impiegato, una linea e un mezzo dalle 3 liste superiori.");
-	    alert.showAndWait();
-  	}
-  }
 
   @FXML
   public void removeBind() {
@@ -310,38 +312,76 @@ public class CheckCtrl {
   	}
   }
 
-  public void setMainApp(App mainApp) {
-    this.mainApp = mainApp;
-  }
+  private void setAvailableDrivers() {
+		HashMap<LineDataModel, Integer> es  = new HashMap<>();
+		// Order lines for priority
+		int sum = 0;
+		for(LineDataModel ldm: this.lines.getItems()) {
+			sum+=ldm.getLine().getPriority();
+		}
+		
+		System.out.println(sum);
+		for(LineDataModel ldm: this.lines.getItems()) {
+			es.put(ldm, (int)sum/ldm.getLine().getPriority()+1);
+		}
+
+		System.out.println(es);
+		
+		for(EmployeeDataModel ee: this.employees.getItems()) {
+			if(lines.getItems().size()<1) return;
+			if(vehicles.getItems().size()<1) return;
+			if(es.size()<1) return;
+			int randomNumber = (int) Math.floor(Math.random()*es.size());
+			
+//			LineDataModel randomLine = lines.getItems().get(randomNumber);
+			
+			
+			LineDataModel randomLine = new ArrayList<LineDataModel>(es.keySet()).get(randomNumber);
+			int randomNumber2 = (int) Math.floor(Math.random()*vehicles.getItems().size());
+			
+			VehicleDataModel randomVehicle = vehicles.getItems().get(randomNumber2);
+			
+    	Match m = new Match(ee.getEmployee(), randomLine.getLine(), randomVehicle.getVehicle());
+    	
+    	dataCheck.add(new MatchDataModel(m));
+    	this.setItemsForEmployee();
+    	this.setItemsForVehicle();
+    	this.setAvailableDrivers();
+			es.put(randomLine, es.get(randomLine)-1);
+			if(es.get(randomLine)==0)
+				es.remove(randomLine);
+		}
+	}
+
+  private void setItemsForEmployee() {
+		this.employees.setItems(new FilteredList<>(dataEmployees, e -> {
+			for(int i=0; i<dataCheck.size(); i++) {
+				if(dataCheck.get(i).getEmployeeModel().getEmployee().getId().equals(e.getEmployee().getId())) {
+					return false;
+				}
+			}
+			return e.getEmployee().getWorkshift() == this.currentWorkshift
+					&& e.getEmployee().getRole() == Role.Autista;
+		}));
+	}
   
 	
-	private void initColumns() {
-    this.nameColumn.setCellValueFactory(
-        new PropertyValueFactory<LineDataModel, String>("name"));
-    this.startTerminalColumn.setCellValueFactory(
-        new PropertyValueFactory<LineDataModel, String>("startTerminal"));
-    this.endTerminalColumn.setCellValueFactory(
-        new PropertyValueFactory<LineDataModel, String>("endTerminal"));
-  	this.lines.setItems(dataLines);
+	private void setItemsForVehicle() {
 
-  	this.vehicleId.setCellValueFactory(
-        new PropertyValueFactory<VehicleDataModel, String>("id"));
-    this.seats.setCellValueFactory(
-        new PropertyValueFactory<VehicleDataModel, String>("seats"));
-
-    this.nomeECognome.setCellValueFactory(
-        new PropertyValueFactory<EmployeeDataModel, String>("nomeECognome"));
-    
-    this.checkEmployee.setCellValueFactory(
-        new PropertyValueFactory<MatchDataModel, String>("employee"));
-    this.checkVehicle.setCellValueFactory(
-        new PropertyValueFactory<MatchDataModel, String>("vehicle"));
-    this.checkLine.setCellValueFactory(
-        new PropertyValueFactory<MatchDataModel, String>("line"));
-    this.check.setItems(dataCheck);
-    
-    
+    this.vehicles.setItems(new FilteredList<>(dataVehicles, v -> {
+			for(int i=0; i<dataCheck.size(); i++) {
+				if(dataCheck.get(i).getVehicleModel().getVehicle().getId().equals(v.getVehicle().getId())) {
+					return false;
+				}
+			}
+			return true;
+		}));
 	}
+	
+	public void setMainApp(App mainApp) {
+    this.mainApp = mainApp;
+  }
+	
 	
 	private void showAbsentEmployees() {
 		String absentEmployees = "";
@@ -371,17 +411,6 @@ public class CheckCtrl {
 	    alert.setContentText("I seguenti impiegati sono assenti e vanno sostituiti:\n" + absentEmployees);
 	    alert.showAndWait();
 		}
-	}
-	
-	
-	@FXML
-	private void goBack() throws IOException, SQLException {
-		this.turno -= 2;
-		if(this.turno<-1) 
-			this.turno = -1;
-		this.nextWorkshift();
-		
-		nextButton.setText("Turno successivo");
 	}
 
 }
