@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.linesManagement.AddLineCtrl">
+<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.linesManagement.AddLineCtrl">
    <children>
       <Pane layoutX="-14.0" prefHeight="500.0" prefWidth="870.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -29,6 +29,11 @@
                   <Font size="20.0" />
                </font>
             </Label>
+            <Label layoutX="566.0" layoutY="159.0" text="La prima fermata inserita è il Capolinea" />
+            <Label layoutX="566.0" layoutY="183.0" text="Inserire poi le fermate" />
+            <Label layoutX="566.0" layoutY="134.0" text="Guida per l'inserimento:" />
+            <Label layoutX="566.0" layoutY="208.0" text="Il sistema calcolerà il capolinea di transito" />
+            <Label layoutX="566.0" layoutY="237.0" text="Inserire come ultima fermata il capolinea" />
          </children>
       </Pane>
    </children>
