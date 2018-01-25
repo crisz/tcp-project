@@ -54,4 +54,17 @@ public class Line {
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
+	
+	public ArrayList<Stop> getAllStops(){
+		ArrayList<Stop> stops = new ArrayList<>();
+		stops.add(getStartTerminal());
+		stops.addAll(this.goingStops);
+		stops.add(this.getEndTerminal());
+		stops.addAll(this.returnStops);
+		return stops;
+	}
+	
+	public String toString() {
+		return name + " " + getAllStops();
+	}
 }

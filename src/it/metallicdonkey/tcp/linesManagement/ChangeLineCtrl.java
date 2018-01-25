@@ -125,18 +125,20 @@ public class ChangeLineCtrl extends AddLineCtrl {
 	private Line getNewLine() {
 		Line l = new Line();
 		l.setName(name.getText());
-		List<Stop> list = Arrays.asList(stops.toArray(new Stop[stops.size()]));
-		ArrayList<Stop> arrayList = new ArrayList<>();
-		arrayList.addAll(list);
-		l.setGoingStops(arrayList);
-		//l.setGoingStops((ArrayList<Stop>) );
+		l.setPriority(Integer.parseInt(priority.getText()));
 		l.setStartTerminal(stops.get(0));
-		l.setEndTerminal(stops.get(stops.size()-1));
 
-		ArrayList<Stop> reverseList = new ArrayList<>();
-		reverseList.addAll(l.getGoingStops());
-		Collections.reverse(reverseList);
-		l.setReturnStops(reverseList);
+		ArrayList<Stop> going = new ArrayList<>();
+		for(int i=1; i<stops.size()/2; i++)
+			going.add(stops.get(i));
+		l.setGoingStops(going);
+
+		l.setEndTerminal(stops.get(stops.size()/2));
+
+		ArrayList<Stop> ret = new ArrayList<>();
+		for(int i=(stops.size()/2)+1; i<stops.size()-1; i++)
+			ret.add(stops.get(i));
+		l.setReturnStops(ret);
 		return l;
 	}
 
@@ -153,6 +155,7 @@ public class ChangeLineCtrl extends AddLineCtrl {
 			try {
 				DBHelperLine.getInstance().removeLine(oldLine);
 				DBHelperLine.getInstance().insertLine(outputLine);
+				System.out.println(outputLine);
 			}
 			catch(SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
@@ -208,5 +211,9 @@ public class ChangeLineCtrl extends AddLineCtrl {
 	}
 	public void setMainApp(App mainApp) {
 		this.mainApp = mainApp;
+	}
+	
+	private String capitalize(String str) {
+		return str.substring(0,1).toUpperCase() + str.substring(1);
 	}
 }
