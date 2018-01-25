@@ -127,7 +127,6 @@ public class CheckCtrl {
 	  	default:
 	  		break;
 	  }
-
 	  for(int i=0; i< source.size(); i++) {
 		  c.addMatch(source.get(i).getMatch());
 	  }
@@ -207,7 +206,6 @@ public class CheckCtrl {
 		  if(oldChecksExists) {
 
 			  ArrayList<Match> alm = oldChecks.get(0).getMatches();
-			  System.out.println(this.currentWorkshift+" "+alm.get(0).getEmployee().getId());
 			  for(int i=0; i<alm.size(); i++) {
 				  dataCheck.add(new MatchDataModel(alm.get(i)));
 			  }
