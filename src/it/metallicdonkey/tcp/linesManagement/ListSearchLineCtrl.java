@@ -76,7 +76,7 @@ public class ListSearchLineCtrl {
 
 				// Compare first name and last name of every person with filter text.
 				String lowerCaseFilter = newValue.toLowerCase();
-
+				this.setButtons();
 				return line.getName().toLowerCase().contains(lowerCaseFilter) ||
 						line.getStartTerminal().toLowerCase().contains(lowerCaseFilter) ||
 						line.getEndTerminal().toLowerCase().contains(lowerCaseFilter);
@@ -86,13 +86,12 @@ public class ListSearchLineCtrl {
 		sortedData.comparatorProperty().bind(lines.comparatorProperty());
 
 		lines.setItems(sortedData);
+		this.setButtons();
 
-		// Add actions!
-
+	}
+	
+	private void setButtons() {
 		editColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-
-
-
 
 		Callback<TableColumn<LineDataModel, String>, TableCell<LineDataModel, String>> cellFactory
 		= //
@@ -197,8 +196,6 @@ public class ListSearchLineCtrl {
 		};
 
 		removeColumn.setCellFactory(cellFactory2);
-
-
 	}
 
 	@FXML
