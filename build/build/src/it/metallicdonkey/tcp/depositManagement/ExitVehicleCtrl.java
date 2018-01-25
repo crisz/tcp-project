@@ -30,9 +30,6 @@ public class ExitVehicleCtrl {
 
 	@FXML
 	private void submitVehicle() {
-		String result = "L'uscita del veicolo " + vehicleField.getText() + " è avvenuto con successo.";
-		resultLabel.setText(result);
-
 		if(vehicleField.getText().trim().equals("")) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
@@ -51,10 +48,30 @@ public class ExitVehicleCtrl {
 				alert.setHeaderText("Uscita non riuscita");
 				alert.setContentText("Il veicolo non esiste");
 				alert.showAndWait();
-			} else {	// If the vehicle exists
+				return;
+			}
+			if (v.getStatus().name().equals("ON_ACTION")) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.initOwner(mainApp.getPrimaryStage());
+				alert.setTitle("Avviso");
+				alert.setHeaderText("Uscita non riuscita");
+				alert.setContentText("Il veicolo è in circolazione");
+				alert.showAndWait();
+				return;
+			}
+			if (v.getStatus().name().equals("BROKEN")) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.initOwner(mainApp.getPrimaryStage());
+				alert.setTitle("Avviso");
+				alert.setHeaderText("Uscita non riuscita");
+				alert.setContentText("Il veicolo è in riparazione");
+				alert.showAndWait();
+				return;
+			}
+			else {	// If the vehicle exists
 				// Free the location in the db
 				DBHelperDeposit.getInstance().freeLocation(v);
-				
+
 				// update the status of the vehicle
 				v.setStatus(StatusVehicle.ON_ACTION);
 				DBHelperVehicle.getInstance().updateVehicle(v);
@@ -68,6 +85,8 @@ public class ExitVehicleCtrl {
 			alert.setContentText("Controlla la connessione e riprova");
 			alert.showAndWait();
 		}
+		String result = "L'uscita del veicolo " + vehicleField.getText() + " è avvenuto con successo.";
+		resultLabel.setText(result);
 	}
 
 	@FXML

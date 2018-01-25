@@ -81,7 +81,7 @@ public class ChangeEmployeeCtrl extends AddEmployeeCtrl {
 		this.cognome.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
 		this.cognome.setEditable(false);
 		this.datanascita.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
-		this.datanascita.setEditable(false);
+		this.datanascita.setDisable(true);
 		this.stipendio.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
 		this.stipendio.setEditable(false);
 		this.indirizzo.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
@@ -92,6 +92,8 @@ public class ChangeEmployeeCtrl extends AddEmployeeCtrl {
 		this.ruolo.setDisable(true);
 		this.turno.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
 		this.turno.setDisable(true);
+		this.password.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
+		this.password.setEditable(false);
 	}
 
 	@FXML
@@ -103,7 +105,7 @@ public class ChangeEmployeeCtrl extends AddEmployeeCtrl {
 		this.cognome.setStyle(null);
 		this.cognome.setEditable(true);
 		this.datanascita.setStyle(null);
-		this.datanascita.setEditable(true);
+		this.datanascita.setDisable(false);;
 		this.stipendio.setStyle(null);
 		this.stipendio.setEditable(true);
 		this.indirizzo.setStyle(null);
@@ -114,6 +116,8 @@ public class ChangeEmployeeCtrl extends AddEmployeeCtrl {
 		this.ruolo.setDisable(false);
 		this.turno.setStyle(null);
 		this.turno.setDisable(false);
+		this.password.setStyle(null);
+		this.password.setEditable(true);
 
 		if(this.inviaButton.getText().equals("Invia")) {
 			submitEmployee();

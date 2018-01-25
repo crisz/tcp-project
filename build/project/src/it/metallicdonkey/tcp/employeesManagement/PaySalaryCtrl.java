@@ -96,7 +96,7 @@ public class PaySalaryCtrl {
 		}
 		LocalDate last = ar.get(0).getDate();
 		LocalDate now = LocalDate.now();
-		if(now.getDayOfYear() - last.getDayOfYear() < 30) {
+		if( ( now.getDayOfYear()-last.getDayOfYear() ) < 30) {
 			ultimoPagamento.setText("L'ultimo pagamento è stato effettuato meno di 30 giorni fa, in data "+last+".\n Non è possibile effettuare un nuovo pagamento se non sono passati almeno 30 giorni.");
 		}
 		else {
@@ -134,7 +134,7 @@ public class PaySalaryCtrl {
 				Alert alert2 = new Alert(AlertType.INFORMATION);
 				alert2.initOwner(mainApp.getPrimaryStage());
 				alert2.setTitle("Avviso");
-				if(now.getDayOfYear() - last.getDayOfYear() < -1) {
+				if(now.getDayOfYear() - last.getDayOfYear() < 30) {
 					alert2.setHeaderText("Il pagamento non è stato effettuato.");
 					alert2.setContentText("Non sono trascorsi più di 30 giorni dall'ultimo pagamento.");
 				} else {

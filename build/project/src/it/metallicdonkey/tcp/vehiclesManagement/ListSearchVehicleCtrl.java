@@ -8,9 +8,7 @@ import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperDeposit;
 import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.login.Home;
-import it.metallicdonkey.tcp.models.StatusEmployee;
 import it.metallicdonkey.tcp.models.StatusVehicle;
-import it.metallicdonkey.tcp.models.Vehicle;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -64,43 +62,9 @@ public class ListSearchVehicleCtrl {
 		System.out.println("Data loaded");
 		System.out.println(data);
 	}
-	@FXML
-	private void initialize() {
-		// Initialization data
-		id.setCellValueFactory(
-				new PropertyValueFactory<VehicleDataModel, String>("id"));
-		seats.setCellValueFactory(
-				new PropertyValueFactory<VehicleDataModel, String>("seats"));
-		hSeats.setCellValueFactory(
-				new PropertyValueFactory<VehicleDataModel, String>("hSeats"));
-		sSeats.setCellValueFactory(
-				new PropertyValueFactory<VehicleDataModel, String>("sSeats"));
-		vLocation.setCellValueFactory(
-				new PropertyValueFactory<VehicleDataModel, String>("vLocation"));
-		// Initialization filter
-		FilteredList<VehicleDataModel> filteredData = new FilteredList<>(data, p -> true);
-
+	
+	private void setButtons() {
 		final ListSearchVehicleCtrl lsvc = this;
-
-		filter.textProperty().addListener((observable, oldValue, newValue) -> {
-			filteredData.setPredicate(v -> {
-				// If filter text is empty, display all persons.
-				if (newValue == null || newValue.isEmpty()) {
-					return true;
-				}
-
-				// Compare first name and last name of every person with filter text.
-				String lowerCaseFilter = newValue.toLowerCase();
-
-				return v.getId().toLowerCase().contains(lowerCaseFilter) ||
-						v.getVLocation().toLowerCase().contains(lowerCaseFilter);
-			});
-		});
-		SortedList<VehicleDataModel> sortedData = new SortedList<>(filteredData);
-		sortedData.comparatorProperty().bind(vehicles.comparatorProperty());
-
-		vehicles.setItems(sortedData);
-
 		// Add actions!
 
 		editColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
@@ -255,8 +219,11 @@ public class ListSearchVehicleCtrl {
 								System.out.println("Broken vehicle");
 								bv.setImage(new Image(getClass().getResourceAsStream("../icons/nbv.png")));
 								getTableRow().setStyle("-fx-background-color: #e55e5e");
+								System.out.println("Il veicolo con matricola "+vehicle.getId()+" è guasto");
 							}
 							else {
+								bv.setImage(new Image(getClass().getResourceAsStream("../icons/bv.png")));
+								System.out.println("Il veicolo con matricola "+vehicle.getId()+" NON è guasto");
 								getTableRow().setStyle(null);
 							}
 							setGraphic(btn2);
@@ -327,7 +294,43 @@ public class ListSearchVehicleCtrl {
 		};
 
 		removeColumn.setCellFactory(cellFactory2);
+	}
+	
+	@FXML
+	private void initialize() {
+		// Initialization data
+		id.setCellValueFactory(
+				new PropertyValueFactory<VehicleDataModel, String>("id"));
+		seats.setCellValueFactory(
+				new PropertyValueFactory<VehicleDataModel, String>("seats"));
+		hSeats.setCellValueFactory(
+				new PropertyValueFactory<VehicleDataModel, String>("hSeats"));
+		sSeats.setCellValueFactory(
+				new PropertyValueFactory<VehicleDataModel, String>("sSeats"));
+		vLocation.setCellValueFactory(
+				new PropertyValueFactory<VehicleDataModel, String>("vLocation"));
+		// Initialization filter
+		FilteredList<VehicleDataModel> filteredData = new FilteredList<>(data, p -> true);
 
+		filter.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(v -> {
+				// If filter text is empty, display all persons.
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+
+				// Compare first name and last name of every person with filter text.
+				String lowerCaseFilter = newValue.toLowerCase();
+				this.setButtons();
+				return v.getId().toLowerCase().contains(lowerCaseFilter) ||
+						v.getVLocation().toLowerCase().contains(lowerCaseFilter);
+			});
+		});
+		SortedList<VehicleDataModel> sortedData = new SortedList<>(filteredData);
+		sortedData.comparatorProperty().bind(vehicles.comparatorProperty());
+
+		vehicles.setItems(sortedData);
+		this.setButtons();
 	}
 
 	@FXML

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Iterator;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperCheck;
@@ -79,9 +80,9 @@ public class CheckCtrl {
 	FilteredList<EmployeeDataModel> empS;
 	ArrayList<EmployeeDataModel> employeesInCheck = new ArrayList<>();
 	boolean oldChecksExists;
-	List<Check> oldChecks; 
+	List<Check> oldChecks;
 	Workshift currentWorkshift = Workshift.MATTINA;
-	
+
 
 	@FXML
   public void addBind() {
@@ -90,8 +91,8 @@ public class CheckCtrl {
     	VehicleDataModel v = this.vehicles.getSelectionModel().getSelectedItem();
     	LineDataModel l = this.lines.getSelectionModel().getSelectedItem();
     	Match m = new Match(e.getEmployee(), l.getLine(), v.getVehicle());
-    	
-    	
+
+
     	dataCheck.add(new MatchDataModel(m));
     	this.setItemsForEmployee();
     	this.setItemsForVehicle();
@@ -104,14 +105,14 @@ public class CheckCtrl {
 	    alert.showAndWait();
   	}
   }
-	
+
 	/*
    * Creates a Check object for a workshift
    */
   private Check createCheck(Workshift workshift) {
 	  Check c = new Check();
 	  c.setWorkshift(workshift);
-	  
+
 	  ObservableList<MatchDataModel> source = null;
 	  switch (workshift) {
 	  	case MATTINA:
@@ -126,23 +127,22 @@ public class CheckCtrl {
 	  	default:
 	  		break;
 	  }
-	  
 	  for(int i=0; i< source.size(); i++) {
 		  c.addMatch(source.get(i).getMatch());
 	  }
 	  return c;
   }
-	
+
 	@FXML
 	private void goBack() throws IOException, SQLException {
 		this.turno -= 2;
-		if(this.turno<-1) 
+		if(this.turno<-1)
 			this.turno = -1;
 		this.nextWorkshift();
-		
+
 		nextButton.setText("Turno successivo");
 	}
-	
+
 	@FXML
   public void goHome() throws IOException {
   	Home.getHome(null).goHome(this.mainApp);
@@ -164,7 +164,7 @@ public class CheckCtrl {
 
     this.nomeECognome.setCellValueFactory(
         new PropertyValueFactory<EmployeeDataModel, String>("nomeECognome"));
-    
+
     this.checkEmployee.setCellValueFactory(
         new PropertyValueFactory<MatchDataModel, String>("employee"));
     this.checkVehicle.setCellValueFactory(
@@ -172,8 +172,8 @@ public class CheckCtrl {
     this.checkLine.setCellValueFactory(
         new PropertyValueFactory<MatchDataModel, String>("line"));
     this.check.setItems(dataCheck);
-    
-    
+
+
 	}
 
   @FXML
@@ -181,19 +181,20 @@ public class CheckCtrl {
 		this.dataVehicles = DBHelperVehicle.getInstance().getAllVehicles();
 		this.dataEmployees = DBHelperEmployee.getInstance().getAllEmployees();
 		this.dataLines = DBHelperLine.getInstance().getAllLines();
-		this.dataCheck = FXCollections.observableArrayList();		
+		this.dataCheck = FXCollections.observableArrayList();
 
 		// Check if there are the last 3 checks in the db
 		this.oldChecks = DBHelperCheck.getInstance().getLastChecks();
 		this.oldChecksExists = this.oldChecks.size() != 0;
-		
+
 		this.showAbsentEmployees();
 		this.initColumns();
 		this.setItemsForEmployee();
 		this.setItemsForVehicle();
 		this.setAvailableDrivers();
+		removeDuplicates();
   }
-  
+
   @FXML
   public void nextWorkshift() throws IOException, SQLException {
 	  if(turno == -1) {
@@ -201,11 +202,10 @@ public class CheckCtrl {
 		  this.currentWorkshift = Workshift.MATTINA;
 		  // Clear dataCheck
 		  dataCheck.clear();
-		  
+
 		  if(oldChecksExists) {
-		  
+
 			  ArrayList<Match> alm = oldChecks.get(0).getMatches();
-			  System.out.println(this.currentWorkshift+" "+alm.get(0).getEmployee().getId());
 			  for(int i=0; i<alm.size(); i++) {
 				  dataCheck.add(new MatchDataModel(alm.get(i)));
 			  }
@@ -213,18 +213,19 @@ public class CheckCtrl {
 		  this.setItemsForEmployee();
 		  this.setItemsForVehicle();
 		  this.setAvailableDrivers();
-		  this.turno++;	  	
+		  this.turno++;
+		  removeDuplicates();
 	  }
-	  else if(turno == 0) {	
+	  else if(turno == 0) {
 		  this.workshiftLabel.setText("Pomeriggio");
 		  this.currentWorkshift = Workshift.POMERIGGIO;
 		  this.check1 = FXCollections.observableArrayList(dataCheck);
-		 
+
 		  // Clear dataCheck
 		  dataCheck.clear();
-		  
+
 		  if(oldChecksExists) {
-		  
+
 			  ArrayList<Match> alm = oldChecks.get(1).getMatches();
 			  for(int i=0; i<alm.size(); i++) {
 				  dataCheck.add(new MatchDataModel(alm.get(i)));
@@ -234,8 +235,9 @@ public class CheckCtrl {
 		  this.setItemsForVehicle();
 		  this.setAvailableDrivers();
 		  this.turno++;
+		  removeDuplicates();
 	  }
-	  
+
 	  else if(turno == 1) {
 	  	this.currentWorkshift = Workshift.SERA;
 		  this.workshiftLabel.setText("Sera");
@@ -253,18 +255,19 @@ public class CheckCtrl {
 		  this.setItemsForVehicle();
 		  this.setAvailableDrivers();
 		  this.turno++;
+		  removeDuplicates();
 	  }
 	  else {
-  		
+
   		/*
   		 * Save checks into the database
   		 */
-  		
+
   		// Create Check objects
   		Check checkMattina = createCheck(Workshift.MATTINA);
   		Check checkPomeriggio = createCheck(Workshift.POMERIGGIO);
   		Check checkSera = createCheck(Workshift.SERA);
-  		
+
   		try {
   			// First remove the checks of the day before
   			DBHelperCheck.getInstance().removeLastChecks();
@@ -281,7 +284,7 @@ public class CheckCtrl {
   		    alert.setContentText("Non è stato possibile salvare i dati nel database");
   		    alert.showAndWait();
 		}
-  		
+
   		FXMLLoader loader = new FXMLLoader();
   		loader.setLocation(App.class.getResource("linesManagement/CheckResultScreen.fxml"));
   		AnchorPane resultScreen = (AnchorPane) loader.load();
@@ -301,7 +304,7 @@ public class CheckCtrl {
 	  	check.getItems().remove(c);
 	  	this.setItemsForEmployee();
     	this.setItemsForVehicle();
-  	} 
+  	}
   	catch(NullPointerException e) {
 		Alert alert = new Alert(AlertType.WARNING);
 	    alert.initOwner(mainApp.getPrimaryStage());
@@ -319,34 +322,34 @@ public class CheckCtrl {
 		for(LineDataModel ldm: this.lines.getItems()) {
 			sum+=ldm.getLine().getPriority();
 		}
-		
+
 		System.out.println(sum);
 		for(LineDataModel ldm: this.lines.getItems()) {
-			es.put(ldm, (int)sum/ldm.getLine().getPriority()+1);
+			es.put(ldm, (int)(ldm.getLine().getPriority() * this.employees.getItems().size() /sum +1));
 		}
 
 		System.out.println(es);
-		
+
 		for(EmployeeDataModel ee: this.employees.getItems()) {
 			if(lines.getItems().size()<1) return;
 			if(vehicles.getItems().size()<1) return;
 			if(es.size()<1) return;
 			int randomNumber = (int) Math.floor(Math.random()*es.size());
-			
+
 //			LineDataModel randomLine = lines.getItems().get(randomNumber);
-			
-			
+
+
 			LineDataModel randomLine = new ArrayList<LineDataModel>(es.keySet()).get(randomNumber);
 			int randomNumber2 = (int) Math.floor(Math.random()*vehicles.getItems().size());
-			
+
 			VehicleDataModel randomVehicle = vehicles.getItems().get(randomNumber2);
-			
+
     	Match m = new Match(ee.getEmployee(), randomLine.getLine(), randomVehicle.getVehicle());
-    	
+
     	dataCheck.add(new MatchDataModel(m));
     	this.setItemsForEmployee();
     	this.setItemsForVehicle();
-    	this.setAvailableDrivers();
+    	//this.setAvailableDrivers();
 			es.put(randomLine, es.get(randomLine)-1);
 			if(es.get(randomLine)==0)
 				es.remove(randomLine);
@@ -364,8 +367,8 @@ public class CheckCtrl {
 					&& e.getEmployee().getRole() == Role.Autista;
 		}));
 	}
-  
-	
+
+
 	private void setItemsForVehicle() {
 
     this.vehicles.setItems(new FilteredList<>(dataVehicles, v -> {
@@ -377,12 +380,12 @@ public class CheckCtrl {
 			return true;
 		}));
 	}
-	
+
 	public void setMainApp(App mainApp) {
     this.mainApp = mainApp;
   }
-	
-	
+
+
 	private void showAbsentEmployees() {
 		String absentEmployees = "";
 		if (oldChecksExists) {
@@ -400,7 +403,7 @@ public class CheckCtrl {
 				}
 				else {
 					dataCheck.add(mdm);
-				}	
+				}
 			}
 		}
 		if(absentEmployees.length()!=0) {
@@ -412,5 +415,52 @@ public class CheckCtrl {
 	    alert.showAndWait();
 		}
 	}
-
+	
+	private void removeDuplicates() {
+		if(dataCheck.isEmpty())
+			return;
+		
+		Iterator<MatchDataModel> it = dataCheck.iterator();
+		MatchDataModel previous = null, current = null;
+		while(it.hasNext()) {
+			if(previous == null) {
+				previous = it.next();
+				continue;
+			}
+			
+			current = it.next();
+			// Check for duplicated employees
+			if(current.getEmployee().equals(previous.getEmployee())) {
+				System.out.println("REMOVED Duplicated Employee" + current.getEmployee());
+				it.remove();
+				this.setItemsForEmployee();
+		    	this.setItemsForVehicle();
+			}
+			// Check for duplicated Vehicles
+			else if(current.getVehicle().equals(previous.getVehicle())) {
+				System.out.println("REMOVED Duplicated Vehicle" + current.getVehicle());
+				it.remove();
+				this.setItemsForEmployee();
+		    	this.setItemsForVehicle();
+			}
+			previous = current;
+		}
+		for(int i=0; i< dataCheck.size() -1; i++) {
+			// Check for duplicated Employees
+			if(dataCheck.get(i).getEmployee().equals(dataCheck.get(i+1).getEmployee())) {
+		    	System.out.println("REMOVED Duplicated Employee" + dataCheck.get(i).getEmployee());
+				check.getItems().remove(i+1);
+				
+			}
+			
+			// Check for duplicated Vehicles
+			if(dataCheck.get(i).getVehicle().equals(dataCheck.get(i+1).getEmployee())) {
+		    	System.out.println("REMOVED Duplicated Vehicle" + dataCheck.get(i).getVehicle());
+				check.getItems().remove(i+1);
+				this.setItemsForEmployee();
+		    	this.setItemsForVehicle();
+			}
+			
+		}
+	}
 }

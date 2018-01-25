@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 	<project name="tcp-project" default="do-deploy" basedir="."  xmlns:fx="javafx:com.sun.javafx.tools.ant">
 	<target name="init-fx-tasks">
 		<path id="fxant">
@@ -22,19 +21,19 @@
 		<mkdir dir="externalLibs" />
 	
 		<copy todir="externalLibs">
-			<fileset dir="D:\Users\crist\eclipse-workspace\tcp-project">
+			<fileset dir="C:\Users\gio_v\eclipse-workspace\tcp-project">
 				<filename name="com.lowagie.text-2.1.7.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="externalLibs">
-			<fileset dir="D:\Users\crist\eclipse-workspace\tcp-project">
+			<fileset dir="C:\Users\gio_v\eclipse-workspace\tcp-project">
 				<filename name="mysql-connector-java-5.1.45-bin.jar"/>
 			</fileset>
 		</copy>
 	
 		<mkdir dir="project" />
 		<copy todir="project">
-			<fileset dir="D:\Users\crist\eclipse-workspace\tcp-project">
+			<fileset dir="C:\Users\gio_v\eclipse-workspace\tcp-project">
 				<include name="src/**" />
 			</fileset>
 		</copy>

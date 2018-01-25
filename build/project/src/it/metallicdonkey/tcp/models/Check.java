@@ -1,7 +1,6 @@
 package it.metallicdonkey.tcp.models;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Check {
 	private ArrayList<Match> matchesList = new ArrayList<>();

@@ -5,12 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.db.DBHelperDeposit;
-import it.metallicdonkey.tcp.db.DBHelperEmployee;
 import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.StatusVehicle;

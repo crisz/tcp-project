@@ -22,13 +22,12 @@ import java.nio.file.Path;
 public class PDFPayment {
 
   public String print(Payment payment) {
-    System.out.println("INizio stampa");
     Document output = null;
 
     LocalDate d = LocalDate.now();
     String date = d.getDayOfMonth()+"-"+d.getMonth()+"-"+d.getYear();
     String path = "./payment-"+date+".pdf";
-    
+
     try {
       // text file to convert to pdf as args[0]
       // letter 8.5x11
@@ -43,27 +42,27 @@ public class PDFPayment {
       output.addTitle("Payment");
 
       String line = "Mandato di pagamento "+date.replaceAll("-", "/")+":\n";
-      
+
       line += "Nome: "+Session.employee.getFirstName()+"\n";
-      line += "Cognome: "+Session.employee.getLastName()+"\n"; 
+      line += "Cognome: "+Session.employee.getLastName()+"\n";
       line += "Matricola: "+payment.getIdEmployee()+"\n";
       line += "Quota: "+payment.getNetSalary()+"€\n";
       line += "Da prelevare presso: Monte dei paschi di Siena \n";
       line += "Codice a barre:\n";
       line += "\n";
-      
-      
-      
+
+
+
       Paragraph p = new Paragraph(line);
       p.setAlignment(Element.ALIGN_JUSTIFIED);
       Image img2 = Image.getInstance(App.class.getResource("icons/mdps.png").getFile());
       output.add(img2);
-    
+
       output.add(p);
-      
+
       Image img = Image.getInstance(App.class.getResource("icons/cab.png").getFile());
       output.add(img);
-    
+
       System.out.println("Done.");
       output.close();
     }

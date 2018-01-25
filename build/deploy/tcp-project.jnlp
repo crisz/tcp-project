@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="tcp-project.jar" size="329931" download="eager" />
+    <jar href="tcp-project.jar" size="330917" download="eager" />
     <jar href="libs\com.lowagie.text-2.1.7.jar" size="1782376" download="eager" />
     <jar href="libs\mysql-connector-java-5.1.45-bin.jar" size="999810" download="eager" />
   </resources>

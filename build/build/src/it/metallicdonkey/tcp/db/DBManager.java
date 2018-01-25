@@ -19,17 +19,17 @@ public class DBManager {
     private Connection connection = null;
     private Statement statement = null;
     private ResultSet resultSet = null;
-	
+
     private static final Logger LOG = Logger.getLogger(DBManager.class.getName());
 
     public void log(Level level, String msg) {
         LOG.log(level, msg);
     }
-    
+
     public Connection getConnection() {
     	return connection;
     }
-    
+
     public DBManager(String host, String uname, String password, String db) {
         loadMySQLDriver();
         this.server = host;
@@ -81,7 +81,7 @@ public class DBManager {
 
     public void connect() {
         String driverString = "jdbc:mysql://" + server + "/" + database + "?user=" + username + "&password=" + psw;
-        try {    
+        try {
         	this.connection = DriverManager.getConnection(driverString);
             return;
         }
@@ -94,7 +94,7 @@ public class DBManager {
           alert.showAndWait();
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
             return;
-        }        
+        }
     }
 
     public boolean disconnect() {

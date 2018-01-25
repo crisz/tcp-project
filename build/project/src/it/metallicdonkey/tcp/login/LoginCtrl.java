@@ -48,7 +48,7 @@ public class LoginCtrl {
 		  e.setStatus(StatusEmployee.AVAILABLE);
 		  e.setRole(Role.Autista);
 		  e.setWorkshift(Workshift.MATTINA);
-		  Home.getHome(Role.Addetto_ai_mezzi).goHome(mainApp);
+		  Home.getHome(Role.Addetto_agli_impiegati).goHome(mainApp);
 	  } else {
 		  try {
 				DBHelperEmployee dbm = DBHelperEmployee.getInstance();
@@ -64,7 +64,6 @@ public class LoginCtrl {
 		            alert.setHeaderText("Matricola e/o password errate");
 		            alert.setContentText("Controlla le credenziali inserite e riprova.");
 		            alert.showAndWait();
-		            // Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, exc);
 				}
 			} catch (SQLException exc) {
 				exc.printStackTrace();
@@ -74,19 +73,8 @@ public class LoginCtrl {
 	            alert.setHeaderText("Connessione Non Disponibile");
 	            alert.setContentText("Controlla la connessione e riprova.");
 	            alert.showAndWait();
-		        // Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, exc);
 			}
 	  }
-
-
-//  	if(false) {
-//  		Alert alert = new Alert(AlertType.WARNING);
-//      alert.initOwner(mainApp.getPrimaryStage());
-//      alert.setTitle("Login information");
-//      alert.setHeaderText("Login fallito!");
-//      alert.setContentText("Controlla i dati inseriti e riprova.");
-//      alert.showAndWait();
-//  	}
   }
 
   public void setMainApp(App mainApp) {

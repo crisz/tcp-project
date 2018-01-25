@@ -5,12 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import it.metallicdonkey.tcp.App;
-import it.metallicdonkey.tcp.db.DBHelperDeposit;
-import it.metallicdonkey.tcp.db.DBHelperEmployee;
 import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.StatusVehicle;
@@ -139,6 +134,11 @@ public class AddVehicleCtrl {
 		// Check idMatricola < 7 char
 		if (matricola.getText().length() > 7) {
 			alert.setContentText("La matricola non deve superare i 7 caratteri");
+			return alert;
+		}
+		// Check Plate < 8 char
+		if (targa.getText().length() > 7) {
+			alert.setContentText("La targa non deve essere più lunga di 7 caratteri");
 			return alert;
 		}
 		// Check if values are numeric or not

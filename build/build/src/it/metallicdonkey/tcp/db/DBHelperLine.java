@@ -16,6 +16,7 @@ import javafx.collections.ObservableList;
 
 public class DBHelperLine {
 	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
+
 	private static DBHelperLine instance;
 
 	private DBHelperLine() {
@@ -69,18 +70,11 @@ public class DBHelperLine {
 						"' AND l.idLine=ls.Line_idLine AND ls.type='END'");
 			}
 			ResultSet result = dbm.getResultSet();
-			/**************
-			 * CONTROLLO DA FARE
-			 * ATTENZIONE
-			 */
 			if(!result.next()) {
 				Stop s = new Stop();
-				s.setAddress("Via vattelappesca 12");
+				s.setAddress("");
 				return s;
 			}
-			/**
-			 * AGGIUSTARE
-			 */
 			stop.setAddress(result.getString("s.Address"));
 		} catch(SQLException exc) {
 			exc.printStackTrace();

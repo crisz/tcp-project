@@ -56,7 +56,6 @@ public class ListSearchEmployeeCtrl {
 	public static EmployeeDataModel selectedEmployee;
 	@FXML
 	private void initialize() {
-		final ListSearchEmployeeCtrl lsvc = this;
 		// Initialization data
 		idColumn.setCellValueFactory(
 			new PropertyValueFactory<EmployeeDataModel, String>("id"));
@@ -75,6 +74,7 @@ public class ListSearchEmployeeCtrl {
 				}
 				// Compare first name and last name of every person with filter text.
 				String lowerCaseFilter = newValue.toLowerCase();
+				this.setButtons();
 				return employee.getId().toLowerCase().contains(lowerCaseFilter) ||
 						employee.getFirstName().toLowerCase().contains(lowerCaseFilter) ||
 						employee.getLastName().toLowerCase().contains(lowerCaseFilter);
@@ -84,11 +84,14 @@ public class ListSearchEmployeeCtrl {
 		System.out.println(employees);
 		sortedData.comparatorProperty().bind(employees.comparatorProperty());
 		employees.setItems(sortedData);
+		this.setButtons();
+	}
+	
+	
+	private void setButtons() {
+		final ListSearchEmployeeCtrl lsvc = this;
 		// Add actions!
 		editColumn.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-
-
-
 
 		Callback<TableColumn<EmployeeDataModel, String>, TableCell<EmployeeDataModel, String>> cellFactory
 		= //
@@ -232,6 +235,7 @@ public class ListSearchEmployeeCtrl {
 								getTableRow().setStyle("-fx-background-color: #e55e5e");
 							}
 							else {
+								bv.setImage(new Image(getClass().getResourceAsStream("../icons/bv.png")));
 								getTableRow().setStyle(null);
 							}
 							setGraphic(btn2);
