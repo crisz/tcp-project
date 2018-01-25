@@ -5,9 +5,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import it.metallicdonkey.tcp.App;
 import it.metallicdonkey.tcp.db.DBHelperLine;
+import it.metallicdonkey.tcp.db.DBHelperVehicle;
 import it.metallicdonkey.tcp.employeesManagement.HRAreaCtrl;
 import it.metallicdonkey.tcp.login.Home;
 import it.metallicdonkey.tcp.models.Line;
@@ -48,6 +50,8 @@ public class ChangeLineCtrl extends AddLineCtrl {
 	private TextField priority;
 
 	LineDataModel line;
+	
+	Line oldLine;
 
 	@FXML
 	private void initialize() throws SQLException {
@@ -59,8 +63,8 @@ public class ChangeLineCtrl extends AddLineCtrl {
 		ArrayList<Stop> stopsGoing = DBHelperLine.getInstance().getStops(line.getLine(), true);
 		ArrayList<Stop> stopsReturn = DBHelperLine.getInstance().getStops(line.getLine(), false);
 		Stop end = DBHelperLine.getInstance().getTerminal(line.getLine(), false);
-		start.setAddress(start.getAddress().toUpperCase());
-		end.setAddress(end.getAddress().toUpperCase());
+		start.setAddress(start.getAddress());
+		end.setAddress(end.getAddress());
 		System.out.println(stopsGoing);
 		stops.add(++sequence, start);
 		System.out.println(stops);
@@ -85,6 +89,8 @@ public class ChangeLineCtrl extends AddLineCtrl {
 		this.priority.setEditable(false);
 		this.name.setStyle("-fx-text-box-border: transparent; -fx-focus-color: transparent;-fx-background-color: #F4F4F4");
 		this.name.setEditable(false);
+		
+		oldLine = getNewLine();
 	}
 
 
@@ -119,7 +125,11 @@ public class ChangeLineCtrl extends AddLineCtrl {
 	private Line getNewLine() {
 		Line l = new Line();
 		l.setName(name.getText());
-		l.setGoingStops((ArrayList<Stop>) Arrays.asList(stops.toArray(new Stop[stops.size()])));
+		List<Stop> list = Arrays.asList(stops.toArray(new Stop[stops.size()]));
+		ArrayList<Stop> arrayList = new ArrayList<>();
+		arrayList.addAll(list);
+		l.setGoingStops(arrayList);
+		//l.setGoingStops((ArrayList<Stop>) );
 		l.setStartTerminal(stops.get(0));
 		l.setEndTerminal(stops.get(stops.size()-1));
 
@@ -140,6 +150,17 @@ public class ChangeLineCtrl extends AddLineCtrl {
 			Line outputLine = getNewLine();
 			String result = "La linea " + outputLine.getName() + " é stata inserita con successo";
 			System.out.println(result);
+			try {
+				DBHelperLine.getInstance().removeLine(oldLine);
+				DBHelperLine.getInstance().insertLine(outputLine);
+			}
+			catch(SQLException e) {
+				Alert alert = new Alert(AlertType.WARNING);
+			    alert.initOwner(mainApp.getPrimaryStage());
+			    alert.setTitle("Avviso");
+			    alert.setHeaderText("Modifica fallita");
+			    alert.setContentText("Errore durante l'interfacciamento con il database");
+			}
 		}
 	}
 

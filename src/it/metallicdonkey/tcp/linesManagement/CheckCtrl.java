@@ -127,7 +127,6 @@ public class CheckCtrl {
 	  	default:
 	  		break;
 	  }
-
 	  for(int i=0; i< source.size(); i++) {
 		  c.addMatch(source.get(i).getMatch());
 	  }
@@ -207,7 +206,6 @@ public class CheckCtrl {
 		  if(oldChecksExists) {
 
 			  ArrayList<Match> alm = oldChecks.get(0).getMatches();
-			  System.out.println(this.currentWorkshift+" "+alm.get(0).getEmployee().getId());
 			  for(int i=0; i<alm.size(); i++) {
 				  dataCheck.add(new MatchDataModel(alm.get(i)));
 			  }
@@ -327,7 +325,7 @@ public class CheckCtrl {
 
 		System.out.println(sum);
 		for(LineDataModel ldm: this.lines.getItems()) {
-			es.put(ldm, (int)sum/ldm.getLine().getPriority()+1);
+			es.put(ldm, (int)(ldm.getLine().getPriority() * this.employees.getItems().size() /sum +1));
 		}
 
 		System.out.println(es);
@@ -351,7 +349,7 @@ public class CheckCtrl {
     	dataCheck.add(new MatchDataModel(m));
     	this.setItemsForEmployee();
     	this.setItemsForVehicle();
-    	this.setAvailableDrivers();
+    	//this.setAvailableDrivers();
 			es.put(randomLine, es.get(randomLine)-1);
 			if(es.get(randomLine)==0)
 				es.remove(randomLine);
