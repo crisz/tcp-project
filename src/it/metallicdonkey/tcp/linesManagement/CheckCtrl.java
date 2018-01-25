@@ -327,7 +327,7 @@ public class CheckCtrl {
 
 		System.out.println(sum);
 		for(LineDataModel ldm: this.lines.getItems()) {
-			es.put(ldm, (int)sum/ldm.getLine().getPriority()+1);
+			es.put(ldm, (int)(ldm.getLine().getPriority() * this.employees.getItems().size() /sum +1));
 		}
 
 		System.out.println(es);
@@ -351,7 +351,7 @@ public class CheckCtrl {
     	dataCheck.add(new MatchDataModel(m));
     	this.setItemsForEmployee();
     	this.setItemsForVehicle();
-    	this.setAvailableDrivers();
+    	//this.setAvailableDrivers();
 			es.put(randomLine, es.get(randomLine)-1);
 			if(es.get(randomLine)==0)
 				es.remove(randomLine);
