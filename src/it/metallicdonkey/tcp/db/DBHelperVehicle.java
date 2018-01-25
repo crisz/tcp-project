@@ -16,7 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class DBHelperVehicle {
-	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
+	private static DBManager dbm = new DBManager("192.168.17.61", "root", "root", "tcp");
 	private static DBHelperVehicle instance;
 
 	private DBHelperVehicle() throws SQLException {
@@ -256,12 +256,15 @@ public class DBHelperVehicle {
 	public int removeVehicle(Vehicle v) {
 		int removed1 = -1;
 		int removed2 = -1;
+		int removed3 = -1;
 		int result = -1;
+		removed3 = dbm.executeUpdate("DELETE FROM tcp.brokenInterval WHERE Vehicle_idVehicle='"+
+				v.getId()+"'");
 		removed1 = dbm.executeUpdate("DELETE FROM tcp.match WHERE Vehicle_idVehicle = '"+
 				v.getId()+"'");
 		removed2 = dbm.executeUpdate("UPDATE tcp.Location SET Vehicle_idVehicle=null WHERE Vehicle_idVehicle='"+
 				v.getId()+"'");
-		if(removed1 < 0)
+		if((removed1 < 0) || (removed2 < 0) || (removed3 < 0))
 			return -1;
 		result = dbm.executeUpdate("DELETE FROM tcp.vehicle WHERE idVehicle='"+v.getId()+"'");
 		return result;
