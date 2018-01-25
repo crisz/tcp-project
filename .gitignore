@@ -1,6 +1,6 @@
 # Compiled class file
 *.class
-
+src/it/metallicdonkey/tcp/db
 # Log file
 *.log
 

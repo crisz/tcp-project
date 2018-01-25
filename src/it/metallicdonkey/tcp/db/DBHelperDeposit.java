@@ -9,7 +9,7 @@ import it.metallicdonkey.tcp.models.Location;
 import it.metallicdonkey.tcp.models.Vehicle;
 
 public class DBHelperDeposit {
-	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
+	private static DBManager dbm = new DBManager("192.168.17.61", "root", "root", "tcp");
 	private static DBHelperDeposit instance;
 
 	private DBHelperDeposit() throws SQLException {
