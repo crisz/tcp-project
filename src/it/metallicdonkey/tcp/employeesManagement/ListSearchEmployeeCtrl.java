@@ -235,6 +235,7 @@ public class ListSearchEmployeeCtrl {
 								getTableRow().setStyle("-fx-background-color: #e55e5e");
 							}
 							else {
+								bv.setImage(new Image(getClass().getResourceAsStream("../icons/bv.png")));
 								getTableRow().setStyle(null);
 							}
 							setGraphic(btn2);

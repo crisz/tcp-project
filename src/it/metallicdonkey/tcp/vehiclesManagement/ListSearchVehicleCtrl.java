@@ -219,8 +219,11 @@ public class ListSearchVehicleCtrl {
 								System.out.println("Broken vehicle");
 								bv.setImage(new Image(getClass().getResourceAsStream("../icons/nbv.png")));
 								getTableRow().setStyle("-fx-background-color: #e55e5e");
+								System.out.println("Il veicolo con matricola "+vehicle.getId()+" è guasto");
 							}
 							else {
+								bv.setImage(new Image(getClass().getResourceAsStream("../icons/bv.png")));
+								System.out.println("Il veicolo con matricola "+vehicle.getId()+" NON è guasto");
 								getTableRow().setStyle(null);
 							}
 							setGraphic(btn2);
