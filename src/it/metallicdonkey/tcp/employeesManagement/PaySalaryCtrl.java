@@ -134,7 +134,7 @@ public class PaySalaryCtrl {
 				Alert alert2 = new Alert(AlertType.INFORMATION);
 				alert2.initOwner(mainApp.getPrimaryStage());
 				alert2.setTitle("Avviso");
-				if(now.getDayOfYear() - last.getDayOfYear() < -1) {
+				if(now.getDayOfYear() - last.getDayOfYear() < 30) {
 					alert2.setHeaderText("Il pagamento non è stato effettuato.");
 					alert2.setContentText("Non sono trascorsi più di 30 giorni dall'ultimo pagamento.");
 				} else {

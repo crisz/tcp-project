@@ -16,7 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class DBHelperVehicle {
-	private static DBManager dbm = new DBManager("192.168.17.61", "root", "root", "tcp");
+	private static DBManager dbm = new DBManager("147.163.207.211", "root", "root", "tcp");
 	private static DBHelperVehicle instance;
 
 	private DBHelperVehicle() throws SQLException {
