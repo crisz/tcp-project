@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="tcp-project.jnlp">
+  <information>
+    <title>tcp-project</title>
+    <vendor>metallicdonkey.it</vendor>
+    <description>TCP</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="tcp-project.jar" size="329931" download="eager" />
+    <jar href="libs\com.lowagie.text-2.1.7.jar" size="1782376" download="eager" />
+    <jar href="libs\mysql-connector-java-5.1.45-bin.jar" size="999810" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="0" height="0" main-class="it.metallicdonkey.tcp.App"  name="TCP" />
+  <update check="background"/>
+</jnlp>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.linesManagement.AddLineCtrl">
+   <children>
+      <Pane prefHeight="500.0" prefWidth="870.0" style="-fx-border-width: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ListView fx:id="stopsList" layoutX="181.0" layoutY="142.0" prefHeight="206.0" prefWidth="223.0" />
+            <Button layoutX="68.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" prefHeight="27.0" prefWidth="112.0" text="Indietro" />
+            <Button layoutX="720.0" layoutY="460.0" mnemonicParsing="false" onAction="#goHome" prefHeight="27.0" prefWidth="107.0" text="Home" />
+            <Label layoutX="87.0" layoutY="77.0" text="Nome" />
+            <Label layoutX="82.0" layoutY="125.0" text="Fermate" />
+            <TextField fx:id="name" layoutX="181.0" layoutY="72.0" prefHeight="27.0" prefWidth="223.0" />
+            <Button fx:id="sendButton" layoutX="426.0" layoutY="460.0" mnemonicParsing="false" onAction="#submitVehicle" prefHeight="27.0" prefWidth="107.0" text="Invia" />
+            <Label layoutX="479.0" layoutY="77.0" text="Priorità" />
+            <Button fx:id="addStop" layoutX="442.0" layoutY="376.0" mnemonicParsing="false" onAction="#onAddStopClicked" text="Aggiungi fermata" />
+            <TextField fx:id="newStop" layoutX="181.0" layoutY="376.0" prefHeight="27.0" prefWidth="223.0" />
+            <TextField fx:id="priority" layoutX="566.0" layoutY="72.0" prefHeight="27.0" prefWidth="223.0" />
+            <Button fx:id="removeStop" layoutX="445.0" layoutY="321.0" mnemonicParsing="false" onAction="#onRemoveStopClicked" text="Rimuovi fermata" />
+            <Label layoutX="328.0" layoutY="14.0" text="Inserisci i dati della linea">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextArea editable="false" layoutX="475.0" layoutY="125.0" prefHeight="111.0" prefWidth="377.0" style="-fx-border-width: 0;" text="Guida per l'inserimento&#10;Inserire per prima il Capolinea&#10;Inserire le fermate&#10;Il sistema calcolerà la posizione del capolinea di transito&#10;Inserire, come ultima fermata, il Capolinea  " />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

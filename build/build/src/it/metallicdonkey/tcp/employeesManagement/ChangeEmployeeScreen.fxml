@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.metallicdonkey.tcp.employeesManagement.ChangeEmployeeCtrl">
+   <children>
+      <Pane layoutX="-195.0" prefHeight="500.0" prefWidth="870.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="87.0" layoutY="69.0" text="Nome" />
+            <Label layoutX="548.0" layoutY="69.0" text="Cognome" />
+            <Label layoutX="81.0" layoutY="127.0" text="Indirizzo" />
+            <DatePicker fx:id="datanascita" layoutX="201.0" layoutY="185.0" />
+            <Label layoutX="64.0" layoutY="189.0" text="Data di nascita" />
+            <TextField fx:id="nome" layoutX="201.0" layoutY="65.0" />
+            <TextField fx:id="indirizzo" layoutX="201.0" layoutY="123.0" />
+            <Label layoutX="78.0" layoutY="250.0" text="Matricola" />
+            <TextField fx:id="matricola" layoutX="201.0" layoutY="246.0" />
+            <Label layoutX="62.0" layoutY="315.0" text="Stipendio lordo" />
+            <TextField fx:id="stipendio" layoutX="201.0" layoutY="311.0" />
+            <TextField fx:id="cognome" layoutX="671.0" layoutY="65.0" />
+            <Label layoutX="560.0" layoutY="127.0" text="Email" />
+            <TextField fx:id="email" layoutX="671.0" layoutY="123.0" />
+            <Label layoutX="549.0" layoutY="190.0" text="Password" />
+            <TextField fx:id="password" layoutX="671.0" layoutY="185.0" />
+            <Label layoutX="559.0" layoutY="250.0" text="Ruolo" />
+            <Spinner fx:id="ruolo" layoutX="671.0" layoutY="246.0" />
+            <Label layoutX="533.0" layoutY="315.0" text="Turno di lavoro" />
+            <Spinner fx:id="turno" layoutX="671.0" layoutY="311.0" />
+            <Button layoutX="65.0" layoutY="442.0" mnemonicParsing="false" onAction="#goBack" prefHeight="27.0" prefWidth="126.0" text="Indietro" />
+            <Button fx:id="inviaButton" layoutX="329.0" layoutY="442.0" mnemonicParsing="false" onAction="#change" prefHeight="27.0" prefWidth="213.0" text="Modifica" />
+            <Button layoutX="694.0" layoutY="442.0" mnemonicParsing="false" onAction="#goHome" prefHeight="27.0" prefWidth="126.0" text="Home" />
+            <Label layoutX="332.0" layoutY="21.0" text="Informazioni impiegato">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
