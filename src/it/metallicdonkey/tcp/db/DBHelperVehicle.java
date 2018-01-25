@@ -17,6 +17,7 @@ import javafx.collections.ObservableList;
 
 public class DBHelperVehicle {
 	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
+
 	private static DBHelperVehicle instance;
 
 	private DBHelperVehicle() throws SQLException {

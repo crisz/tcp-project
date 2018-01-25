@@ -21,7 +21,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class DBHelperEmployee {
+<<<<<<< HEAD
 	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
+=======
+	private static DBManager dbm = new DBManager("147.163.207.211", "root", "root", "tcp");
+>>>>>>> 9a436c673d2b5b6eff8129d8dc492eecf7b8b378
 	private static DBHelperEmployee instance;
 
 	private DBHelperEmployee() {

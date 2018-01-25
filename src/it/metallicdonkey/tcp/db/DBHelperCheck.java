@@ -14,6 +14,7 @@ import it.metallicdonkey.tcp.models.Workshift;
 import javafx.scene.CacheHint;
 
 public class DBHelperCheck {
+
 	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
 	private static DBHelperCheck instance;
 

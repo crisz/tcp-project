@@ -16,6 +16,7 @@ import javafx.collections.ObservableList;
 
 public class DBHelperLine {
 	private static DBManager dbm = new DBManager("localhost", "root", "root", "tcp");
+
 	private static DBHelperLine instance;
 
 	private DBHelperLine() {
